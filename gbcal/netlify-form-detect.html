@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><title>Form detection (do not delete)</title></head>
+<body>
+<!--
+  This page exists only so Netlify's build-time crawler can detect the
+  "tournament-signup" form. Netlify scans literal <form> tags in your
+  site's static HTML files — it can't see forms rendered by JavaScript,
+  which is how the calendar page itself renders its sign-up form.
+  Deploy this file alongside the calendar page; you never need to visit it.
+-->
+<form name="tournament-signup" data-netlify="true" netlify-honeypot="bot-field" hidden>
+  <input type="hidden" name="form-name" value="tournament-signup">
+  <input type="text" name="bot-field">
+  <input type="text" name="name">
+  <input type="text" name="tournament">
+</form>
+</body>
+</html>

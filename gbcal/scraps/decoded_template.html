@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="1143abe6-53b7-40e1-a8ab-5661b59c731f"></script>
+</head>
+<body>
+
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<style>/* hebrew */
+@font-face {
+  font-family: 'Fredoka';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("cdae8d00-0b24-410f-9207-aede97d66b97") format('woff2');
+  unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Fredoka';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("92f11585-83da-45cb-bc23-011564ff1eb6") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Fredoka';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("64351025-d38e-4e3b-8eb1-01bfa38b7106") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* hebrew */
+@font-face {
+  font-family: 'Fredoka';
+  font-style: normal;
+  font-weight: 500;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("cdae8d00-0b24-410f-9207-aede97d66b97") format('woff2');
+  unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Fredoka';
+  font-style: normal;
+  font-weight: 500;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("92f11585-83da-45cb-bc23-011564ff1eb6") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Fredoka';
+  font-style: normal;
+  font-weight: 500;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("64351025-d38e-4e3b-8eb1-01bfa38b7106") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* hebrew */
+@font-face {
+  font-family: 'Fredoka';
+  font-style: normal;
+  font-weight: 600;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("cdae8d00-0b24-410f-9207-aede97d66b97") format('woff2');
+  unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Fredoka';
+  font-style: normal;
+  font-weight: 600;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("92f11585-83da-45cb-bc23-011564ff1eb6") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Fredoka';
+  font-style: normal;
+  font-weight: 600;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("64351025-d38e-4e3b-8eb1-01bfa38b7106") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* hebrew */
+@font-face {
+  font-family: 'Fredoka';
+  font-style: normal;
+  font-weight: 700;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("cdae8d00-0b24-410f-9207-aede97d66b97") format('woff2');
+  unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Fredoka';
+  font-style: normal;
+  font-weight: 700;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("92f11585-83da-45cb-bc23-011564ff1eb6") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Fredoka';
+  font-style: normal;
+  font-weight: 700;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("64351025-d38e-4e3b-8eb1-01bfa38b7106") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("8955913e-5dee-441b-a8c4-64688e74fe48") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("c71255b1-2e0c-4ec2-825e-63e5ddb63750") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("8568c8b7-4690-4aa5-95b8-8ccc52b9a8b3") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("e1ff7122-58f6-4de2-ae25-891adf77aafe") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("4c8267c4-584e-40c3-8f70-f700394da1a6") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("8955913e-5dee-441b-a8c4-64688e74fe48") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("c71255b1-2e0c-4ec2-825e-63e5ddb63750") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("8568c8b7-4690-4aa5-95b8-8ccc52b9a8b3") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("e1ff7122-58f6-4de2-ae25-891adf77aafe") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("4c8267c4-584e-40c3-8f70-f700394da1a6") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("8955913e-5dee-441b-a8c4-64688e74fe48") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("c71255b1-2e0c-4ec2-825e-63e5ddb63750") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("8568c8b7-4690-4aa5-95b8-8ccc52b9a8b3") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("e1ff7122-58f6-4de2-ae25-891adf77aafe") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("4c8267c4-584e-40c3-8f70-f700394da1a6") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url("8955913e-5dee-441b-a8c4-64688e74fe48") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url("c71255b1-2e0c-4ec2-825e-63e5ddb63750") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url("8568c8b7-4690-4aa5-95b8-8ccc52b9a8b3") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url("e1ff7122-58f6-4de2-ae25-891adf77aafe") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url("4c8267c4-584e-40c3-8f70-f700394da1a6") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+</style>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:#F6F1EA; }
+  a { color:#C8102E; text-decoration:none; }
+  a:hover { color:#A00C24; }
+  input::placeholder { color:#B7AE9F; font-weight:600; }
+</style>
+</helmet>
+<div style="min-height:100vh; background:#F6F1EA; padding:28px 20px 48px; font-family:'Nunito', sans-serif;">
+  <div style="max-width:1180px; margin:0 auto;">
+
+    <div style="display:flex; justify-content:space-between; align-items:flex-end; gap:16px; flex-wrap:wrap; margin-bottom:22px;">
+      <div>
+        <div style="{{ kickerStyle }}">GRACIE BARRA DEERFIELD</div>
+        <h1 style="font-family:'Fredoka', sans-serif; font-weight:700; font-size:38px; color:#231F1C; line-height:1.05; margin-top:3px;">Tournament Calendar</h1>
+        <div style="display:flex; gap:5px; margin-top:11px; width:190px;">
+          <span style="flex:1; height:7px; border-radius:4px; background:#FFFFFF; border:1px solid #E4DBCC;"></span>
+          <span style="flex:1; height:7px; border-radius:4px; background:#9AA0A6;"></span>
+          <span style="flex:1; height:7px; border-radius:4px; background:#F5C518;"></span>
+          <span style="flex:1; height:7px; border-radius:4px; background:#F07E13;"></span>
+          <span style="flex:1; height:7px; border-radius:4px; background:#2E8B57;"></span>
+        </div>
+        <div style="font-family:'Nunito', sans-serif; color:#7A7169; font-size:14px; margin-top:12px; font-weight:600;">July – December 2026 · tap any day to add a tournament</div>
+      </div>
+      <button onclick="{{ onAddQuick }}" style="{{ addBtnStyle }}" style-hover="filter:brightness(0.92); transform:translateY(-1px);">+ Add Tournament</button>
+    </div>
+
+    <div style="display:flex; gap:22px; align-items:flex-start; flex-wrap:wrap;">
+
+      <div style="flex:1 1 640px; min-width:min(100%,640px); background:#fff; border-radius:22px; padding:20px 20px 24px; box-shadow:0 10px 30px rgba(35,31,28,0.06); border:1px solid #F0E8DC;">
+        <div style="display:flex; align-items:center; justify-content:center; gap:18px; margin-bottom:16px;">
+          <button onclick="{{ onPrev }}" style="{{ prevStyle }}" style-hover="background:#FBF2F3;">‹</button>
+          <div style="font-family:'Fredoka', sans-serif; font-weight:600; font-size:24px; color:#231F1C; min-width:230px; text-align:center;">{{ monthLabel }}</div>
+          <button onclick="{{ onNext }}" style="{{ nextStyle }}" style-hover="background:#FBF2F3;">›</button>
+        </div>
+
+        <div style="display:grid; grid-template-columns:repeat(7,1fr); gap:8px; margin-bottom:8px;">
+          <div style="text-align:center; font-family:'Nunito',sans-serif; font-weight:800; font-size:11.5px; letter-spacing:1px; color:#A79E92; text-transform:uppercase;">Sun</div>
+          <div style="text-align:center; font-family:'Nunito',sans-serif; font-weight:800; font-size:11.5px; letter-spacing:1px; color:#A79E92; text-transform:uppercase;">Mon</div>
+          <div style="text-align:center; font-family:'Nunito',sans-serif; font-weight:800; font-size:11.5px; letter-spacing:1px; color:#A79E92; text-transform:uppercase;">Tue</div>
+          <div style="text-align:center; font-family:'Nunito',sans-serif; font-weight:800; font-size:11.5px; letter-spacing:1px; color:#A79E92; text-transform:uppercase;">Wed</div>
+          <div style="text-align:center; font-family:'Nunito',sans-serif; font-weight:800; font-size:11.5px; letter-spacing:1px; color:#A79E92; text-transform:uppercase;">Thu</div>
+          <div style="text-align:center; font-family:'Nunito',sans-serif; font-weight:800; font-size:11.5px; letter-spacing:1px; color:#A79E92; text-transform:uppercase;">Fri</div>
+          <div style="text-align:center; font-family:'Nunito',sans-serif; font-weight:800; font-size:11.5px; letter-spacing:1px; color:#A79E92; text-transform:uppercase;">Sat</div>
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:8px;">
+          <sc-for list="{{ weeks }}" as="week" hint-placeholder-count="5">
+            <div style="display:grid; grid-template-columns:repeat(7,1fr); gap:8px;">
+              <sc-for list="{{ week }}" as="day" hint-placeholder-count="7">
+                <div onclick="{{ day.onAdd }}" style="{{ day.cellStyle }}" style-hover="transform:translateY(-2px); box-shadow:0 8px 18px rgba(35,31,28,0.10);">
+                  <div style="{{ day.numStyle }}">{{ day.label }}</div>
+                  <div style="display:flex; flex-direction:column; gap:4px; margin-top:5px;">
+                    <sc-for list="{{ day.events }}" as="ev" hint-placeholder-count="0">
+                      <div onclick="{{ ev.onOpen }}" style="{{ ev.chipStyle }}" title="{{ ev.title }}">{{ ev.name }}</div>
+                    </sc-for>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <sc-if value="{{ showUpcoming }}" hint-placeholder-val="{{ true }}">
+        <div style="flex:0 1 320px; min-width:min(100%,300px); background:#fff; border-radius:22px; padding:20px; box-shadow:0 10px 30px rgba(35,31,28,0.06); border:1px solid #F0E8DC;">
+          <div style="font-family:'Fredoka', sans-serif; font-weight:600; font-size:19px; color:#231F1C; margin-bottom:14px;">Upcoming Tournaments</div>
+          <sc-if value="{{ upcomingEmpty }}" hint-placeholder-val="{{ false }}">
+            <div style="color:#9A9188; font-size:14px; font-weight:600; padding:10px 0; line-height:1.4;">No tournaments yet — tap a day on the calendar to add one!</div>
+          </sc-if>
+          <div style="display:flex; flex-direction:column; gap:10px;">
+            <sc-for list="{{ upcoming }}" as="t" hint-placeholder-count="3">
+              <div onclick="{{ t.onOpen }}" style="display:flex; gap:12px; align-items:center; padding:10px; border-radius:14px; border:1px solid #F0E8DC; cursor:pointer; background:#FEFCF9;" style-hover="border-color:#E4DBCC; box-shadow:0 4px 12px rgba(35,31,28,0.07);">
+                <div style="{{ t.badgeStyle }}">
+                  <div style="font-size:10px; font-weight:800; letter-spacing:0.5px; text-transform:uppercase; opacity:0.9;">{{ t.monAbbr }}</div>
+                  <div style="font-family:'Fredoka',sans-serif; font-weight:600; font-size:18px; line-height:1; margin-top:1px;">{{ t.dayLabel }}</div>
+                </div>
+                <div style="min-width:0;">
+                  <div style="font-family:'Nunito',sans-serif; font-weight:800; font-size:14.5px; color:#231F1C; line-height:1.2;">{{ t.name }}</div>
+                  <div style="font-family:'Nunito',sans-serif; font-weight:600; font-size:12.5px; color:#8A8178; margin-top:2px;">{{ t.location }}</div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+
+    </div>
+  </div>
+
+  <sc-if value="{{ modalOpen }}" hint-placeholder-val="{{ false }}">
+    <div onclick="{{ onClose }}" style="position:fixed; inset:0; background:rgba(35,31,28,0.45); display:flex; align-items:center; justify-content:center; padding:20px; z-index:60;">
+      <div onclick="{{ onStop }}" style="background:#fff; width:92%; max-width:430px; border-radius:22px; padding:26px; box-shadow:0 24px 60px rgba(0,0,0,0.3);">
+        <div style="font-family:'Fredoka', sans-serif; font-weight:600; font-size:22px; color:#231F1C; margin-bottom:18px;">{{ modalTitle }}</div>
+
+        <div style="margin-bottom:14px;">
+          <label style="display:block; font-family:'Nunito',sans-serif; font-weight:700; font-size:12.5px; color:#8A8178; text-transform:uppercase; letter-spacing:0.5px; margin:0 0 6px;">Tournament name</label>
+          <input value="{{ form.name }}" oninput="{{ onName }}" placeholder="e.g. IBJJF Chicago Open" style="width:100%; padding:11px 13px; border:1.5px solid #E7DECF; border-radius:12px; font-family:'Nunito',sans-serif; font-weight:600; font-size:15px; color:#231F1C; background:#FEFCF9; outline:none;" style-focus="border-color:#C8102E;">
+        </div>
+
+        <div style="margin-bottom:14px;">
+          <label style="display:block; font-family:'Nunito',sans-serif; font-weight:700; font-size:12.5px; color:#8A8178; text-transform:uppercase; letter-spacing:0.5px; margin:0 0 6px;">Location / city</label>
+          <input value="{{ form.location }}" oninput="{{ onLoc }}" placeholder="e.g. Chicago, IL" style="width:100%; padding:11px 13px; border:1.5px solid #E7DECF; border-radius:12px; font-family:'Nunito',sans-serif; font-weight:600; font-size:15px; color:#231F1C; background:#FEFCF9; outline:none;" style-focus="border-color:#C8102E;">
+        </div>
+
+        <div style="display:flex; gap:12px;">
+          <div style="flex:1;">
+            <label style="display:block; font-family:'Nunito',sans-serif; font-weight:700; font-size:12.5px; color:#8A8178; text-transform:uppercase; letter-spacing:0.5px; margin:0 0 6px;">Date</label>
+            <input type="date" min="2026-07-01" max="2026-12-31" value="{{ form.date }}" onchange="{{ onDate }}" style="width:100%; padding:11px 13px; border:1.5px solid #E7DECF; border-radius:12px; font-family:'Nunito',sans-serif; font-weight:600; font-size:15px; color:#231F1C; background:#FEFCF9; outline:none;" style-focus="border-color:#C8102E;">
+          </div>
+          <div style="flex:1;">
+            <label style="display:block; font-family:'Nunito',sans-serif; font-weight:700; font-size:12.5px; color:#8A8178; text-transform:uppercase; letter-spacing:0.5px; margin:0 0 6px;">Ends (optional)</label>
+            <input type="date" min="2026-07-01" max="2026-12-31" value="{{ form.endDate }}" onchange="{{ onEnd }}" style="width:100%; padding:11px 13px; border:1.5px solid #E7DECF; border-radius:12px; font-family:'Nunito',sans-serif; font-weight:600; font-size:15px; color:#231F1C; background:#FEFCF9; outline:none;" style-focus="border-color:#C8102E;">
+          </div>
+        </div>
+
+        <div style="display:flex; align-items:center; gap:10px; margin-top:24px;">
+          <sc-if value="{{ editing }}" hint-placeholder-val="{{ false }}">
+            <button onclick="{{ onDelete }}" style="background:none; border:none; color:#C8102E; font-family:'Nunito',sans-serif; font-weight:800; font-size:14px; cursor:pointer; padding:8px 4px;" style-hover="text-decoration:underline;">Delete</button>
+          </sc-if>
+          <div style="flex:1;"></div>
+          <button onclick="{{ onClose }}" style="background:#F1EBE1; border:none; color:#5C544C; font-family:'Nunito',sans-serif; font-weight:800; font-size:14px; padding:11px 18px; border-radius:999px; cursor:pointer;" style-hover="background:#E9E1D4;">Cancel</button>
+          <button onclick="{{ onSave }}" disabled="{{ saveDisabled }}" style="{{ saveStyle }}" style-hover="filter:brightness(0.93);">Save</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script="" data-props="{&quot;accentColor&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#C8102E&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;options&quot;:[&quot;#C8102E&quot;,&quot;#1D4ED8&quot;,&quot;#F5A623&quot;,&quot;#2E8B57&quot;]},&quot;showUpcoming&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+class Component extends DCLogic {
+  state = {
+    monthIndex: 6,
+    events: this.defaults(),
+    modalOpen: false,
+    editing: false,
+    form: { id: null, name: '', location: '', date: '2026-07-01', endDate: '' },
+  };
+
+  KEY = 'gbd_tournaments_v1';
+  mFull = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  mAbbr = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+  defaults() {
+    return [
+      { id: 'gi-jul',    name: 'Grappling Industries',    location: '',            date: '2026-07-25' },
+      { id: 'ibjjf',     name: 'IBJJF Chicago Open',      location: 'Chicago, IL', date: '2026-08-08', endDate: '2026-08-09' },
+      { id: 'fallgames', name: '2026 Chicago Fall Games', location: 'Chicago, IL', date: '2026-09-05' },
+      { id: 'tapcancer', name: 'Tap Cancer Out',          location: '',            date: '2026-10-10' },
+      { id: 'gi-nov',    name: 'Grappling Industries',    location: '',            date: '2026-11-07' },
+    ];
+  }
+
+  componentDidMount() {
+    try {
+      const s = localStorage.getItem(this.KEY);
+      if (s) this.setState({ events: JSON.parse(s) });
+      else this.persist(this.state.events);
+    } catch (e) {}
+  }
+
+  persist(events) {
+    try { localStorage.setItem(this.KEY, JSON.stringify(events)); } catch (e) {}
+  }
+
+  genId() { return 'e' + Math.random().toString(36).slice(2, 9); }
+  p2(n) { return String(n).padStart(2, '0'); }
+  fmt(y, m, d) { return y + '-' + this.p2(m) + '-' + this.p2(d); }
+  parse(s) { return s.split('-').map(Number); }
+  todayStr() { const t = new Date(); return this.fmt(t.getFullYear(), t.getMonth() + 1, t.getDate()); }
+  titleFor(ev) { return ev.name + (ev.location ? ' · ' + ev.location : ''); }
+
+  hexToRgba(hex, a) {
+    hex = hex.replace('#', '');
+    if (hex.length === 3) hex = hex.split('').map(c => c + c).join('');
+    const n = parseInt(hex, 16);
+    return 'rgba(' + ((n >> 16) & 255) + ',' + ((n >> 8) & 255) + ',' + (n & 255) + ',' + a + ')';
+  }
+
+  eventsForDate(ds) {
+    return this.state.events.filter(e => {
+      const end = e.endDate || e.date;
+      return ds >= e.date && ds <= end;
+    });
+  }
+
+  openAdd(ds) {
+    this.setState({ modalOpen: true, editing: false, form: { id: null, name: '', location: '', date: ds, endDate: '' } });
+  }
+  openAddQuick() {
+    this.openAdd(this.fmt(2026, this.state.monthIndex + 1, 1));
+  }
+  openEdit(ev) {
+    this.setState({ modalOpen: true, editing: true, form: { id: ev.id, name: ev.name, location: ev.location || '', date: ev.date, endDate: ev.endDate || '' } });
+  }
+  close() { this.setState({ modalOpen: false }); }
+
+  save() {
+    const f = this.state.form;
+    const name = (f.name || '').trim();
+    if (!name) return;
+    const rec = { id: f.id || this.genId(), name, location: (f.location || '').trim(), date: f.date };
+    if (f.endDate && f.endDate > f.date) rec.endDate = f.endDate;
+    let events;
+    if (this.state.editing) events = this.state.events.map(e => e.id === f.id ? rec : e);
+    else events = this.state.events.concat([rec]);
+    this.persist(events);
+    this.setState({ events, modalOpen: false });
+  }
+
+  remove() {
+    const events = this.state.events.filter(e => e.id !== this.state.form.id);
+    this.persist(events);
+    this.setState({ events, modalOpen: false });
+  }
+
+  setForm(patch) { this.setState({ form: Object.assign({}, this.state.form, patch) }); }
+
+  buildWeeks(accent) {
+    const mi = this.state.monthIndex, year = 2026;
+    const startW = new Date(year, mi, 1).getDay();
+    const dim = new Date(year, mi + 1, 0).getDate();
+    const total = Math.ceil((startW + dim) / 7) * 7;
+    const today = this.todayStr();
+    const CHIP = {
+      background: accent, color: '#fff', fontFamily: "'Nunito', sans-serif", fontWeight: 800,
+      fontSize: '11.5px', lineHeight: '1.25', padding: '5px 8px', borderRadius: '8px', cursor: 'pointer',
+      overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+      boxShadow: '0 1px 2px ' + this.hexToRgba(accent, 0.35),
+    };
+    const base = {
+      minHeight: '104px', borderRadius: '14px', padding: '7px', boxSizing: 'border-box',
+      display: 'flex', flexDirection: 'column', transition: 'box-shadow .15s, transform .15s, border-color .15s',
+    };
+    const weeks = [];
+    for (let c = 0; c < total; c++) {
+      const cur = new Date(year, mi, 1 - startW + c);
+      const mm = cur.getMonth(), dd = cur.getDate();
+      const ds = this.fmt(cur.getFullYear(), mm + 1, dd);
+      const inMonth = mm === mi;
+      const isToday = ds === today;
+
+      let cellStyle, numStyle;
+      if (!inMonth) {
+        cellStyle = Object.assign({}, base, { background: 'transparent', border: '1.5px solid transparent', cursor: 'default' });
+        numStyle = { fontFamily: "'Fredoka', sans-serif", fontWeight: 600, fontSize: '14px', minWidth: '25px', height: '25px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', borderRadius: '50%', color: '#CBC2B4' };
+      } else {
+        cellStyle = Object.assign({}, base, { background: '#FFFFFF', border: '1.5px solid #EEE6DA', cursor: 'pointer' });
+        numStyle = { fontFamily: "'Fredoka', sans-serif", fontWeight: 600, fontSize: '14px', minWidth: '25px', height: '25px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', borderRadius: '50%', color: '#2A2724' };
+        if (isToday) {
+          cellStyle.border = '2px solid ' + accent;
+          cellStyle.boxShadow = '0 0 0 3px ' + this.hexToRgba(accent, 0.14);
+          numStyle.background = accent; numStyle.color = '#fff';
+        }
+      }
+
+      const events = inMonth ? this.eventsForDate(ds).map(ev => ({
+        name: ev.name, chipStyle: CHIP, title: this.titleFor(ev),
+        onOpen: (e) => { e.stopPropagation(); this.openEdit(ev); },
+      })) : [];
+
+      const day = { label: String(dd), cellStyle, numStyle, events, onAdd: inMonth ? (() => this.openAdd(ds)) : null };
+      if (c % 7 === 0) weeks.push([]);
+      weeks[weeks.length - 1].push(day);
+    }
+    return weeks;
+  }
+
+  buildUpcoming(accent) {
+    const sorted = this.state.events.slice().sort((a, b) => a.date < b.date ? -1 : a.date > b.date ? 1 : 0);
+    const badgeStyle = {
+      background: accent, color: '#fff', borderRadius: '12px', minWidth: '50px', padding: '8px 4px',
+      textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+    };
+    return sorted.map(ev => {
+      const [y, m, d] = this.parse(ev.date);
+      let dayLabel = String(d);
+      if (ev.endDate) {
+        const [ey, em, ed] = this.parse(ev.endDate);
+        dayLabel = em === m ? (d + '–' + ed) : (d + ' ' + this.mAbbr[m - 1] + '–' + ed + ' ' + this.mAbbr[em - 1]);
+      }
+      return { name: ev.name, location: ev.location || 'Location TBD', monAbbr: this.mAbbr[m - 1], dayLabel, badgeStyle, onOpen: () => this.openEdit(ev) };
+    });
+  }
+
+  renderVals() {
+    const accent = this.props.accentColor || '#C8102E';
+    const showUpcoming = this.props.showUpcoming !== false;
+    const mi = this.state.monthIndex;
+    const canSave = !!(this.state.form && (this.state.form.name || '').trim());
+
+    const arrowBase = {
+      width: '38px', height: '38px', borderRadius: '50%', border: '1.5px solid #E7DECF', background: '#fff',
+      display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px', color: accent,
+      cursor: 'pointer', fontFamily: "'Nunito', sans-serif", fontWeight: 900, lineHeight: '1', paddingBottom: '3px',
+    };
+    const dis = (d) => d ? Object.assign({}, arrowBase, { opacity: 0.32, cursor: 'default', color: '#B7AE9F' }) : arrowBase;
+
+    const upcoming = this.buildUpcoming(accent);
+
+    return {
+      kickerStyle: { color: accent, fontFamily: "'Nunito', sans-serif", fontWeight: 800, fontSize: '12px', letterSpacing: '1.5px', textTransform: 'uppercase' },
+      addBtnStyle: { background: accent, color: '#fff', border: 'none', borderRadius: '999px', padding: '12px 20px', fontFamily: "'Fredoka', sans-serif", fontWeight: 600, fontSize: '15px', cursor: 'pointer', boxShadow: '0 4px 14px ' + this.hexToRgba(accent, 0.32), transition: 'filter .15s, transform .15s' },
+      monthLabel: this.mFull[mi] + ' 2026',
+      weeks: this.buildWeeks(accent),
+      onPrev: () => { if (this.state.monthIndex > 6) this.setState({ monthIndex: this.state.monthIndex - 1 }); },
+      onNext: () => { if (this.state.monthIndex < 11) this.setState({ monthIndex: this.state.monthIndex + 1 }); },
+      prevStyle: dis(mi <= 6),
+      nextStyle: dis(mi >= 11),
+      onAddQuick: () => this.openAddQuick(),
+
+      showUpcoming,
+      upcoming,
+      upcomingEmpty: upcoming.length === 0,
+
+      modalOpen: this.state.modalOpen,
+      modalTitle: this.state.editing ? 'Edit Tournament' : 'Add Tournament',
+      editing: this.state.editing,
+      form: this.state.form,
+      onName: (e) => this.setForm({ name: e.target.value }),
+      onLoc: (e) => this.setForm({ location: e.target.value }),
+      onDate: (e) => this.setForm({ date: e.target.value }),
+      onEnd: (e) => this.setForm({ endDate: e.target.value }),
+      onSave: () => this.save(),
+      onDelete: () => this.remove(),
+      onClose: () => this.close(),
+      onStop: (e) => e.stopPropagation(),
+      canSave,
+      saveDisabled: !canSave,
+      saveStyle: { background: accent, color: '#fff', border: 'none', borderRadius: '999px', padding: '11px 22px', fontFamily: "'Nunito', sans-serif", fontWeight: 800, fontSize: '14px', cursor: canSave ? 'pointer' : 'default', opacity: canSave ? 1 : 0.5, boxShadow: '0 4px 12px ' + this.hexToRgba(accent, 0.3), transition: 'filter .15s' },
+    };
+  }
+}
+</script>
+
+
+</body></html>

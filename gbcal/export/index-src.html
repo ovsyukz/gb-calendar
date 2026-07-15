@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+<template id="__bundler_thumbnail" data-bg-color="#F6F1EA">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect x="150" y="120" width="900" height="620" rx="48" fill="#ffffff"></rect>
+    <rect x="150" y="120" width="900" height="120" rx="48" fill="#C8102E"></rect>
+    <rect x="150" y="180" width="900" height="60" fill="#C8102E"></rect>
+    <text x="600" y="200" font-family="Arial, sans-serif" font-size="56" font-weight="700" fill="#ffffff" text-anchor="middle">Tournament Calendar</text>
+    <g>
+      <rect x="210" y="300" width="180" height="120" rx="16" fill="#F6F1EA"></rect>
+      <rect x="420" y="300" width="180" height="120" rx="16" fill="#F6F1EA"></rect>
+      <rect x="630" y="300" width="180" height="120" rx="16" fill="#C8102E"></rect>
+      <rect x="840" y="300" width="150" height="120" rx="16" fill="#F6F1EA"></rect>
+      <rect x="210" y="450" width="180" height="120" rx="16" fill="#F6F1EA"></rect>
+      <rect x="420" y="450" width="180" height="120" rx="16" fill="#C8102E"></rect>
+      <rect x="630" y="450" width="180" height="120" rx="16" fill="#F6F1EA"></rect>
+      <rect x="840" y="450" width="150" height="120" rx="16" fill="#F6F1EA"></rect>
+    </g>
+  </svg>
+</template>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&amp;family=Nunito:wght@600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:#F6F1EA; }
+  a { color:#C8102E; text-decoration:none; }
+  a:hover { color:#A00C24; }
+  input::placeholder { color:#B7AE9F; font-weight:600; }
+</style>
+</helmet>
+<div style="min-height:100vh; background:#F6F1EA; padding:28px 20px 48px; font-family:'Nunito', sans-serif;">
+  <div style="max-width:1180px; margin:0 auto;">
+
+    <div style="display:flex; justify-content:space-between; align-items:flex-end; gap:16px; flex-wrap:wrap; margin-bottom:22px;">
+      <div>
+        <div style="{{ kickerStyle }}">GRACIE BARRA DEERFIELD</div>
+        <h1 style="font-family:'Fredoka', sans-serif; font-weight:700; font-size:38px; color:#231F1C; line-height:1.05; margin-top:3px;">Tournament Calendar</h1>
+        <div style="display:flex; gap:5px; margin-top:11px; width:190px;">
+          <span style="flex:1; height:7px; border-radius:4px; background:#FFFFFF; border:1px solid #E4DBCC;"></span>
+          <span style="flex:1; height:7px; border-radius:4px; background:#9AA0A6;"></span>
+          <span style="flex:1; height:7px; border-radius:4px; background:#F5C518;"></span>
+          <span style="flex:1; height:7px; border-radius:4px; background:#F07E13;"></span>
+          <span style="flex:1; height:7px; border-radius:4px; background:#2E8B57;"></span>
+        </div>
+        <div style="font-family:'Nunito', sans-serif; color:#7A7169; font-size:14px; margin-top:12px; font-weight:600;">July – December 2026 · tap any day to add a tournament, tap ↗ to open its registration page</div>
+      </div>
+      <button onclick="{{ onAddQuick }}" style="{{ addBtnStyle }}" style-hover="filter:brightness(0.92); transform:translateY(-1px);">+ Add Tournament</button>
+    </div>
+
+    <div style="display:flex; gap:22px; align-items:flex-start; flex-wrap:wrap;">
+
+      <div style="flex:1 1 640px; min-width:min(100%,640px); background:#fff; border-radius:22px; padding:20px 20px 24px; box-shadow:0 10px 30px rgba(35,31,28,0.06); border:1px solid #F0E8DC;">
+        <div style="display:flex; align-items:center; justify-content:center; gap:18px; margin-bottom:16px;">
+          <button onclick="{{ onPrev }}" style="{{ prevStyle }}" style-hover="background:#FBF2F3;">‹</button>
+          <div style="font-family:'Fredoka', sans-serif; font-weight:600; font-size:24px; color:#231F1C; min-width:230px; text-align:center;">{{ monthLabel }}</div>
+          <button onclick="{{ onNext }}" style="{{ nextStyle }}" style-hover="background:#FBF2F3;">›</button>
+        </div>
+
+        <div style="display:grid; grid-template-columns:repeat(7,1fr); gap:8px; margin-bottom:8px;">
+          <div style="text-align:center; font-family:'Nunito',sans-serif; font-weight:800; font-size:11.5px; letter-spacing:1px; color:#A79E92; text-transform:uppercase;">Sun</div>
+          <div style="text-align:center; font-family:'Nunito',sans-serif; font-weight:800; font-size:11.5px; letter-spacing:1px; color:#A79E92; text-transform:uppercase;">Mon</div>
+          <div style="text-align:center; font-family:'Nunito',sans-serif; font-weight:800; font-size:11.5px; letter-spacing:1px; color:#A79E92; text-transform:uppercase;">Tue</div>
+          <div style="text-align:center; font-family:'Nunito',sans-serif; font-weight:800; font-size:11.5px; letter-spacing:1px; color:#A79E92; text-transform:uppercase;">Wed</div>
+          <div style="text-align:center; font-family:'Nunito',sans-serif; font-weight:800; font-size:11.5px; letter-spacing:1px; color:#A79E92; text-transform:uppercase;">Thu</div>
+          <div style="text-align:center; font-family:'Nunito',sans-serif; font-weight:800; font-size:11.5px; letter-spacing:1px; color:#A79E92; text-transform:uppercase;">Fri</div>
+          <div style="text-align:center; font-family:'Nunito',sans-serif; font-weight:800; font-size:11.5px; letter-spacing:1px; color:#A79E92; text-transform:uppercase;">Sat</div>
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:8px;">
+          <sc-for list="{{ weeks }}" as="week" hint-placeholder-count="5">
+            <div style="display:grid; grid-template-columns:repeat(7,1fr); gap:8px;">
+              <sc-for list="{{ week }}" as="day" hint-placeholder-count="7">
+                <div onclick="{{ day.onAdd }}" style="{{ day.cellStyle }}" style-hover="transform:translateY(-2px); box-shadow:0 8px 18px rgba(35,31,28,0.10);">
+                  <div style="{{ day.numStyle }}">{{ day.label }}</div>
+                  <div style="display:flex; flex-direction:column; gap:4px; margin-top:5px;">
+                    <sc-for list="{{ day.events }}" as="ev" hint-placeholder-count="0">
+                      <div onclick="{{ ev.onOpen }}" style="{{ ev.chipStyle }}" title="{{ ev.title }}">
+                        <span style="{{ ev.nameStyle }}">{{ ev.name }}</span>
+                        <sc-if value="{{ ev.hasLink }}" hint-placeholder-val="{{ false }}">
+                          <span onclick="{{ ev.onLink }}" style="{{ ev.linkIconStyle }}" title="Open registration page">↗</span>
+                        </sc-if>
+                      </div>
+                    </sc-for>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <sc-if value="{{ showUpcoming }}" hint-placeholder-val="{{ true }}">
+        <div style="flex:0 1 320px; min-width:min(100%,300px); background:#fff; border-radius:22px; padding:20px; box-shadow:0 10px 30px rgba(35,31,28,0.06); border:1px solid #F0E8DC;">
+          <div style="font-family:'Fredoka', sans-serif; font-weight:600; font-size:19px; color:#231F1C; margin-bottom:14px;">Upcoming Tournaments</div>
+          <sc-if value="{{ upcomingEmpty }}" hint-placeholder-val="{{ false }}">
+            <div style="color:#9A9188; font-size:14px; font-weight:600; padding:10px 0; line-height:1.4;">No tournaments yet — tap a day on the calendar to add one!</div>
+          </sc-if>
+          <div style="display:flex; flex-direction:column; gap:10px;">
+            <sc-for list="{{ upcoming }}" as="t" hint-placeholder-count="3">
+              <div onclick="{{ t.onOpen }}" style="display:flex; gap:12px; align-items:center; padding:10px; border-radius:14px; border:1px solid #F0E8DC; cursor:pointer; background:#FEFCF9;" style-hover="border-color:#E4DBCC; box-shadow:0 4px 12px rgba(35,31,28,0.07);">
+                <div style="{{ t.badgeStyle }}">
+                  <div style="font-size:10px; font-weight:800; letter-spacing:0.5px; text-transform:uppercase; opacity:0.9;">{{ t.monAbbr }}</div>
+                  <div style="font-family:'Fredoka',sans-serif; font-weight:600; font-size:18px; line-height:1; margin-top:1px;">{{ t.dayLabel }}</div>
+                </div>
+                <div style="min-width:0; flex:1;">
+                  <div style="font-family:'Nunito',sans-serif; font-weight:800; font-size:14.5px; color:#231F1C; line-height:1.2;">{{ t.name }}</div>
+                  <div style="font-family:'Nunito',sans-serif; font-weight:600; font-size:12.5px; color:#8A8178; margin-top:2px;">{{ t.location }}</div>
+                  <sc-if value="{{ t.hasLinks }}" hint-placeholder-val="{{ false }}">
+                    <div style="display:flex; gap:12px; margin-top:5px; flex-wrap:wrap;">
+                      <sc-for list="{{ t.links }}" as="lk" hint-placeholder-count="0">
+                        <a href="{{ lk.url }}" target="_blank" rel="noopener" onclick="{{ lk.onClick }}" style="{{ lk.style }}" style-hover="text-decoration:underline;">{{ lk.label }} ↗</a>
+                      </sc-for>
+                    </div>
+                  </sc-if>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+
+    </div>
+
+    <div style="margin-top:22px; background:#fff; border-radius:22px; padding:24px; box-shadow:0 10px 30px rgba(35,31,28,0.06); border:1px solid #F0E8DC;">
+      <div style="font-family:'Fredoka', sans-serif; font-weight:600; font-size:22px; color:#231F1C; margin-bottom:4px;">Sign Up for a Tournament</div>
+      <div style="font-family:'Nunito',sans-serif; font-weight:600; font-size:13.5px; color:#8A8178; margin-bottom:16px;">Let your coach know which upcoming tournament you're competing in.</div>
+
+      <div style="display:flex; gap:14px; flex-wrap:wrap; align-items:flex-end;">
+        <div style="flex:1 1 220px; min-width:200px;">
+          <label style="display:block; font-family:'Nunito',sans-serif; font-weight:700; font-size:12.5px; color:#8A8178; text-transform:uppercase; letter-spacing:0.5px; margin:0 0 6px;">Name *</label>
+          <input value="{{ signupForm.name }}" oninput="{{ onSignupName }}" placeholder="Your name" style="{{ signupFieldStyle }}" style-focus="border-color:#C8102E;">
+        </div>
+        <div style="flex:1 1 260px; min-width:220px;">
+          <label style="display:block; font-family:'Nunito',sans-serif; font-weight:700; font-size:12.5px; color:#8A8178; text-transform:uppercase; letter-spacing:0.5px; margin:0 0 6px;">Tournament *</label>
+          <select value="{{ signupForm.tournamentId }}" onchange="{{ onSignupTournament }}" style="{{ signupFieldStyle }}" style-focus="border-color:#C8102E;">
+            <option value="">Select a tournament…</option>
+            <sc-for list="{{ tournamentOptions }}" as="opt" hint-placeholder-count="3">
+              <option value="{{ opt.id }}">{{ opt.label }}</option>
+            </sc-for>
+          </select>
+        </div>
+        <button onclick="{{ onSignupSubmit }}" style="{{ signupBtnStyle }}" style-hover="filter:brightness(0.92);">Sign Up</button>
+      </div>
+
+      <sc-if value="{{ signupError }}" hint-placeholder-val="{{ false }}">
+        <div style="color:#C8102E; font-family:'Nunito',sans-serif; font-weight:700; font-size:13px; margin-top:10px;">Please enter your name and select a tournament.</div>
+      </sc-if>
+      <sc-if value="{{ signupSuccess }}" hint-placeholder-val="{{ false }}">
+        <div style="color:#2E8B57; font-family:'Nunito',sans-serif; font-weight:700; font-size:13px; margin-top:10px;">You're signed up! See you on the mats.</div>
+      </sc-if>
+
+      <div style="margin-top:18px; text-align:right;">
+        <span onclick="{{ onOpenAdmin }}" style="font-family:'Nunito',sans-serif; font-weight:700; font-size:12px; color:#B7AE9F; cursor:pointer;" style-hover="color:#8A8178;">Admin login</span>
+      </div>
+    </div>
+
+  </div>
+
+  <sc-if value="{{ adminModalOpen }}" hint-placeholder-val="{{ false }}">
+    <div onclick="{{ onCloseAdmin }}" style="position:fixed; inset:0; background:rgba(35,31,28,0.45); display:flex; align-items:center; justify-content:center; padding:20px; z-index:70;">
+      <div onclick="{{ onStop }}" style="background:#fff; width:92%; max-width:440px; border-radius:22px; padding:26px; box-shadow:0 24px 60px rgba(0,0,0,0.3); max-height:80vh; overflow-y:auto;">
+
+        <sc-if value="{{ adminAuthed }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:18px;">
+            <div style="font-family:'Fredoka', sans-serif; font-weight:600; font-size:22px; color:#231F1C;">Signed-Up Participants</div>
+            <span onclick="{{ onLogoutAdmin }}" style="font-family:'Nunito',sans-serif; font-weight:800; font-size:12.5px; color:#C8102E; cursor:pointer;" style-hover="text-decoration:underline;">Log out</span>
+          </div>
+
+          <sc-if value="{{ signupsEmpty }}" hint-placeholder-val="{{ false }}">
+            <div style="color:#9A9188; font-size:14px; font-weight:600; padding:10px 0;">No sign-ups yet.</div>
+          </sc-if>
+
+          <div style="display:flex; flex-direction:column; gap:8px;">
+            <sc-for list="{{ participants }}" as="p" hint-placeholder-count="0">
+              <div style="display:flex; align-items:center; gap:12px; padding:10px 12px; border-radius:12px; border:1px solid #F0E8DC; background:#FEFCF9;">
+                <div style="flex:1; min-width:0;">
+                  <div style="font-family:'Nunito',sans-serif; font-weight:800; font-size:14.5px; color:#231F1C;">{{ p.name }}</div>
+                  <div style="font-family:'Nunito',sans-serif; font-weight:600; font-size:12.5px; color:#8A8178; margin-top:1px;">{{ p.tournamentName }}</div>
+                </div>
+                <span onclick="{{ p.onRemove }}" style="font-family:'Nunito',sans-serif; font-weight:800; font-size:12px; color:#C8102E; cursor:pointer; flex-shrink:0;" style-hover="text-decoration:underline;">Remove</span>
+              </div>
+            </sc-for>
+          </div>
+
+          <div style="display:flex; justify-content:flex-end; margin-top:20px;">
+            <button onclick="{{ onCloseAdmin }}" style="background:#F1EBE1; border:none; color:#5C544C; font-family:'Nunito',sans-serif; font-weight:800; font-size:14px; padding:11px 18px; border-radius:999px; cursor:pointer;" style-hover="background:#E9E1D4;">Close</button>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ adminNotAuthed }}" hint-placeholder-val="{{ true }}">
+          <div style="font-family:'Fredoka', sans-serif; font-weight:600; font-size:22px; color:#231F1C; margin-bottom:18px;">Admin Login</div>
+          <div style="margin-bottom:14px;">
+            <label style="display:block; font-family:'Nunito',sans-serif; font-weight:700; font-size:12.5px; color:#8A8178; text-transform:uppercase; letter-spacing:0.5px; margin:0 0 6px;">Password</label>
+            <input type="password" value="{{ adminPassInput }}" oninput="{{ onAdminPassInput }}" onkeydown="{{ onAdminKeydown }}" placeholder="••••••••" style="width:100%; padding:11px 13px; border:1.5px solid #E7DECF; border-radius:12px; font-family:'Nunito',sans-serif; font-weight:600; font-size:15px; color:#231F1C; background:#FEFCF9; outline:none;" style-focus="border-color:#C8102E;">
+          </div>
+          <sc-if value="{{ adminError }}" hint-placeholder-val="{{ false }}">
+            <div style="color:#C8102E; font-family:'Nunito',sans-serif; font-weight:700; font-size:13px; margin-bottom:10px;">Incorrect password.</div>
+          </sc-if>
+          <div style="display:flex; justify-content:flex-end; gap:10px;">
+            <button onclick="{{ onCloseAdmin }}" style="background:#F1EBE1; border:none; color:#5C544C; font-family:'Nunito',sans-serif; font-weight:800; font-size:14px; padding:11px 18px; border-radius:999px; cursor:pointer;" style-hover="background:#E9E1D4;">Cancel</button>
+            <button onclick="{{ onAdminLogin }}" style="background:#C8102E; border:none; color:#fff; font-family:'Nunito',sans-serif; font-weight:800; font-size:14px; padding:11px 20px; border-radius:999px; cursor:pointer;" style-hover="filter:brightness(0.93);">Log in</button>
+          </div>
+        </sc-if>
+
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ modalOpen }}" hint-placeholder-val="{{ false }}">
+    <div onclick="{{ onClose }}" style="position:fixed; inset:0; background:rgba(35,31,28,0.45); display:flex; align-items:center; justify-content:center; padding:20px; z-index:60;">
+      <div onclick="{{ onStop }}" style="background:#fff; width:92%; max-width:430px; border-radius:22px; padding:26px; box-shadow:0 24px 60px rgba(0,0,0,0.3);">
+        <div style="font-family:'Fredoka', sans-serif; font-weight:600; font-size:22px; color:#231F1C; margin-bottom:18px;">{{ modalTitle }}</div>
+
+        <div style="margin-bottom:14px;">
+          <label style="display:block; font-family:'Nunito',sans-serif; font-weight:700; font-size:12.5px; color:#8A8178; text-transform:uppercase; letter-spacing:0.5px; margin:0 0 6px;">Tournament name</label>
+          <input value="{{ form.name }}" oninput="{{ onName }}" placeholder="e.g. IBJJF Chicago Open" style="width:100%; padding:11px 13px; border:1.5px solid #E7DECF; border-radius:12px; font-family:'Nunito',sans-serif; font-weight:600; font-size:15px; color:#231F1C; background:#FEFCF9; outline:none;" style-focus="border-color:#C8102E;">
+        </div>
+
+        <div style="margin-bottom:14px;">
+          <label style="display:block; font-family:'Nunito',sans-serif; font-weight:700; font-size:12.5px; color:#8A8178; text-transform:uppercase; letter-spacing:0.5px; margin:0 0 6px;">Location / city</label>
+          <input value="{{ form.location }}" oninput="{{ onLoc }}" placeholder="e.g. Chicago, IL" style="width:100%; padding:11px 13px; border:1.5px solid #E7DECF; border-radius:12px; font-family:'Nunito',sans-serif; font-weight:600; font-size:15px; color:#231F1C; background:#FEFCF9; outline:none;" style-focus="border-color:#C8102E;">
+        </div>
+
+        <div style="margin-bottom:14px;">
+          <label style="display:block; font-family:'Nunito',sans-serif; font-weight:700; font-size:12.5px; color:#8A8178; text-transform:uppercase; letter-spacing:0.5px; margin:0 0 6px;">Registration link (optional)</label>
+          <input value="{{ form.link }}" oninput="{{ onLink }}" placeholder="https://…" style="width:100%; padding:11px 13px; border:1.5px solid #E7DECF; border-radius:12px; font-family:'Nunito',sans-serif; font-weight:600; font-size:15px; color:#231F1C; background:#FEFCF9; outline:none;" style-focus="border-color:#C8102E;">
+        </div>
+
+        <div style="display:flex; gap:12px;">
+          <div style="flex:1;">
+            <label style="display:block; font-family:'Nunito',sans-serif; font-weight:700; font-size:12.5px; color:#8A8178; text-transform:uppercase; letter-spacing:0.5px; margin:0 0 6px;">Date</label>
+            <input type="date" min="2026-07-01" max="2026-12-31" value="{{ form.date }}" onchange="{{ onDate }}" style="width:100%; padding:11px 13px; border:1.5px solid #E7DECF; border-radius:12px; font-family:'Nunito',sans-serif; font-weight:600; font-size:15px; color:#231F1C; background:#FEFCF9; outline:none;" style-focus="border-color:#C8102E;">
+          </div>
+          <div style="flex:1;">
+            <label style="display:block; font-family:'Nunito',sans-serif; font-weight:700; font-size:12.5px; color:#8A8178; text-transform:uppercase; letter-spacing:0.5px; margin:0 0 6px;">Ends (optional)</label>
+            <input type="date" min="2026-07-01" max="2026-12-31" value="{{ form.endDate }}" onchange="{{ onEnd }}" style="width:100%; padding:11px 13px; border:1.5px solid #E7DECF; border-radius:12px; font-family:'Nunito',sans-serif; font-weight:600; font-size:15px; color:#231F1C; background:#FEFCF9; outline:none;" style-focus="border-color:#C8102E;">
+          </div>
+        </div>
+
+        <div style="display:flex; align-items:center; gap:10px; margin-top:24px;">
+          <sc-if value="{{ editing }}" hint-placeholder-val="{{ false }}">
+            <button onclick="{{ onDelete }}" style="background:none; border:none; color:#C8102E; font-family:'Nunito',sans-serif; font-weight:800; font-size:14px; cursor:pointer; padding:8px 4px;" style-hover="text-decoration:underline;">Delete</button>
+          </sc-if>
+          <div style="flex:1;"></div>
+          <button onclick="{{ onClose }}" style="background:#F1EBE1; border:none; color:#5C544C; font-family:'Nunito',sans-serif; font-weight:800; font-size:14px; padding:11px 18px; border-radius:999px; cursor:pointer;" style-hover="background:#E9E1D4;">Cancel</button>
+          <button onclick="{{ onSave }}" disabled="{{ saveDisabled }}" style="{{ saveStyle }}" style-hover="filter:brightness(0.93);">Save</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1180,&quot;height&quot;:900},&quot;accentColor&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#C8102E&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;options&quot;:[&quot;#C8102E&quot;,&quot;#1D4ED8&quot;,&quot;#F5A623&quot;,&quot;#2E8B57&quot;]},&quot;showUpcoming&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+class Component extends DCLogic {
+  state = {
+    monthIndex: 6,
+    events: this.defaults(),
+    modalOpen: false,
+    editing: false,
+    form: { id: null, name: '', location: '', date: '2026-07-01', endDate: '', link: '', extraLinks: [] },
+    signupForm: { name: '', tournamentId: '' },
+    signupError: false,
+    signupSuccess: false,
+    signups: [],
+    adminModalOpen: false,
+    adminAuthed: false,
+    adminPassInput: '',
+    adminError: false,
+  };
+
+  KEY = 'gbd_tournaments_v2';
+  SIGNUP_KEY = 'gbd_signups_v1';
+  ADMIN_PASSWORD = 'GB2026';
+  mFull = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  mAbbr = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+  defaults() {
+    return [
+      { id: 'gi-jul', name: 'Grappling Industries', location: '', date: '2026-07-25',
+        links: [{ label: 'Register', url: 'https://grapplingindustries.smoothcomp.com/en/event/25435' }] },
+      { id: 'ibjjf', name: 'IBJJF Chicago Open', location: 'Chicago, IL', date: '2026-08-08', endDate: '2026-08-09',
+        links: [
+          { label: 'Adults', url: 'https://ibjjf.com/events/chicago-summer-international-open-ibjjf-jiu-jitsu-championship-2026' },
+          { label: 'Kids', url: 'https://ibjjf.com/events/chicago-summer-kids-international-open-ibjjf-jiu-jitsu-championship-2026' },
+        ] },
+      { id: 'fallgames', name: '2026 Chicago Fall Games', location: 'Chicago, IL', date: '2026-09-05',
+        links: [{ label: 'Register', url: 'https://grappling-games.smoothcomp.com/en/event/33399' }] },
+      { id: 'tapcancer', name: 'Tap Cancer Out', location: '', date: '2026-10-10',
+        links: [{ label: 'Register', url: 'https://smoothcomp.com/en/event/28602' }] },
+      { id: 'gi-nov', name: 'Grappling Industries', location: '', date: '2026-11-07',
+        links: [{ label: 'Register', url: 'https://grapplingindustries.smoothcomp.com/en/event/25436' }] },
+    ];
+  }
+
+  componentDidMount() {
+    try {
+      const s = localStorage.getItem(this.KEY);
+      if (s) this.setState({ events: JSON.parse(s) });
+      else this.persist(this.state.events);
+    } catch (e) {}
+    try {
+      const su = localStorage.getItem(this.SIGNUP_KEY);
+      if (su) this.setState({ signups: JSON.parse(su) });
+    } catch (e) {}
+  }
+
+  persist(events) {
+    try { localStorage.setItem(this.KEY, JSON.stringify(events)); } catch (e) {}
+  }
+
+  persistSignups(signups) {
+    try { localStorage.setItem(this.SIGNUP_KEY, JSON.stringify(signups)); } catch (e) {}
+  }
+
+  setSignupForm(patch) { this.setState({ signupForm: Object.assign({}, this.state.signupForm, patch), signupError: false, signupSuccess: false }); }
+
+  encodeForm(data) {
+    return Object.keys(data).map(k => encodeURIComponent(k) + '=' + encodeURIComponent(data[k])).join('&');
+  }
+
+  submitSignup() {
+    const f = this.state.signupForm;
+    const name = (f.name || '').trim();
+    if (!name || !f.tournamentId) { this.setState({ signupError: true, signupSuccess: false }); return; }
+    const ev = this.state.events.find(e => e.id === f.tournamentId);
+    const tournamentName = ev ? ev.name : 'Unknown';
+    const rec = { id: this.genId(), name, tournamentId: f.tournamentId, tournamentName, submittedAt: new Date().toISOString() };
+    const signups = this.state.signups.concat([rec]);
+    this.persistSignups(signups);
+    this.setState({ signups, signupForm: { name: '', tournamentId: '' }, signupError: false, signupSuccess: true });
+
+    // Also submit to Netlify Forms (only works once this site is deployed on Netlify)
+    try {
+      fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: this.encodeForm({ 'form-name': 'tournament-signup', name, tournament: tournamentName }),
+      }).catch(() => {});
+    } catch (e) {}
+  }
+
+  removeSignup(id) {
+    const signups = this.state.signups.filter(s => s.id !== id);
+    this.persistSignups(signups);
+    this.setState({ signups });
+  }
+
+  openAdmin() { this.setState({ adminModalOpen: true, adminPassInput: '', adminError: false }); }
+  closeAdmin() { this.setState({ adminModalOpen: false }); }
+  logoutAdmin() { this.setState({ adminAuthed: false, adminModalOpen: false }); }
+  adminLogin() {
+    if (this.state.adminPassInput === this.ADMIN_PASSWORD) this.setState({ adminAuthed: true, adminError: false });
+    else this.setState({ adminError: true });
+  }
+
+  genId() { return 'e' + Math.random().toString(36).slice(2, 9); }
+  p2(n) { return String(n).padStart(2, '0'); }
+  fmt(y, m, d) { return y + '-' + this.p2(m) + '-' + this.p2(d); }
+  parse(s) { return s.split('-').map(Number); }
+  todayStr() { const t = new Date(); return this.fmt(t.getFullYear(), t.getMonth() + 1, t.getDate()); }
+  titleFor(ev) { return ev.name + (ev.location ? ' · ' + ev.location : ''); }
+
+  hexToRgba(hex, a) {
+    hex = hex.replace('#', '');
+    if (hex.length === 3) hex = hex.split('').map(c => c + c).join('');
+    const n = parseInt(hex, 16);
+    return 'rgba(' + ((n >> 16) & 255) + ',' + ((n >> 8) & 255) + ',' + (n & 255) + ',' + a + ')';
+  }
+
+  eventsForDate(ds) {
+    return this.state.events.filter(e => {
+      const end = e.endDate || e.date;
+      return ds >= e.date && ds <= end;
+    });
+  }
+
+  openAdd(ds) {
+    this.setState({ modalOpen: true, editing: false, form: { id: null, name: '', location: '', date: ds, endDate: '', link: '', extraLinks: [] } });
+  }
+  openAddQuick() {
+    this.openAdd(this.fmt(2026, this.state.monthIndex + 1, 1));
+  }
+  openEdit(ev) {
+    const links = ev.links || [];
+    this.setState({
+      modalOpen: true, editing: true,
+      form: {
+        id: ev.id, name: ev.name, location: ev.location || '', date: ev.date, endDate: ev.endDate || '',
+        link: links[0] ? links[0].url : '', extraLinks: links.slice(1),
+      },
+    });
+  }
+  close() { this.setState({ modalOpen: false }); }
+
+  save() {
+    const f = this.state.form;
+    const name = (f.name || '').trim();
+    if (!name) return;
+    const rec = { id: f.id || this.genId(), name, location: (f.location || '').trim(), date: f.date };
+    if (f.endDate && f.endDate > f.date) rec.endDate = f.endDate;
+    const link = (f.link || '').trim();
+    const links = link ? [{ label: 'Register', url: link }] : [];
+    rec.links = links.concat(f.extraLinks || []);
+    let events;
+    if (this.state.editing) events = this.state.events.map(e => e.id === f.id ? rec : e);
+    else events = this.state.events.concat([rec]);
+    this.persist(events);
+    this.setState({ events, modalOpen: false });
+  }
+
+  remove() {
+    const events = this.state.events.filter(e => e.id !== this.state.form.id);
+    this.persist(events);
+    this.setState({ events, modalOpen: false });
+  }
+
+  setForm(patch) { this.setState({ form: Object.assign({}, this.state.form, patch) }); }
+
+  buildWeeks(accent) {
+    const mi = this.state.monthIndex, year = 2026;
+    const startW = new Date(year, mi, 1).getDay();
+    const dim = new Date(year, mi + 1, 0).getDate();
+    const total = Math.ceil((startW + dim) / 7) * 7;
+    const today = this.todayStr();
+    const CHIP = {
+      background: accent, color: '#fff', fontFamily: "'Nunito', sans-serif", fontWeight: 800,
+      fontSize: '11.5px', lineHeight: '1.25', padding: '5px 8px', borderRadius: '8px', cursor: 'pointer',
+      display: 'flex', alignItems: 'center', gap: '5px',
+      boxShadow: '0 1px 2px ' + this.hexToRgba(accent, 0.35),
+    };
+    const CHIP_NAME = { flex: '1', minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' };
+    const CHIP_LINK = { flexShrink: 0, fontSize: '12px', opacity: 0.95, cursor: 'pointer' };
+    const base = {
+      minHeight: '104px', borderRadius: '14px', padding: '7px', boxSizing: 'border-box',
+      display: 'flex', flexDirection: 'column', transition: 'box-shadow .15s, transform .15s, border-color .15s',
+    };
+    const weeks = [];
+    for (let c = 0; c < total; c++) {
+      const cur = new Date(year, mi, 1 - startW + c);
+      const mm = cur.getMonth(), dd = cur.getDate();
+      const ds = this.fmt(cur.getFullYear(), mm + 1, dd);
+      const inMonth = mm === mi;
+      const isToday = ds === today;
+
+      let cellStyle, numStyle;
+      if (!inMonth) {
+        cellStyle = Object.assign({}, base, { background: 'transparent', border: '1.5px solid transparent', cursor: 'default' });
+        numStyle = { fontFamily: "'Fredoka', sans-serif", fontWeight: 600, fontSize: '14px', minWidth: '25px', height: '25px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', borderRadius: '50%', color: '#CBC2B4' };
+      } else {
+        cellStyle = Object.assign({}, base, { background: '#FFFFFF', border: '1.5px solid #EEE6DA', cursor: 'pointer' });
+        numStyle = { fontFamily: "'Fredoka', sans-serif", fontWeight: 600, fontSize: '14px', minWidth: '25px', height: '25px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', borderRadius: '50%', color: '#2A2724' };
+        if (isToday) {
+          cellStyle.border = '2px solid ' + accent;
+          cellStyle.boxShadow = '0 0 0 3px ' + this.hexToRgba(accent, 0.14);
+          numStyle.background = accent; numStyle.color = '#fff';
+        }
+      }
+
+      const events = inMonth ? this.eventsForDate(ds).map(ev => {
+        const link = (ev.links && ev.links[0]) || null;
+        return {
+          name: ev.name, chipStyle: CHIP, nameStyle: CHIP_NAME, title: this.titleFor(ev),
+          hasLink: !!link, linkIconStyle: CHIP_LINK,
+          onOpen: (e) => { e.stopPropagation(); this.openEdit(ev); },
+          onLink: link ? ((e) => { e.stopPropagation(); window.open(link.url, '_blank', 'noopener'); }) : null,
+        };
+      }) : [];
+
+      const day = { label: String(dd), cellStyle, numStyle, events, onAdd: inMonth ? (() => this.openAdd(ds)) : null };
+      if (c % 7 === 0) weeks.push([]);
+      weeks[weeks.length - 1].push(day);
+    }
+    return weeks;
+  }
+
+  buildUpcoming(accent) {
+    const sorted = this.state.events.slice().sort((a, b) => a.date < b.date ? -1 : a.date > b.date ? 1 : 0);
+    const badgeStyle = {
+      background: accent, color: '#fff', borderRadius: '12px', minWidth: '50px', padding: '8px 4px',
+      textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+    };
+    const linkStyle = { color: accent, fontFamily: "'Nunito', sans-serif", fontWeight: 800, fontSize: '12px' };
+    return sorted.map(ev => {
+      const [y, m, d] = this.parse(ev.date);
+      let dayLabel = String(d);
+      if (ev.endDate) {
+        const [ey, em, ed] = this.parse(ev.endDate);
+        dayLabel = em === m ? (d + '–' + ed) : (d + ' ' + this.mAbbr[m - 1] + '–' + ed + ' ' + this.mAbbr[em - 1]);
+      }
+      const links = (ev.links || []).map(lk => ({ label: lk.label, url: lk.url, style: linkStyle, onClick: (e) => e.stopPropagation() }));
+      return { name: ev.name, location: ev.location || 'Chicago, IL', monAbbr: this.mAbbr[m - 1], dayLabel, badgeStyle, links, hasLinks: links.length > 0, onOpen: () => this.openEdit(ev) };
+    });
+  }
+
+  renderVals() {
+    const accent = this.props.accentColor || '#C8102E';
+    const showUpcoming = this.props.showUpcoming !== false;
+    const mi = this.state.monthIndex;
+    const canSave = !!(this.state.form && (this.state.form.name || '').trim());
+
+    const arrowBase = {
+      width: '38px', height: '38px', borderRadius: '50%', border: '1.5px solid #E7DECF', background: '#fff',
+      display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px', color: accent,
+      cursor: 'pointer', fontFamily: "'Nunito', sans-serif", fontWeight: 900, lineHeight: '1', paddingBottom: '3px',
+    };
+    const dis = (d) => d ? Object.assign({}, arrowBase, { opacity: 0.32, cursor: 'default', color: '#B7AE9F' }) : arrowBase;
+
+    const upcoming = this.buildUpcoming(accent);
+
+    const tournamentOptions = this.state.events.slice().sort((a, b) => a.date < b.date ? -1 : 1)
+      .map(e => ({ id: e.id, label: e.name + (e.location ? ' — ' + e.location : '') + ' (' + this.mAbbr[Number(e.date.slice(5, 7)) - 1] + ' ' + Number(e.date.slice(8, 10)) + ')' }));
+
+    const fieldStyle = { width: '100%', padding: '11px 13px', border: '1.5px solid #E7DECF', borderRadius: '12px', fontFamily: "'Nunito', sans-serif", fontWeight: 600, fontSize: '15px', color: '#231F1C', background: '#FEFCF9', outline: 'none', height: '44px', boxSizing: 'border-box' };
+
+    const participants = this.state.signups.slice().reverse().map(s => ({
+      name: s.name, tournamentName: s.tournamentName, onRemove: () => this.removeSignup(s.id),
+    }));
+
+    return {
+      signupForm: this.state.signupForm,
+      signupFieldStyle: fieldStyle,
+      signupBtnStyle: { background: accent, color: '#fff', border: 'none', borderRadius: '12px', padding: '0 24px', height: '44px', fontFamily: "'Fredoka', sans-serif", fontWeight: 600, fontSize: '15px', cursor: 'pointer', boxShadow: '0 4px 14px ' + this.hexToRgba(accent, 0.32) },
+      tournamentOptions,
+      onSignupName: (e) => this.setSignupForm({ name: e.target.value }),
+      onSignupTournament: (e) => this.setSignupForm({ tournamentId: e.target.value }),
+      onSignupSubmit: () => this.submitSignup(),
+      signupError: this.state.signupError,
+      signupSuccess: this.state.signupSuccess,
+      onOpenAdmin: () => this.openAdmin(),
+
+      adminModalOpen: this.state.adminModalOpen,
+      adminAuthed: this.state.adminAuthed,
+      adminNotAuthed: !this.state.adminAuthed,
+      adminPassInput: this.state.adminPassInput,
+      adminError: this.state.adminError,
+      onAdminPassInput: (e) => this.setState({ adminPassInput: e.target.value, adminError: false }),
+      onAdminKeydown: (e) => { if (e.key === 'Enter') this.adminLogin(); },
+      onAdminLogin: () => this.adminLogin(),
+      onCloseAdmin: () => this.closeAdmin(),
+      onLogoutAdmin: () => this.logoutAdmin(),
+      participants,
+      signupsEmpty: participants.length === 0,
+      kickerStyle: { color: accent, fontFamily: "'Nunito', sans-serif", fontWeight: 800, fontSize: '12px', letterSpacing: '1.5px', textTransform: 'uppercase' },
+      addBtnStyle: { background: accent, color: '#fff', border: 'none', borderRadius: '999px', padding: '12px 20px', fontFamily: "'Fredoka', sans-serif", fontWeight: 600, fontSize: '15px', cursor: 'pointer', boxShadow: '0 4px 14px ' + this.hexToRgba(accent, 0.32), transition: 'filter .15s, transform .15s' },
+      monthLabel: this.mFull[mi] + ' 2026',
+      weeks: this.buildWeeks(accent),
+      onPrev: () => { if (this.state.monthIndex > 6) this.setState({ monthIndex: this.state.monthIndex - 1 }); },
+      onNext: () => { if (this.state.monthIndex < 11) this.setState({ monthIndex: this.state.monthIndex + 1 }); },
+      prevStyle: dis(mi <= 6),
+      nextStyle: dis(mi >= 11),
+      onAddQuick: () => this.openAddQuick(),
+
+      showUpcoming,
+      upcoming,
+      upcomingEmpty: upcoming.length === 0,
+
+      modalOpen: this.state.modalOpen,
+      modalTitle: this.state.editing ? 'Edit Tournament' : 'Add Tournament',
+      editing: this.state.editing,
+      form: this.state.form,
+      onName: (e) => this.setForm({ name: e.target.value }),
+      onLoc: (e) => this.setForm({ location: e.target.value }),
+      onLink: (e) => this.setForm({ link: e.target.value }),
+      onDate: (e) => this.setForm({ date: e.target.value }),
+      onEnd: (e) => this.setForm({ endDate: e.target.value }),
+      onSave: () => this.save(),
+      onDelete: () => this.remove(),
+      onClose: () => this.close(),
+      onStop: (e) => e.stopPropagation(),
+      canSave,
+      saveDisabled: !canSave,
+      saveStyle: { background: accent, color: '#fff', border: 'none', borderRadius: '999px', padding: '11px 22px', fontFamily: "'Nunito', sans-serif", fontWeight: 800, fontSize: '14px', cursor: canSave ? 'pointer' : 'default', opacity: canSave ? 1 : 0.5, boxShadow: '0 4px 12px ' + this.hexToRgba(accent, 0.3), transition: 'filter .15s' },
+    };
+  }
+}
+</script>
+</body>
+</html>
