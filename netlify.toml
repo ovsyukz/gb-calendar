@@ -1,0 +1,23 @@
+[build]
+  # Static site — nothing to compile. Netlify just uploads this directory.
+  publish = "gbcal"
+  command = ""
+
+# Deploy Previews for pull requests, branch deploys for everything else.
+[context.deploy-preview]
+  publish = "gbcal"
+
+[context.branch-deploy]
+  publish = "gbcal"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+# index.html is regenerated on every deploy; don't let browsers cache it.
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
