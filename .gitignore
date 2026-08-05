@@ -1,0 +1,16 @@
+# macOS
+.DS_Store
+
+# JetBrains IDEs
+.idea/
+
+# VS Code
+.vscode/
+
+# Editor scratch files
+*.swp
+*~
+
+# Netlify
+.netlify/
+

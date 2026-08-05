@@ -51,9 +51,11 @@
           <span style="flex:1; height:7px; border-radius:4px; background:#F07E13;"></span>
           <span style="flex:1; height:7px; border-radius:4px; background:#2E8B57;"></span>
         </div>
-        <div style="font-family:'Nunito', sans-serif; color:#7A7169; font-size:14px; margin-top:12px; font-weight:600;">July – December 2026 · tap any day to add a tournament, tap ↗ to open its registration page</div>
+        <div style="font-family:'Nunito', sans-serif; color:#7A7169; font-size:14px; margin-top:12px; font-weight:600;">{{ subtitle }}</div>
       </div>
-      <button onclick="{{ onAddQuick }}" style="{{ addBtnStyle }}" style-hover="filter:brightness(0.92); transform:translateY(-1px);">+ Add Tournament</button>
+      <sc-if value="{{ isAdmin }}" hint-placeholder-val="{{ false }}">
+        <button onclick="{{ onAddQuick }}" style="{{ addBtnStyle }}" style-hover="filter:brightness(0.92); transform:translateY(-1px);">+ Add Tournament</button>
+      </sc-if>
     </div>
 
     <div style="display:flex; gap:22px; align-items:flex-start; flex-wrap:wrap;">
@@ -106,7 +108,7 @@
           </sc-if>
           <div style="display:flex; flex-direction:column; gap:10px;">
             <sc-for list="{{ upcoming }}" as="t" hint-placeholder-count="3">
-              <div onclick="{{ t.onOpen }}" style="display:flex; gap:12px; align-items:center; padding:10px; border-radius:14px; border:1px solid #F0E8DC; cursor:pointer; background:#FEFCF9;" style-hover="border-color:#E4DBCC; box-shadow:0 4px 12px rgba(35,31,28,0.07);">
+              <div onclick="{{ t.onOpen }}" style="{{ t.cardStyle }}" style-hover="border-color:#E4DBCC; box-shadow:0 4px 12px rgba(35,31,28,0.07);">
                 <div style="{{ t.badgeStyle }}">
                   <div style="font-size:10px; font-weight:800; letter-spacing:0.5px; text-transform:uppercase; opacity:0.9;">{{ t.monAbbr }}</div>
                   <div style="font-family:'Fredoka',sans-serif; font-weight:600; font-size:18px; line-height:1; margin-top:1px;">{{ t.dayLabel }}</div>
@@ -426,6 +428,7 @@ class Component extends DCLogic {
   setForm(patch) { this.setState({ form: Object.assign({}, this.state.form, patch) }); }
 
   buildWeeks(accent) {
+    const isAdmin = this.state.adminAuthed;
     const mi = this.state.monthIndex, year = 2026;
     const startW = new Date(year, mi, 1).getDay();
     const dim = new Date(year, mi + 1, 0).getDate();
@@ -437,6 +440,7 @@ class Component extends DCLogic {
       display: 'flex', alignItems: 'center', gap: '5px',
       boxShadow: '0 1px 2px ' + this.hexToRgba(accent, 0.35),
     };
+    const CHIP_STATIC = Object.assign({}, CHIP, { cursor: 'default' });
     const CHIP_NAME = { flex: '1', minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' };
     const CHIP_LINK = { flexShrink: 0, fontSize: '12px', opacity: 0.95, cursor: 'pointer' };
     const base = {
@@ -456,7 +460,7 @@ class Component extends DCLogic {
         cellStyle = Object.assign({}, base, { background: 'transparent', border: '1.5px solid transparent', cursor: 'default' });
         numStyle = { fontFamily: "'Fredoka', sans-serif", fontWeight: 600, fontSize: '14px', minWidth: '25px', height: '25px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', borderRadius: '50%', color: '#CBC2B4' };
       } else {
-        cellStyle = Object.assign({}, base, { background: '#FFFFFF', border: '1.5px solid #EEE6DA', cursor: 'pointer' });
+        cellStyle = Object.assign({}, base, { background: '#FFFFFF', border: '1.5px solid #EEE6DA', cursor: isAdmin ? 'pointer' : 'default' });
         numStyle = { fontFamily: "'Fredoka', sans-serif", fontWeight: 600, fontSize: '14px', minWidth: '25px', height: '25px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', borderRadius: '50%', color: '#2A2724' };
         if (isToday) {
           cellStyle.border = '2px solid ' + accent;
@@ -468,14 +472,18 @@ class Component extends DCLogic {
       const events = inMonth ? this.eventsForDate(ds).map(ev => {
         const link = (ev.links && ev.links[0]) || null;
         return {
-          name: ev.name, chipStyle: CHIP, nameStyle: CHIP_NAME, title: this.titleFor(ev),
+          name: ev.name, chipStyle: (isAdmin || link) ? CHIP : CHIP_STATIC, nameStyle: CHIP_NAME, title: this.titleFor(ev),
           hasLink: !!link, linkIconStyle: CHIP_LINK,
-          onOpen: (e) => { e.stopPropagation(); this.openEdit(ev); },
+          onOpen: (e) => {
+            e.stopPropagation();
+            if (isAdmin) this.openEdit(ev);
+            else if (link) window.open(link.url, '_blank', 'noopener');
+          },
           onLink: link ? ((e) => { e.stopPropagation(); window.open(link.url, '_blank', 'noopener'); }) : null,
         };
       }) : [];
 
-      const day = { label: String(dd), cellStyle, numStyle, events, onAdd: inMonth ? (() => this.openAdd(ds)) : null };
+      const day = { label: String(dd), cellStyle, numStyle, events, onAdd: (inMonth && isAdmin) ? (() => this.openAdd(ds)) : null };
       if (c % 7 === 0) weeks.push([]);
       weeks[weeks.length - 1].push(day);
     }
@@ -483,7 +491,9 @@ class Component extends DCLogic {
   }
 
   buildUpcoming(accent) {
+    const isAdmin = this.state.adminAuthed;
     const sorted = this.state.events.slice().sort((a, b) => a.date < b.date ? -1 : a.date > b.date ? 1 : 0);
+    const cardBase = { display: 'flex', gap: '12px', alignItems: 'center', padding: '10px', borderRadius: '14px', border: '1px solid #F0E8DC', background: '#FEFCF9' };
     const badgeStyle = {
       background: accent, color: '#fff', borderRadius: '12px', minWidth: '50px', padding: '8px 4px',
       textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
@@ -497,13 +507,23 @@ class Component extends DCLogic {
         dayLabel = em === m ? (d + '–' + ed) : (d + ' ' + this.mAbbr[m - 1] + '–' + ed + ' ' + this.mAbbr[em - 1]);
       }
       const links = (ev.links || []).map(lk => ({ label: lk.label, url: lk.url, style: linkStyle, onClick: (e) => e.stopPropagation() }));
-      return { name: ev.name, location: ev.location || 'Chicago, IL', monAbbr: this.mAbbr[m - 1], dayLabel, badgeStyle, links, hasLinks: links.length > 0, onOpen: () => this.openEdit(ev) };
+      const primary = links[0] || null;
+      return {
+        name: ev.name, location: ev.location || 'Chicago, IL', monAbbr: this.mAbbr[m - 1], dayLabel, badgeStyle,
+        links, hasLinks: links.length > 0,
+        cardStyle: Object.assign({}, cardBase, { cursor: (isAdmin || primary) ? 'pointer' : 'default' }),
+        onOpen: () => {
+          if (isAdmin) this.openEdit(ev);
+          else if (primary) window.open(primary.url, '_blank', 'noopener');
+        },
+      };
     });
   }
 
   renderVals() {
     const accent = this.props.accentColor || '#C8102E';
     const showUpcoming = this.props.showUpcoming !== false;
+    const isAdmin = this.state.adminAuthed;
     const mi = this.state.monthIndex;
     const canSave = !!(this.state.form && (this.state.form.name || '').trim());
 
@@ -526,6 +546,11 @@ class Component extends DCLogic {
     }));
 
     return {
+      isAdmin,
+      subtitle: isAdmin
+        ? 'July – December 2026 · tap any day to add a tournament, tap ↗ to open its registration page'
+        : 'July – December 2026 · tap a tournament to open its registration page',
+
       signupForm: this.state.signupForm,
       signupFieldStyle: fieldStyle,
       signupBtnStyle: { background: accent, color: '#fff', border: 'none', borderRadius: '12px', padding: '0 24px', height: '44px', fontFamily: "'Fredoka', sans-serif", fontWeight: 600, fontSize: '15px', cursor: 'pointer', boxShadow: '0 4px 14px ' + this.hexToRgba(accent, 0.32) },
