@@ -11,12 +11,30 @@
  *     await sql()`SELECT * FROM athletes WHERE id = ${id}`
  */
 
-let client;
+/**
+ * Cache the *promise*, not the resolved client. `client ??= await connect()`
+ * looks equivalent but is not: two concurrent requests both see an unset
+ * client and both open the data directory, which crashes the second one.
+ * Storing the promise means every caller awaits the same connection.
+ */
+let connection;
 
 async function connect() {
   const { PGlite } = await import('@electric-sql/pglite');
   // Tests set PGLITE_PATH=memory:// for a throwaway database per run.
   return new PGlite(process.env.PGLITE_PATH || '.pgdata');
+}
+
+function client() {
+  connection ??= connect();
+  return connection;
+}
+
+/** Flushes to disk so Ctrl-C does not leave the data directory half-written. */
+export async function closeLocalDb() {
+  if (!connection) return;
+  await (await connection).close();
+  connection = undefined;
 }
 
 /** Turns a tagged template into a parameterised query: $1, $2, ... */
@@ -29,14 +47,14 @@ function toParameterised(strings, values) {
 }
 
 export async function localSql(strings, ...values) {
-  client ??= await connect();
+  const db = await client();
   const { text, values: params } = toParameterised(strings, values);
-  const { rows } = await client.query(text, params);
+  const { rows } = await db.query(text, params);
   return rows;
 }
 
 /** Used by the migration runner, which has raw SQL rather than a template. */
 export async function localQuery(text) {
-  client ??= await connect();
-  return client.exec(text);
+  const db = await client();
+  return db.exec(text);
 }

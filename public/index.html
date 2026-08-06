@@ -25,6 +25,7 @@
     <link rel="stylesheet" href="/styles/cards.css" />
     <link rel="stylesheet" href="/styles/forms.css" />
     <link rel="stylesheet" href="/styles/modal.css" />
+    <link rel="stylesheet" href="/styles/tabs.css" />
     <script type="module" src="/js/main.js"></script>
   </head>
   <body>
@@ -156,9 +157,38 @@
         </form>
       </div>
       <div id="admin-panel-view" hidden>
-        <h2 class="modal-title">Signed-Up Participants</h2>
-        <p class="empty-note" id="participants-empty" hidden>No sign-ups yet.</p>
-        <ul class="participant-list" id="participant-list"></ul>
+        <h2 class="modal-title">Tournament Sign-Ups</h2>
+        <div class="tabs" role="tablist">
+          <button
+            type="button"
+            id="tab-signups"
+            class="tab"
+            role="tab"
+            aria-selected="true"
+          >
+            Sign-ups
+          </button>
+          <button
+            type="button"
+            id="tab-athletes"
+            class="tab"
+            role="tab"
+            aria-selected="false"
+          >
+            Athletes
+          </button>
+        </div>
+
+        <div id="signups-view" role="tabpanel" aria-labelledby="tab-signups">
+          <p class="empty-note" id="participants-empty" hidden>No sign-ups yet.</p>
+          <ul class="participant-list" id="participant-list"></ul>
+        </div>
+
+        <div id="athletes-view" role="tabpanel" aria-labelledby="tab-athletes" hidden>
+          <p class="empty-note" id="athletes-empty" hidden>No athletes yet.</p>
+          <ul class="participant-list" id="athlete-list"></ul>
+        </div>
+
         <button type="button" id="admin-logout" class="link-button danger">
           Log out
         </button>
@@ -203,6 +233,17 @@
         <button type="button" class="link-button danger participant-remove">
           Remove
         </button>
+      </li>
+    </template>
+
+    <template id="tpl-athlete">
+      <li class="participant athlete">
+        <span class="participant-body">
+          <span class="participant-name athlete-name"></span>
+          <span class="participant-meta athlete-contact"></span>
+          <span class="participant-meta athlete-tournaments"></span>
+        </span>
+        <span class="athlete-count"></span>
       </li>
     </template>
   </body>

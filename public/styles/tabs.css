@@ -1,0 +1,51 @@
+/* Sign-ups / Athletes switch inside the admin panel. */
+
+.tabs {
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  margin-bottom: 16px;
+  border-radius: var(--radius-md);
+  background: var(--surface-muted);
+}
+
+.tab {
+  flex: 1;
+  padding: 8px 12px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: none;
+  color: var(--text-muted);
+  font: 800 13px var(--font-body);
+  cursor: pointer;
+}
+.tab:hover {
+  color: var(--text);
+}
+
+.tab[aria-selected='true'] {
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: 0 1px 3px rgb(35 31 28 / 10%);
+}
+
+.athlete-count {
+  flex-shrink: 0;
+  padding: 3px 9px;
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.athlete-tournaments {
+  font-size: 12px;
+}
+
+/* An athlete who skipped the optional email field. */
+.athlete-contact.is-missing {
+  font-style: italic;
+  color: var(--text-faint);
+}

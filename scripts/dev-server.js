@@ -5,6 +5,7 @@ import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { serveStatic } from './static-files.js';
 import { isLocal } from '../netlify/functions/_lib/db.js';
+import { closeLocalDb } from '../netlify/functions/_lib/local-db.js';
 
 /**
  * Local development server. Serves public/ and routes /api/* to the same
@@ -79,3 +80,12 @@ createServer(async (req, res) => {
   console.log(`  database:    ${isLocal() ? 'local (.pgdata/)' : 'Netlify DB'}`);
   console.log(`  routes:      ${[...routes.keys()].join(', ')}\n`);
 });
+
+// Flush the embedded database before exiting, so Ctrl-C cannot leave the
+// data directory half-written.
+for (const signal of ['SIGINT', 'SIGTERM']) {
+  process.on(signal, async () => {
+    await closeLocalDb().catch(() => {});
+    process.exit(0);
+  });
+}

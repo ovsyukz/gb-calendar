@@ -42,7 +42,7 @@ export async function createSignup({ athleteId, tournamentId }) {
 
 export async function listSignups() {
   return sql()`
-    SELECT s.id, s.tournament_id, s.created_at, a.name, a.email
+    SELECT s.id, s.tournament_id, s.created_at, a.id AS athlete_id, a.name, a.email
     FROM signups s
     JOIN athletes a ON a.id = s.athlete_id
     -- created_at comes from now(), which is the transaction timestamp, so two

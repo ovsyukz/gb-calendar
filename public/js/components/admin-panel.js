@@ -1,26 +1,63 @@
-import { $, clone, fill, replaceChildren, toggle, setMessage } from '../lib/dom.js';
-import { login, logout, fetchSignups, removeSignup } from '../lib/api.js';
+import { $, toggle, setMessage } from '../lib/dom.js';
+import { login, logout, fetchSignups } from '../lib/api.js';
 import { state, setState } from '../state/store.js';
+import { renderSignups } from './signup-list.js';
+import { renderAthletes } from './athlete-list.js';
 
 /**
- * Login gate plus the participant list. The `isAdmin` flag here only decides
- * what is drawn — the server checks the session cookie on every request, so a
- * user who flips this in DevTools gets an empty panel and a 401.
+ * Login gate, plus two views of the same data: sign-ups (one row per entry,
+ * removable) and athletes (one row per person).
+ *
+ * The `isAdmin` flag here only decides what is drawn. The server checks the
+ * session cookie on every request, so flipping it in DevTools yields an empty
+ * panel and a 401.
  */
 export function mountAdminPanel() {
   const dialog = $('#admin-dialog');
-  const loginView = $('#admin-login-view');
-  const panelView = $('#admin-panel-view');
   const loginForm = $('#admin-login-form');
   const error = $('#admin-error');
+  let view = 'signups';
 
-  const showCorrectView = () => {
-    toggle(loginView, !state.isAdmin);
-    toggle(panelView, state.isAdmin);
+  const showViews = () => {
+    toggle($('#admin-login-view'), !state.isAdmin);
+    toggle($('#admin-panel-view'), state.isAdmin);
+    toggle($('#signups-view'), view === 'signups');
+    toggle($('#athletes-view'), view === 'athletes');
+    $('#tab-signups').setAttribute('aria-selected', String(view === 'signups'));
+    $('#tab-athletes').setAttribute('aria-selected', String(view === 'athletes'));
   };
 
+  const draw = () => {
+    renderSignups(refresh);
+    renderAthletes();
+    showViews();
+  };
+
+  async function refresh() {
+    try {
+      const { signups } = await fetchSignups();
+      setState({ signups });
+    } catch {
+      // The session expired server-side while the page stayed open.
+      setState({ isAdmin: false, signups: [] });
+      showViews();
+      return;
+    }
+    draw();
+  }
+
+  for (const [id, name] of [
+    ['#tab-signups', 'signups'],
+    ['#tab-athletes', 'athletes'],
+  ]) {
+    $(id).addEventListener('click', () => {
+      view = name;
+      showViews();
+    });
+  }
+
   $('#open-admin').addEventListener('click', async () => {
-    showCorrectView();
+    showViews();
     dialog.showModal();
     if (state.isAdmin) await refresh();
   });
@@ -32,7 +69,6 @@ export function mountAdminPanel() {
       await login(loginForm.elements.password.value);
       loginForm.reset();
       setState({ isAdmin: true });
-      showCorrectView();
       await refresh();
     } catch (failure) {
       setMessage(error, failure.message, 'error');
@@ -44,44 +80,4 @@ export function mountAdminPanel() {
     setState({ isAdmin: false, signups: [] });
     dialog.close();
   });
-
-  async function refresh() {
-    try {
-      const { signups } = await fetchSignups();
-      setState({ signups });
-    } catch {
-      // Session expired server-side while the page stayed open.
-      setState({ isAdmin: false, signups: [] });
-      showCorrectView();
-      return;
-    }
-    renderParticipants(refresh);
-  }
-}
-
-function renderParticipants(refresh) {
-  const list = $('#participant-list');
-  toggle($('#participants-empty'), state.signups.length === 0);
-  replaceChildren(
-    list,
-    state.signups.map((signup) => participantRow(signup, refresh))
-  );
-}
-
-function participantRow(signup, refresh) {
-  const row = clone('tpl-participant');
-  const contact = signup.email ? ` · ${signup.email}` : '';
-
-  fill(row, {
-    '.participant-name': signup.name,
-    '.participant-meta': `${signup.tournamentName}${contact}`,
-  });
-
-  row.querySelector('.participant-remove').addEventListener('click', async (event) => {
-    event.target.disabled = true;
-    await removeSignup(signup.id).catch(() => {});
-    await refresh();
-  });
-
-  return row;
 }

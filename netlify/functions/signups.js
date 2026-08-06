@@ -55,6 +55,9 @@ async function list(request) {
   return json({
     signups: rows.map((row) => ({
       id: String(row.id),
+      // Grouping key for the athletes view: two competitors can share a name,
+      // and an athlete may have no email, so neither is safe to group on.
+      athleteId: String(row.athlete_id),
       name: row.name,
       email: row.email,
       tournamentId: row.tournament_id,
