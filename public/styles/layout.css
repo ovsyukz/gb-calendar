@@ -1,0 +1,43 @@
+/* Page shell and the panel surface shared by every section. */
+
+.page {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 28px 20px 48px;
+}
+
+.layout {
+  display: flex;
+  gap: var(--gap-lg);
+  align-items: flex-start;
+  flex-wrap: wrap;
+  margin-top: var(--gap-lg);
+}
+
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-panel);
+  padding: 20px;
+}
+
+.panel-title {
+  font-family: var(--font-display);
+  font-size: 19px;
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+
+.panel-note {
+  color: #7a7169;
+  font-size: 14px;
+  margin-top: 12px;
+}
+
+.empty-note {
+  color: #9a9188;
+  font-size: 14px;
+  line-height: 1.4;
+  padding: 10px 0;
+}

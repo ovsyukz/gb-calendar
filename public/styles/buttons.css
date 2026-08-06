@@ -1,0 +1,43 @@
+/* Every button in the app is one of these two. */
+
+.btn-primary {
+  height: 44px;
+  padding: 0 24px;
+  border: none;
+  border-radius: var(--radius-md);
+  background: var(--accent);
+  color: #fff;
+  font: 600 15px var(--font-display);
+  cursor: pointer;
+  box-shadow: 0 4px 14px var(--accent-shadow);
+}
+.btn-primary:hover:not(:disabled) {
+  filter: brightness(0.92);
+}
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* A real <button> styled as a link — keyboard-reachable, unlike the
+   clickable <span>s this replaced. */
+.link-button {
+  background: none;
+  border: none;
+  padding: 0;
+  font: 700 12px var(--font-body);
+  color: var(--text-faint);
+  cursor: pointer;
+}
+.link-button:hover {
+  color: var(--text-muted);
+}
+
+.link-button.danger {
+  color: var(--accent);
+  font-weight: 800;
+  font-size: 12.5px;
+}
+.link-button.danger:hover {
+  text-decoration: underline;
+}

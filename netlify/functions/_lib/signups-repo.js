@@ -1,0 +1,53 @@
+import { sql } from './db.js';
+
+/**
+ * Every SQL statement in the app lives here. Functions call these; nothing
+ * else writes queries.
+ */
+
+/**
+ * With an email, the athlete is reused across tournaments — that is the whole
+ * point of collecting it. Without one there is nothing reliable to match on
+ * (two competitors are often both "Sarah"), so a fresh record is created and
+ * the sign-up simply stands alone.
+ */
+export async function findOrCreateAthlete({ name, email }) {
+  if (!email) {
+    const [row] = await sql()`
+      INSERT INTO athletes (name) VALUES (${name}) RETURNING id
+    `;
+    return row.id;
+  }
+
+  const [row] = await sql()`
+    INSERT INTO athletes (name, email) VALUES (${name}, ${email})
+    ON CONFLICT (email) DO UPDATE SET name = EXCLUDED.name
+    RETURNING id
+  `;
+  return row.id;
+}
+
+/** Returns false when this athlete was already signed up for this tournament. */
+export async function createSignup({ athleteId, tournamentId }) {
+  const rows = await sql()`
+    INSERT INTO signups (athlete_id, tournament_id)
+    VALUES (${athleteId}, ${tournamentId})
+    ON CONFLICT (athlete_id, tournament_id) DO NOTHING
+    RETURNING id
+  `;
+  return rows.length > 0;
+}
+
+export async function listSignups() {
+  return sql()`
+    SELECT s.id, s.tournament_id, s.created_at, a.name, a.email
+    FROM signups s
+    JOIN athletes a ON a.id = s.athlete_id
+    ORDER BY s.created_at DESC
+  `;
+}
+
+export async function deleteSignup(id) {
+  const rows = await sql()`DELETE FROM signups WHERE id = ${id} RETURNING id`;
+  return rows.length > 0;
+}

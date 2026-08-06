@@ -1,0 +1,44 @@
+/**
+ * Every colour, font, and radius in the app. Change the accent here and the
+ * whole site follows — this is what used to be the `accentColor` prop.
+ */
+:root {
+  /* Gracie Barra red */
+  --accent: #c8102e;
+  --accent-dark: #a00c24;
+  --accent-soft: rgb(200 16 46 / 14%);
+  --accent-shadow: rgb(200 16 46 / 32%);
+
+  --bg: #f6f1ea;
+  --surface: #ffffff;
+  --surface-sunken: #fefcf9;
+  --surface-muted: #f1ebe1;
+  --surface-muted-hover: #e9e1d4;
+
+  --text: #231f1c;
+  --text-muted: #8a8178;
+  --text-faint: #b7ae9f;
+  --text-outside-month: #cbc2b4;
+
+  --border: #f0e8dc;
+  --border-strong: #e7decf;
+  --border-cell: #eee6da;
+
+  --success: #2e8b57;
+
+  --font-display: 'Fredoka', system-ui, sans-serif;
+  --font-body: 'Nunito', system-ui, sans-serif;
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 14px;
+  --radius-xl: 22px;
+  --radius-pill: 999px;
+
+  --shadow-panel: 0 10px 30px rgb(35 31 28 / 6%);
+  --shadow-modal: 0 24px 60px rgb(0 0 0 / 30%);
+  --shadow-raised: 0 8px 18px rgb(35 31 28 / 10%);
+
+  --gap: 8px;
+  --gap-lg: 22px;
+}

@@ -1,0 +1,74 @@
+/* Sign-up form fields and status messages. Buttons live in buttons.css. */
+
+.signup-panel {
+  margin-top: var(--gap-lg);
+  padding: 24px;
+}
+
+#signup-form {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  margin-top: 16px;
+}
+
+.field {
+  flex: 1 1 220px;
+  min-width: 200px;
+}
+
+.field label {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+
+/* "(optional)" reads as a quiet aside, not part of the field name. */
+.field .optional {
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 600;
+  color: var(--text-faint);
+}
+
+.field input,
+.field select {
+  width: 100%;
+  height: 44px;
+  padding: 11px 13px;
+  border: 1.5px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  background: var(--surface-sunken);
+  color: var(--text);
+  font: 600 15px var(--font-body);
+}
+.field input:focus,
+.field select:focus {
+  border-color: var(--accent);
+}
+.field input::placeholder {
+  color: var(--text-faint);
+  font-weight: 600;
+}
+
+.form-message {
+  font-size: 13px;
+  font-weight: 700;
+  margin-top: 10px;
+}
+.form-message.error {
+  color: var(--accent);
+}
+.form-message.success {
+  color: var(--success);
+}
+
+.admin-link-row {
+  margin-top: 18px;
+  text-align: right;
+}

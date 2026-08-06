@@ -14,3 +14,11 @@
 # Netlify
 .netlify/
 
+# Node
+node_modules/
+
+# Secrets — ADMIN_PASSWORD, SESSION_SECRET, NETLIFY_DATABASE_URL live here
+# locally, and in the Netlify UI in production. Never commit them.
+.env
+.env.*
+!.env.example
