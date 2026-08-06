@@ -5,11 +5,11 @@
   "type": "module",
   "description": "Tournament calendar for Gracie Barra Deerfield",
   "engines": {
-    "node": ">=20"
+    "node": ">=22"
   },
   "scripts": {
-    "dev": "netlify dev",
-    "migrate": "node scripts/migrate.js",
+    "dev": "node --env-file-if-exists=.env scripts/dev-server.js",
+    "migrate": "node --env-file-if-exists=.env scripts/migrate.js",
     "test": "vitest run",
     "test:watch": "vitest",
     "lint": "eslint .",
@@ -17,10 +17,10 @@
     "format:check": "prettier --check ."
   },
   "dependencies": {
-    "@neondatabase/serverless": "^0.10.0",
     "@netlify/neon": "^0.1.0"
   },
   "devDependencies": {
+    "@electric-sql/pglite": "^0.5.4",
     "eslint": "^9.15.0",
     "globals": "^15.12.0",
     "prettier": "^3.4.0",

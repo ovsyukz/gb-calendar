@@ -17,6 +17,10 @@
 # Node
 node_modules/
 
+# Local development database (embedded Postgres). Real sign-up data lives in
+# Netlify DB; this is throwaway. Delete the folder to start clean.
+.pgdata/
+
 # Secrets — ADMIN_PASSWORD, SESSION_SECRET, NETLIFY_DATABASE_URL live here
 # locally, and in the Netlify UI in production. Never commit them.
 .env

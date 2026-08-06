@@ -19,9 +19,11 @@ export async function findOrCreateAthlete({ name, email }) {
     return row.id;
   }
 
+  // Conflict target is the functional index from 001_init.sql, which is what
+  // makes Sarah@x.com and sarah@x.com the same athlete.
   const [row] = await sql()`
     INSERT INTO athletes (name, email) VALUES (${name}, ${email})
-    ON CONFLICT (email) DO UPDATE SET name = EXCLUDED.name
+    ON CONFLICT (lower(email)) DO UPDATE SET name = EXCLUDED.name
     RETURNING id
   `;
   return row.id;
@@ -43,7 +45,9 @@ export async function listSignups() {
     SELECT s.id, s.tournament_id, s.created_at, a.name, a.email
     FROM signups s
     JOIN athletes a ON a.id = s.athlete_id
-    ORDER BY s.created_at DESC
+    -- created_at comes from now(), which is the transaction timestamp, so two
+    -- sign-ups in the same instant tie. id breaks it, keeping the order stable.
+    ORDER BY s.created_at DESC, s.id DESC
   `;
 }
 

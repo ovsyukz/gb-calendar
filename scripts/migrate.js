@@ -2,31 +2,24 @@
 import { readdir, readFile } from 'node:fs/promises';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { neon } from '@neondatabase/serverless';
+import { sql, isLocal } from '../netlify/functions/_lib/db.js';
 
 /**
- * Runs every .sql file in migrations/ that has not been applied yet, in
- * filename order, and records each one in schema_migrations.
+ * Applies every .sql file in migrations/ that has not run yet, in filename
+ * order, recording each in schema_migrations.
  *
- * Statements run one at a time rather than in a single transaction, because
- * the Neon HTTP driver does not accept multi-statement SQL. Every migration
- * is therefore written to be idempotent (CREATE ... IF NOT EXISTS), so a
- * half-applied migration is fixed by running this again.
+ * Works against the local embedded database or Netlify DB, whichever db.js
+ * selects. Migrations are written to be idempotent, so re-running is safe.
  *
  * Usage:  npm run migrate
  */
 
 const MIGRATIONS_DIR = join(dirname(fileURLToPath(import.meta.url)), '..', 'migrations');
+const run = sql();
 
-const url = process.env.NETLIFY_DATABASE_URL;
-if (!url) {
-  console.error('NETLIFY_DATABASE_URL is not set. Copy .env.example to .env first.');
-  process.exit(1);
-}
+console.log(isLocal() ? 'Using local database (.pgdata/)' : 'Using Netlify DB');
 
-const sql = neon(url);
-
-await sql`
+await run`
   CREATE TABLE IF NOT EXISTS schema_migrations (
     name       TEXT PRIMARY KEY,
     applied_at TIMESTAMPTZ NOT NULL DEFAULT now()
@@ -34,7 +27,7 @@ await sql`
 `;
 
 const applied = new Set(
-  (await sql`SELECT name FROM schema_migrations`).map((row) => row.name)
+  (await run`SELECT name FROM schema_migrations`).map((r) => r.name)
 );
 const files = (await readdir(MIGRATIONS_DIR)).filter((f) => f.endsWith('.sql')).sort();
 
@@ -42,16 +35,21 @@ let count = 0;
 for (const file of files) {
   if (applied.has(file)) continue;
 
+  // Split on statement boundaries: the Neon HTTP driver takes one statement
+  // at a time. Comment lines are dropped so a ';' inside one cannot split it.
   const statements = (await readFile(join(MIGRATIONS_DIR, file), 'utf8'))
+    .split('\n')
+    .filter((line) => !line.trim().startsWith('--'))
+    .join('\n')
     .split(';')
     .map((s) => s.trim())
     .filter(Boolean);
 
   for (const statement of statements) {
-    await sql.query(statement);
+    await run([statement]);
   }
 
-  await sql`INSERT INTO schema_migrations (name) VALUES (${file})`;
+  await run`INSERT INTO schema_migrations (name) VALUES (${file})`;
   console.log(`applied ${file}`);
   count += 1;
 }
@@ -59,3 +57,4 @@ for (const file of files) {
 console.log(
   count === 0 ? 'Already up to date.' : `Done — ${count} migration(s) applied.`
 );
+process.exit(0);

@@ -59,16 +59,27 @@ runtime, and the repository is public.
 
 ## Local development
 
+Everything runs on your laptop with no accounts and nothing to install beyond
+npm packages — no Netlify, no Postgres, no Docker.
+
 ```bash
-nvm use                # Node 20
+nvm use                # Node 22
 npm install
-cp .env.example .env   # fill in from 1Password
-npm run migrate        # create the database tables
-npx netlify dev        # http://localhost:8888
+cp .env.example .env   # any values will do locally
+npm run migrate        # creates the tables in .pgdata/
+npm run dev            # http://localhost:8888
 ```
 
-`npm test` runs the unit tests, `npm run lint` the linter, `npm run format`
+The dev server serves `public/` and runs the same function handlers Netlify
+runs in production. When `NETLIFY_DATABASE_URL` is unset it uses an embedded
+Postgres stored in `.pgdata/` — real Postgres, same SQL, just a local copy of
+the data. Delete that folder to start clean.
+
+`npm test` runs the tests, `npm run lint` the linter, `npm run format`
 Prettier. CI runs all three on every pull request.
+
+Deploying to Netlify is a separate exercise — see
+[NETLIFY_TODO.md](NETLIFY_TODO.md) when you are ready for it.
 
 ## How it fits together
 
