@@ -10,8 +10,36 @@
 #
 set -e
 
+# Git clients launched from a GUI (VS Code, JetBrains, GitHub Desktop, Tower)
+# do not load your shell profile, so npm is often missing from PATH — nvm in
+# particular only ever loads in an interactive shell. Without this, pushing
+# from an IDE fails with a bare "npm: command not found".
+if ! command -v npm >/dev/null 2>&1; then
+  for candidate in /opt/homebrew/bin /usr/local/bin /usr/bin; do
+    [ -x "$candidate/npm" ] && PATH="$candidate:$PATH" && export PATH && break
+  done
+fi
+
+if ! command -v npm >/dev/null 2>&1 && [ -s "$HOME/.nvm/nvm.sh" ]; then
+  . "$HOME/.nvm/nvm.sh" >/dev/null 2>&1 || true
+fi
+
+if ! command -v npm >/dev/null 2>&1; then
+  echo ""
+  echo "  Cannot run the pre-push checks: npm is not on PATH."
+  echo ""
+  echo "  This usually means the push came from an editor or git GUI, which"
+  echo "  does not load your shell profile."
+  echo ""
+  echo "  Either push from a terminal, or skip the checks with:"
+  echo "      git push --no-verify"
+  echo ""
+  exit 1
+fi
+
 echo ""
-echo "  Running checks before push…"
+echo "  Running checks before push — about 30 seconds."
+echo "  Skip with: git push --no-verify"
 echo ""
 
 npm run verify

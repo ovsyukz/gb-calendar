@@ -98,6 +98,11 @@ A **pre-push hook** runs it automatically, so a broken or leaky commit cannot
 reach GitHub. It installs itself on `npm install`. To push regardless — a
 work-in-progress branch, say — use `git push --no-verify`.
 
+If a push from your editor or a git GUI fails, that is the hook: those clients
+do not load your shell profile, so `npm` is often missing from `PATH`. The
+hook looks in the usual places and loads nvm if it finds it, and says so
+plainly if it still cannot run. Pushing from a terminal always works.
+
 Individually: `npm test`, `npm run lint`, `npm run format`,
 `npm run check:secrets`, `npm run audit`. CI runs the same suite on every
 pull request.
