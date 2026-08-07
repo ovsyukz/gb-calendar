@@ -4,18 +4,26 @@ import { state, subscribe } from '../state/store.js';
 import { fillTournamentOptions } from '../lib/tournament-options.js';
 
 /**
- * Lets an admin enter someone who signed up in person, from inside the
- * Sign-ups dialog — they no longer see the public form.
+ * Lets an admin enter someone who signed up in person — they no longer see
+ * the public form. Its own dialog, so reading the list and adding to it are
+ * separate acts rather than one crowded panel.
  *
  * Posts to the same endpoint the public form uses, so the rules and the
  * duplicate handling are identical. No email notification is sent: the coach
  * is the one typing, so telling them by email would be talking to themselves.
  */
 export function mountAddSignupForm(onAdded) {
+  const dialog = $('#add-signup-dialog');
   const form = $('#add-signup-form');
   const message = $('#add-signup-message');
   const select = $('#add-signup-tournament');
   const submit = form.querySelector('button[type="submit"]');
+
+  $('#open-add-signup').addEventListener('click', () => {
+    form.reset();
+    setMessage(message, '');
+    dialog.showModal();
+  });
 
   const refreshOptions = () => fillTournamentOptions(select, state.tournaments);
   subscribe(refreshOptions);

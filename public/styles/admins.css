@@ -42,9 +42,9 @@
   width: 100%;
 }
 
-/* The admin's manual sign-up form, below the list. */
+/* The admin's manual sign-up form, in its own dialog. */
 #add-signup-form {
-  margin-top: 14px;
+  margin-top: 18px;
 }
 #add-signup-form .btn-primary {
   width: 100%;

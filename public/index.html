@@ -50,6 +50,9 @@
             + Add Tournament
           </button>
           <button type="button" id="open-signups" class="btn-secondary">Sign-ups</button>
+          <button type="button" id="open-add-signup" class="btn-secondary">
+            Add an Athlete
+          </button>
           <button type="button" id="open-athletes" class="btn-secondary">Athletes</button>
           <button type="button" id="open-admins" class="btn-secondary">Admins</button>
           <button type="button" id="admin-logout" class="btn-secondary btn-danger">
@@ -275,8 +278,13 @@
       <p class="panel-note">Every entry, newest first. One row per tournament entered.</p>
       <p class="empty-note" id="participants-empty" hidden>No sign-ups yet.</p>
       <ul class="participant-list" id="participant-list"></ul>
+    </dialog>
 
-      <h3 class="panel-title add-admin-title">Add an athlete</h3>
+    <dialog id="add-signup-dialog" class="modal">
+      <form method="dialog" class="modal-close-row">
+        <button class="link-button" value="close" aria-label="Close">✕</button>
+      </form>
+      <h2 class="modal-title">Add an Athlete</h2>
       <p class="panel-note">
         For someone who signed up in person. Same rules as the public form — email is
         optional.
