@@ -1,4 +1,4 @@
-import { $, clone, fill, replaceChildren, setMessage } from '../lib/dom.js';
+import { $, clone, fill, replaceChildren, toggle, setMessage } from '../lib/dom.js';
 import { fetchAdmins, addAdmin } from '../lib/api.js';
 
 /** The Admins dialog: who has access, and a form to add someone. */
@@ -7,9 +7,13 @@ export function mountAdminsPanel() {
   const form = $('#add-admin-form');
   const message = $('#add-admin-message');
 
-  async function refresh() {
-    const { admins } = await fetchAdmins();
+  function show(admins) {
+    toggle($('#admins-empty'), admins.length === 0);
     replaceChildren($('#admin-list'), admins.map(row));
+  }
+
+  async function refresh() {
+    show((await fetchAdmins()).admins);
   }
 
   $('#open-admins').addEventListener('click', async () => {
@@ -27,7 +31,7 @@ export function mountAdminsPanel() {
         email: form.elements.email.value.trim(),
         password: form.elements.password.value,
       });
-      replaceChildren($('#admin-list'), admins.map(row));
+      show(admins);
 
       // Show the password back once, since it is the only time anyone can
       // read it — it is stored as a one-way hash.

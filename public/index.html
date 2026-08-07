@@ -28,6 +28,7 @@
     <link rel="stylesheet" href="/styles/modal.css" />
     <link rel="stylesheet" href="/styles/athletes.css" />
     <link rel="stylesheet" href="/styles/admins.css" />
+    <link rel="stylesheet" href="/styles/sort.css" />
     <link rel="stylesheet" href="/styles/tournament-form.css" />
     <script type="module" src="/js/main.js"></script>
   </head>
@@ -236,6 +237,8 @@
         <button class="link-button" value="close" aria-label="Close">✕</button>
       </form>
       <h2 class="modal-title">Admins</h2>
+      <h3 class="list-heading">Current admins</h3>
+      <p class="empty-note" id="admins-empty" hidden>No admins yet.</p>
       <ul class="participant-list" id="admin-list"></ul>
 
       <h3 class="panel-title add-admin-title">Add an admin</h3>
@@ -276,6 +279,10 @@
       </form>
       <h2 class="modal-title">Sign-ups</h2>
       <p class="panel-note">Every entry, newest first. One row per tournament entered.</p>
+      <div class="sort-row">
+        <label for="signups-sort">Sort by</label>
+        <select id="signups-sort"></select>
+      </div>
       <p class="empty-note" id="participants-empty" hidden>No sign-ups yet.</p>
       <ul class="participant-list" id="participant-list"></ul>
     </dialog>
@@ -322,6 +329,10 @@
       <p class="panel-note">
         One row per person, with every tournament they are entered in.
       </p>
+      <div class="sort-row">
+        <label for="athletes-sort">Sort by</label>
+        <select id="athletes-sort"></select>
+      </div>
       <p class="empty-note" id="athletes-empty" hidden>No athletes yet.</p>
       <ul class="participant-list" id="athlete-list"></ul>
     </dialog>
