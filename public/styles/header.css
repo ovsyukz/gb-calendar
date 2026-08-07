@@ -50,7 +50,10 @@ h1 {
   margin-top: 12px;
 }
 
-/* Admin only — hidden entirely for visitors. */
-.add-tournament {
+/* Admin only — the whole row is hidden for visitors. */
+.admin-toolbar {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
   margin-top: 16px;
 }

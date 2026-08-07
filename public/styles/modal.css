@@ -21,6 +21,10 @@
 
 .modal::backdrop {
   background: rgb(35 31 28 / 45%);
+  /* Blurs the calendar behind the dialog, so the modal reads as the only
+     thing in focus. Safari still needs the prefix. */
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
 }
 
 .modal-close-row {

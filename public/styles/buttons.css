@@ -41,3 +41,20 @@
 .link-button.danger:hover {
   text-decoration: underline;
 }
+
+/* Quieter companion to .btn-primary, for the admin's secondary actions. */
+.btn-secondary {
+  height: 44px;
+  padding: 0 20px;
+  border: 1.5px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  color: var(--text);
+  font: 600 15px var(--font-display);
+  cursor: pointer;
+}
+.btn-secondary:hover {
+  background: var(--surface-sunken);
+  border-color: var(--accent);
+  color: var(--accent);
+}

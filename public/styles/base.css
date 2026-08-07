@@ -8,6 +8,16 @@
   padding: 0;
 }
 
+/**
+ * The browser's own `[hidden] { display: none }` is weaker than any class
+ * selector, so a rule like `.admin-toolbar { display: flex }` silently beats
+ * it and the element stays on screen. Everything here toggles visibility via
+ * the hidden attribute, so make it win outright.
+ */
+[hidden] {
+  display: none !important;
+}
+
 body {
   background: var(--bg);
   color: var(--text);

@@ -80,12 +80,7 @@ export function mountTournamentModal() {
 
   $('#add-tournament').addEventListener('click', () => open({}));
 
-  // Shown only to an admin, and kept in step if the session ends.
-  const syncButton = () => toggle($('#add-tournament'), state.isAdmin);
-  syncButton();
-
   return {
-    syncButton,
     openAdd: (date) => open({ date }),
     openEdit: (tournament) => open({ ...tournament, endDate: tournament.endDate ?? '' }),
   };

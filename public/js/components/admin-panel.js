@@ -4,34 +4,37 @@ import { state, setState } from '../state/store.js';
 import { renderSignups } from './signup-list.js';
 import { renderAthletes } from './athlete-list.js';
 
+const TABS = [
+  ['#tab-signups', 'signups'],
+  ['#tab-athletes', 'athletes'],
+];
+
 /**
  * Login gate, plus two views of the same data: sign-ups (one row per entry,
- * removable) and athletes (one row per person).
+ * removable) and athletes (one row per person). The toolbar buttons open the
+ * dialog straight onto one of them; the tabs switch once it is open.
  *
  * The `isAdmin` flag here only decides what is drawn. The server checks the
  * session cookie on every request, so flipping it in DevTools yields an empty
  * panel and a 401.
  */
-export function mountAdminPanel(onAdminChange = () => {}) {
+export function mountAdminPanel() {
   const dialog = $('#admin-dialog');
   const loginForm = $('#admin-login-form');
   const error = $('#admin-error');
   let view = 'signups';
 
-  const showViews = () => {
+  const syncToolbar = () => toggle($('#admin-toolbar'), state.isAdmin);
+
+  function showViews() {
     toggle($('#admin-login-view'), !state.isAdmin);
     toggle($('#admin-panel-view'), state.isAdmin);
     toggle($('#signups-view'), view === 'signups');
     toggle($('#athletes-view'), view === 'athletes');
-    $('#tab-signups').setAttribute('aria-selected', String(view === 'signups'));
-    $('#tab-athletes').setAttribute('aria-selected', String(view === 'athletes'));
-  };
-
-  const draw = () => {
-    renderSignups(refresh);
-    renderAthletes();
-    showViews();
-  };
+    for (const [selector, name] of TABS) {
+      $(selector).setAttribute('aria-selected', String(view === name));
+    }
+  }
 
   async function refresh() {
     try {
@@ -40,28 +43,28 @@ export function mountAdminPanel(onAdminChange = () => {}) {
     } catch {
       // The session expired server-side while the page stayed open.
       setState({ isAdmin: false, signups: [] });
-      onAdminChange();
+      syncToolbar();
       showViews();
       return;
     }
-    draw();
-  }
-
-  for (const [id, name] of [
-    ['#tab-signups', 'signups'],
-    ['#tab-athletes', 'athletes'],
-  ]) {
-    $(id).addEventListener('click', () => {
-      view = name;
-      showViews();
-    });
-  }
-
-  $('#open-admin').addEventListener('click', async () => {
+    renderSignups(refresh);
+    renderAthletes();
     showViews();
-    dialog.showModal();
+  }
+
+  async function openWith(next) {
+    view = next;
+    showViews();
+    if (!dialog.open) dialog.showModal();
     if (state.isAdmin) await refresh();
-  });
+  }
+
+  for (const [selector, name] of TABS) {
+    $(selector).addEventListener('click', () => openWith(name));
+  }
+  $('#open-signups').addEventListener('click', () => openWith('signups'));
+  $('#open-athletes').addEventListener('click', () => openWith('athletes'));
+  $('#open-admin').addEventListener('click', () => openWith(view));
 
   loginForm.addEventListener('submit', async (event) => {
     event.preventDefault();
@@ -70,7 +73,7 @@ export function mountAdminPanel(onAdminChange = () => {}) {
       await login(loginForm.elements.password.value);
       loginForm.reset();
       setState({ isAdmin: true });
-      onAdminChange(); // reveals "+ Add Tournament"
+      syncToolbar();
       await refresh();
     } catch (failure) {
       setMessage(error, failure.message, 'error');
@@ -80,7 +83,9 @@ export function mountAdminPanel(onAdminChange = () => {}) {
   $('#admin-logout').addEventListener('click', async () => {
     await logout().catch(() => {});
     setState({ isAdmin: false, signups: [] });
-    onAdminChange();
+    syncToolbar();
     dialog.close();
   });
+
+  return { syncToolbar };
 }

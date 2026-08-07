@@ -17,11 +17,11 @@ import { mountTournamentModal } from './components/tournament-modal.js';
 setState({ tournaments: validateTournaments(TOURNAMENTS) });
 
 const tournamentModal = mountTournamentModal();
+const adminPanel = mountAdminPanel();
 
 mountCalendar({ onAddOn: tournamentModal.openAdd, onEdit: tournamentModal.openEdit });
 mountUpcoming();
 mountSignupForm();
-mountAdminPanel(tournamentModal.syncButton);
 
 fetchTournaments()
   .then(({ tournaments }) => setState({ tournaments }))
@@ -33,6 +33,6 @@ fetchTournaments()
 checkSession()
   .then(({ isAdmin }) => {
     setState({ isAdmin });
-    tournamentModal.syncButton();
+    adminPanel.syncToolbar();
   })
   .catch(() => {});
