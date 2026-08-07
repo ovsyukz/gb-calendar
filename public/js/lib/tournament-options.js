@@ -28,6 +28,8 @@ export function fillTournamentOptions(select, tournaments) {
 
 function optionLabel({ name, location, date }) {
   const [, month, day] = parseDate(date);
-  const where = location ? ` — ${location}` : '';
+  // A middle dot, not a dash: tournament names contain dashes of their own
+  // ("IBJJF Chicago Open — Kids") and two dashes in a row read as one phrase.
+  const where = location ? ` · ${location}` : '';
   return `${name}${where} (${MONTH_ABBR[month - 1]} ${day})`;
 }

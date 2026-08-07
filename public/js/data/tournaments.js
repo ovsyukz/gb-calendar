@@ -40,20 +40,34 @@ export const TOURNAMENTS = [
     ],
   },
 
-  // ── A two-day tournament with separate adult and kids registration ──
+  // ── Two-day event: adults run 8–9 August ──
+  //
+  // Adults and kids are separate entries rather than one with two links, so
+  // each can be chosen in the sign-up dropdown. A competitor picks the one
+  // they are actually entering.
   {
     id: 'ibjjf',
-    name: 'IBJJF Chicago Open',
-    location: 'Chicago, IL',
+    name: 'IBJJF Chicago Open — Adults',
+    location: 'Bedford Park, IL',
     date: '2026-08-08',
     endDate: '2026-08-09',
     links: [
       {
-        label: 'Adults',
+        label: 'Register',
         url: 'https://ibjjf.com/events/chicago-summer-international-open-ibjjf-jiu-jitsu-championship-2026',
       },
+    ],
+  },
+
+  // ── The kids championship, same venue, the second day only ──
+  {
+    id: 'ibjjf-kids',
+    name: 'IBJJF Chicago Open — Kids',
+    location: 'Bedford Park, IL',
+    date: '2026-08-09',
+    links: [
       {
-        label: 'Kids',
+        label: 'Register',
         url: 'https://ibjjf.com/events/chicago-summer-kids-international-open-ibjjf-jiu-jitsu-championship-2026',
       },
     ],
