@@ -1,0 +1,13 @@
+<dialog id="athletes-dialog" class="modal">
+  <form method="dialog" class="modal-close-row">
+    <button class="link-button" value="close" aria-label="Close">✕</button>
+  </form>
+  <h2 class="modal-title">Athletes</h2>
+  <p class="panel-note">One row per person, with every tournament they are entered in.</p>
+  <div class="sort-row">
+    <label for="athletes-sort">Sort by</label>
+    <select id="athletes-sort"></select>
+  </div>
+  <p class="empty-note" id="athletes-empty" hidden>No athletes yet.</p>
+  <ul class="participant-list" id="athlete-list"></ul>
+</dialog>

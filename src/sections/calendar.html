@@ -1,0 +1,28 @@
+<section class="panel calendar-panel" aria-labelledby="month-label">
+  <div class="month-nav">
+    <button type="button" id="prev-month" class="month-arrow" aria-label="Previous month">
+      ‹
+    </button>
+    <h2 id="month-label" class="month-label" aria-live="polite"></h2>
+    <button type="button" id="next-month" class="month-arrow" aria-label="Next month">
+      ›
+    </button>
+  </div>
+  <table class="calendar">
+    <caption class="visually-hidden">
+      Tournaments by date
+    </caption>
+    <thead>
+      <tr>
+        <th scope="col"><abbr title="Sunday">Sun</abbr></th>
+        <th scope="col"><abbr title="Monday">Mon</abbr></th>
+        <th scope="col"><abbr title="Tuesday">Tue</abbr></th>
+        <th scope="col"><abbr title="Wednesday">Wed</abbr></th>
+        <th scope="col"><abbr title="Thursday">Thu</abbr></th>
+        <th scope="col"><abbr title="Friday">Fri</abbr></th>
+        <th scope="col"><abbr title="Saturday">Sat</abbr></th>
+      </tr>
+    </thead>
+    <tbody id="calendar-body"></tbody>
+  </table>
+</section>

@@ -1,0 +1,30 @@
+<dialog id="admin-dialog" class="modal">
+  <form method="dialog" class="modal-close-row">
+    <button class="link-button" value="close" aria-label="Close">✕</button>
+  </form>
+  <h2 class="modal-title">Admin Login</h2>
+  <form id="admin-login-form">
+    <div class="field">
+      <label for="admin-email">Email</label>
+      <input
+        id="admin-email"
+        name="email"
+        type="email"
+        autocomplete="username"
+        placeholder="coach@example.com"
+      />
+    </div>
+    <div class="field">
+      <label for="admin-password">Password</label>
+      <input
+        id="admin-password"
+        name="password"
+        type="password"
+        autocomplete="current-password"
+        placeholder="••••••••"
+      />
+    </div>
+    <p class="form-message error" id="admin-error" role="alert" hidden></p>
+    <button type="submit" class="btn-primary">Log in</button>
+  </form>
+</dialog>

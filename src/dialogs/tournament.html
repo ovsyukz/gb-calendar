@@ -1,0 +1,39 @@
+<dialog id="tournament-dialog" class="modal">
+  <form method="dialog" class="modal-close-row">
+    <button class="link-button" value="close" aria-label="Close">✕</button>
+  </form>
+  <h2 class="modal-title" id="tournament-modal-title">Add Tournament</h2>
+  <form id="tournament-form">
+    <div class="field">
+      <label for="t-name">Tournament name <span aria-hidden="true">*</span></label>
+      <input id="t-name" name="name" placeholder="e.g. IBJJF Chicago Open" />
+    </div>
+    <div class="field">
+      <label for="t-location">Location <span class="optional">(optional)</span></label>
+      <input id="t-location" name="location" placeholder="e.g. Chicago, IL" />
+    </div>
+    <div class="field">
+      <label for="t-link"
+        >Registration link <span class="optional">(optional)</span></label
+      >
+      <input id="t-link" name="link" type="url" placeholder="https://…" />
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label for="t-date">Date <span aria-hidden="true">*</span></label>
+        <input id="t-date" name="date" type="date" min="2026-07-01" max="2026-12-31" />
+      </div>
+      <div class="field">
+        <label for="t-end">Ends <span class="optional">(optional)</span></label>
+        <input id="t-end" name="endDate" type="date" min="2026-07-01" max="2026-12-31" />
+      </div>
+    </div>
+    <p class="form-message error" id="tournament-message" role="alert" hidden></p>
+    <div class="modal-actions">
+      <button type="button" id="tournament-delete" class="link-button danger" hidden>
+        Delete
+      </button>
+      <button type="submit" class="btn-primary">Save</button>
+    </div>
+  </form>
+</dialog>

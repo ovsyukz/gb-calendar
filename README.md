@@ -99,18 +99,31 @@ Deploying to Netlify is a separate exercise — see
 ## How it fits together
 
 ```
-public/                    static site, served as-is (no build step)
-  index.html               page skeleton + <template> fragments
+src/                       the page, in pieces
+  index.html               the shell: a list of includes
+  head.html                <head> — stylesheets and fonts
+  sections/                header, calendar, sidebar, sign-up panel
+  dialogs/                 one file per modal
+  templates/               row templates cloned by lib/dom.js
+public/                    what actually ships
+  index.html               GENERATED from src/ — do not edit
   styles/                  tokens.css holds every colour and font
-  js/data/tournaments.js   ← the file you edit
+  js/data/tournaments.js   ← the file you edit to change tournaments
   js/lib/                  dates, DOM helpers, API client
   js/components/           one file per piece of UI
 netlify/functions/         serverless endpoints under /api/*
 migrations/                database schema, applied by npm run migrate
 ```
 
-The browser loads native ES modules directly — there is no bundler and no
-build step, so what is in `public/` is exactly what ships.
+To change the markup, edit the relevant file in `src/` — never
+`public/index.html`, which is regenerated and will overwrite your changes.
+`npm run build` assembles it; the dev server rebuilds on every page load, so a
+refresh is enough.
+
+That builder resolves `<!-- include: path -->` and nothing else — no
+templating language, no variables. The browser still loads native ES modules
+directly: there is no bundler, and the JavaScript that ships is the JavaScript
+in the repo.
 
 Tournaments are a constant in the repo; sign-ups live in Netlify DB (managed
 Postgres). Admin access is checked on the server on every request — the

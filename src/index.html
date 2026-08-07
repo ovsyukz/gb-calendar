@@ -1,0 +1,52 @@
+<!--
+  The page shell. Every section lives in its own file — edit those, not the
+  generated public/index.html.
+
+  `npm run build` resolves the includes below and writes public/index.html.
+  The dev server rebuilds on each page load, so editing a partial only needs
+  a refresh.
+
+  A partial is written at its natural indentation; the builder re-indents it
+  to wherever its include sits.
+-->
+<!-- include: head.html -->
+  <body>
+    <div class="page">
+      <!-- include: sections/header.html -->
+
+      <main class="layout">
+        <!-- include: sections/calendar.html -->
+
+        <!-- include: sections/sidebar.html -->
+      </main>
+
+      <!-- include: sections/signup-panel.html -->
+    </div>
+
+    <!-- include: dialogs/admin-login.html -->
+
+    <!-- include: dialogs/password-gate.html -->
+
+    <!-- include: dialogs/admins.html -->
+
+    <!-- include: dialogs/signups.html -->
+
+    <!-- include: dialogs/add-athlete.html -->
+
+    <!-- include: dialogs/athletes.html -->
+
+    <!-- include: dialogs/tournament.html -->
+
+    <!-- include: templates/day-cell.html -->
+
+    <!-- include: templates/event-chip.html -->
+
+    <!-- include: templates/upcoming-card.html -->
+
+    <!-- include: templates/participant.html -->
+
+    <!-- include: templates/admin.html -->
+
+    <!-- include: templates/athlete.html -->
+  </body>
+</html>

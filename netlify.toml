@@ -1,7 +1,8 @@
 [build]
-  # No bundler — the browser loads native ES modules straight from public/.
+  # Assembles public/index.html from the partials in src/. Not a bundler —
+  # the browser still loads native ES modules straight from public/.
   publish = "public"
-  command = ""
+  command = "npm run build"
 
 [functions]
   directory = "netlify/functions"

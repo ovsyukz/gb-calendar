@@ -8,7 +8,8 @@
     "node": ">=22"
   },
   "scripts": {
-    "dev": "node --env-file-if-exists=.env scripts/dev-server.js",
+    "build": "node scripts/build-html.js",
+    "dev": "npm run build && node --env-file-if-exists=.env scripts/dev-server.js",
     "migrate": "node --env-file-if-exists=.env scripts/migrate.js",
     "admin:add": "node --env-file-if-exists=.env scripts/create-admin.js",
     "test": "vitest run",

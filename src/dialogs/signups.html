@@ -1,0 +1,13 @@
+<dialog id="signups-dialog" class="modal">
+  <form method="dialog" class="modal-close-row">
+    <button class="link-button" value="close" aria-label="Close">✕</button>
+  </form>
+  <h2 class="modal-title">Sign-ups</h2>
+  <p class="panel-note">Every entry, newest first. One row per tournament entered.</p>
+  <div class="sort-row">
+    <label for="signups-sort">Sort by</label>
+    <select id="signups-sort"></select>
+  </div>
+  <p class="empty-note" id="participants-empty" hidden>No sign-ups yet.</p>
+  <ul class="participant-list" id="participant-list"></ul>
+</dialog>

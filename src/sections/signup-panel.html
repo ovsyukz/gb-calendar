@@ -1,0 +1,41 @@
+<section id="signup-panel" class="panel signup-panel" aria-labelledby="signup-heading">
+  <h2 id="signup-heading" class="panel-title">Sign Up for a Tournament</h2>
+  <p class="panel-note">
+    Let your coach know which upcoming tournament you're competing in.
+  </p>
+  <form id="signup-form" novalidate>
+    <div class="field">
+      <label for="signup-name">Name <span aria-hidden="true">*</span></label>
+      <input
+        id="signup-name"
+        name="name"
+        required
+        autocomplete="name"
+        placeholder="Your name"
+      />
+    </div>
+    <div class="field">
+      <label for="signup-email">Email <span class="optional">(optional)</span></label>
+      <input
+        id="signup-email"
+        name="email"
+        type="email"
+        autocomplete="email"
+        placeholder="you@example.com"
+        aria-describedby="email-note"
+      />
+    </div>
+    <div class="field">
+      <label for="signup-tournament">Tournament <span aria-hidden="true">*</span></label>
+      <select id="signup-tournament" name="tournamentId" required></select>
+    </div>
+    <button type="submit" class="btn-primary">Sign Up</button>
+  </form>
+  <p id="email-note" class="panel-note">
+    Your email is only used so your coach can reach you about the tournament.
+  </p>
+  <p class="form-message" id="signup-message" role="status" hidden></p>
+  <p class="admin-link-row">
+    <button type="button" id="open-admin" class="link-button">Admin login</button>
+  </p>
+</section>
