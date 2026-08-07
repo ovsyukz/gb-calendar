@@ -11,8 +11,12 @@ import { localSql } from './local-db.js';
  * this is safe from SQL injection by construction. Never build a query by
  * adding strings together.
  *
- *   NETLIFY_DATABASE_URL set  → Netlify DB (managed Neon Postgres)
- *   unset                     → embedded local Postgres in .pgdata/
+ *   a connection string set  → Netlify DB (managed Neon Postgres)
+ *   none                     → embedded local Postgres in .pgdata/
+ *
+ * Two names are accepted. NETLIFY_DATABASE_URL is reserved by the Netlify
+ * Database extension: a value you set under that name is silently discarded
+ * and never reaches the function. DATABASE_URL is the one to set by hand.
  *
  * The local fallback means `npm run dev` works on a fresh clone with nothing
  * installed and no account anywhere. It is real Postgres, so behaviour
@@ -21,13 +25,26 @@ import { localSql } from './local-db.js';
 
 let remote;
 
+const connectionString = () =>
+  process.env.NETLIFY_DATABASE_URL || process.env.DATABASE_URL;
+
 export function isLocal() {
-  return !process.env.NETLIFY_DATABASE_URL;
+  return !connectionString();
 }
 
 export function sql() {
-  if (isLocal()) return localSql;
+  if (isLocal()) {
+    // Netlify has no writable disk, so falling back to the embedded database
+    // surfaces as "EROFS: read-only file system, mkdir '/var/task/.pgdata'"
+    // from deep inside a query — which says nothing about the real problem.
+    if (process.env.NETLIFY) {
+      throw new Error(
+        'No database configured: set DATABASE_URL in the Netlify site environment variables.'
+      );
+    }
+    return localSql;
+  }
 
-  remote ??= neon();
+  remote ??= neon(connectionString());
   return remote;
 }
