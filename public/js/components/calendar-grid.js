@@ -10,7 +10,12 @@ import {
 } from '../state/store.js';
 import { eventChip } from './event-chip.js';
 
-export function mountCalendar(tournaments) {
+/**
+ * `onAddOn(date)` and `onEdit(tournament)` are supplied by the tournament
+ * modal. They are wired up only while an admin is logged in — a visitor's
+ * calendar has no click targets beyond the registration links.
+ */
+export function mountCalendar({ onAddOn, onEdit }) {
   const body = $('#calendar-body');
   const label = $('#month-label');
   const prev = $('#prev-month');
@@ -20,16 +25,15 @@ export function mountCalendar(tournaments) {
   next.addEventListener('click', () => stepMonth(1));
 
   function render() {
-    const { monthIndex } = state;
-    label.textContent = `${MONTH_NAMES[monthIndex]} ${BOUNDS.year}`;
+    label.textContent = `${MONTH_NAMES[state.monthIndex]} ${BOUNDS.year}`;
     prev.disabled = !canStepBack();
     next.disabled = !canStepForward();
 
-    const rows = buildMonthGrid(BOUNDS.year, monthIndex).map((week) => {
+    const rows = buildMonthGrid(BOUNDS.year, state.monthIndex).map((week) => {
       const row = document.createElement('tr');
       replaceChildren(
         row,
-        week.map((day) => dayCell(day, tournaments))
+        week.map((day) => dayCell(day, { onAddOn, onEdit }))
       );
       return row;
     });
@@ -40,7 +44,7 @@ export function mountCalendar(tournaments) {
   render();
 }
 
-function dayCell(day, tournaments) {
+function dayCell(day, handlers) {
   const cell = clone('tpl-day-cell');
   fill(cell, { '.day-number': day.dayOfMonth });
 
@@ -57,7 +61,20 @@ function dayCell(day, tournaments) {
     cell.setAttribute('aria-current', 'date');
   }
 
-  const events = tournaments.filter((t) => coversDate(t, day.date));
-  replaceChildren(cell.querySelector('.chips'), events.map(eventChip));
+  if (state.isAdmin) {
+    cell.classList.add('is-clickable');
+    cell.title = 'Add a tournament on this day';
+    cell.addEventListener('click', (event) => {
+      // Ignore clicks that landed on a chip; those mean "edit that one".
+      if (event.target.closest('.chip')) return;
+      handlers.onAddOn(day.date);
+    });
+  }
+
+  const events = state.tournaments.filter((t) => coversDate(t, day.date));
+  replaceChildren(
+    cell.querySelector('.chips'),
+    events.map((t) => eventChip(t, handlers.onEdit))
+  );
   return cell;
 }

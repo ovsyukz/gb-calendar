@@ -1,6 +1,6 @@
 import { isAdmin, json, unauthorized } from './_lib/auth.js';
 import { validateSignup } from './_lib/validation.js';
-import { TOURNAMENT_IDS, tournamentName } from './_lib/tournament-ids.js';
+import { tournamentIds, tournamentName, tournamentNames } from './_lib/tournament-ids.js';
 import {
   findOrCreateAthlete,
   createSignup,
@@ -32,7 +32,7 @@ async function create(request) {
     return json({ error: 'Expected a JSON body' }, 400);
   }
 
-  const { error, value } = validateSignup(body, TOURNAMENT_IDS);
+  const { error, value } = validateSignup(body, await tournamentIds());
   if (error) return json({ error }, 400);
 
   const athleteId = await findOrCreateAthlete(value);
@@ -43,7 +43,7 @@ async function create(request) {
   return json({
     ok: true,
     alreadySignedUp: !isNew,
-    tournament: tournamentName(value.tournamentId),
+    tournament: await tournamentName(value.tournamentId),
   });
 }
 
@@ -52,6 +52,9 @@ async function list(request) {
   if (!isAdmin(request)) return unauthorized();
 
   const rows = await listSignups();
+  // Resolved once for the whole list, not once per row.
+  const names = await tournamentNames();
+
   return json({
     signups: rows.map((row) => ({
       id: String(row.id),
@@ -61,7 +64,7 @@ async function list(request) {
       name: row.name,
       email: row.email,
       tournamentId: row.tournament_id,
-      tournamentName: tournamentName(row.tournament_id),
+      tournamentName: names.get(row.tournament_id) ?? row.tournament_id,
       createdAt: row.created_at,
     })),
   });

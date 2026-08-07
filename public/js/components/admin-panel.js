@@ -12,7 +12,7 @@ import { renderAthletes } from './athlete-list.js';
  * session cookie on every request, so flipping it in DevTools yields an empty
  * panel and a 401.
  */
-export function mountAdminPanel() {
+export function mountAdminPanel(onAdminChange = () => {}) {
   const dialog = $('#admin-dialog');
   const loginForm = $('#admin-login-form');
   const error = $('#admin-error');
@@ -40,6 +40,7 @@ export function mountAdminPanel() {
     } catch {
       // The session expired server-side while the page stayed open.
       setState({ isAdmin: false, signups: [] });
+      onAdminChange();
       showViews();
       return;
     }
@@ -69,6 +70,7 @@ export function mountAdminPanel() {
       await login(loginForm.elements.password.value);
       loginForm.reset();
       setState({ isAdmin: true });
+      onAdminChange(); // reveals "+ Add Tournament"
       await refresh();
     } catch (failure) {
       setMessage(error, failure.message, 'error');
@@ -78,6 +80,7 @@ export function mountAdminPanel() {
   $('#admin-logout').addEventListener('click', async () => {
     await logout().catch(() => {});
     setState({ isAdmin: false, signups: [] });
+    onAdminChange();
     dialog.close();
   });
 }

@@ -40,6 +40,13 @@ export const fetchSignups = () => request('/api/signups');
 export const removeSignup = (id) =>
   request(`/api/signups?id=${encodeURIComponent(id)}`, { method: 'DELETE' });
 
+export const fetchTournaments = () => request('/api/tournaments');
+
+export const saveTournament = (tournament) => post('/api/tournaments', tournament);
+
+export const removeTournament = (id) =>
+  request(`/api/tournaments?id=${encodeURIComponent(id)}`, { method: 'DELETE' });
+
 /**
  * Fire-and-forget notification to Netlify Forms, which emails the coaches.
  * The database write is the source of truth; this failing must never turn a

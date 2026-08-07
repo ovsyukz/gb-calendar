@@ -49,3 +49,8 @@ h1 {
   font-size: 14px;
   margin-top: 12px;
 }
+
+/* Admin only — hidden entirely for visitors. */
+.add-tournament {
+  margin-top: 16px;
+}

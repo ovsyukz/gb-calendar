@@ -1,18 +1,20 @@
 import { $, clone, fill, replaceChildren, toggle } from '../lib/dom.js';
 import { parseDate, formatDayRange, MONTH_ABBR } from '../lib/dates.js';
+import { state, subscribe } from '../state/store.js';
 
-/**
- * The sidebar. Rendered once at load — tournaments are a constant, so unlike
- * the calendar there is nothing here that changes as state does.
- */
-export function mountUpcoming(tournaments) {
+/** The sidebar. Re-renders whenever an admin changes the tournament list. */
+export function mountUpcoming() {
   const list = $('#upcoming-list');
   const empty = $('#upcoming-empty');
 
-  const sorted = [...tournaments].sort((a, b) => a.date.localeCompare(b.date));
+  function render() {
+    const sorted = [...state.tournaments].sort((a, b) => a.date.localeCompare(b.date));
+    toggle(empty, sorted.length === 0);
+    replaceChildren(list, sorted.map(upcomingCard));
+  }
 
-  toggle(empty, sorted.length === 0);
-  replaceChildren(list, sorted.map(upcomingCard));
+  subscribe(render);
+  render();
 }
 
 function upcomingCard(tournament) {

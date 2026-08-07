@@ -1,10 +1,12 @@
 /**
- * A subscribe/dispatch store, roughly 40 lines standing in for the framework
- * this app used to carry. Components read `state`, call `setState`, and
- * re-render themselves when notified.
+ * A subscribe/dispatch store, standing in for the framework this app used to
+ * carry. Components read `state`, call `setState`, and re-render themselves
+ * when notified.
  *
- * Note there are no tournaments here — those are a constant now
- * (public/js/data/tournaments.js), not state, so they cannot drift.
+ * `tournaments` starts as the seed list in public/js/data/tournaments.js and
+ * is replaced by the server's merged list — seed plus any admin edits — as
+ * soon as it arrives. The seed means the calendar draws immediately rather
+ * than flashing empty while the request is in flight.
  */
 
 const FIRST_MONTH = 6; // July 2026
@@ -30,6 +32,7 @@ export const state = {
   monthIndex: initialMonth(),
   isAdmin: false,
   signups: [],
+  tournaments: [],
 };
 
 export function setState(patch) {
