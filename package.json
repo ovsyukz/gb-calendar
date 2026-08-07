@@ -20,6 +20,7 @@
     "check:secrets": "node scripts/check-secrets.js",
     "audit": "npm audit --audit-level=high",
     "verify": "sh scripts/verify.sh",
+    "verify:ci": "sh scripts/verify-clean.sh",
     "prepare": "git config core.hooksPath .githooks || true"
   },
   "dependencies": {
