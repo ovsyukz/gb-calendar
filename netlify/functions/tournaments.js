@@ -1,4 +1,4 @@
-import { isAdmin, json, unauthorized } from './_lib/auth.js';
+import { requireAdmin, json, unauthorized } from './_lib/auth.js';
 import { validateTournament } from './_lib/tournament-validation.js';
 import {
   listTournaments,
@@ -23,7 +23,7 @@ export default async function tournaments(request) {
 
 /** Admin only — this is the whole point of the login. */
 async function save(request) {
-  if (!isAdmin(request)) return unauthorized();
+  if (!(await requireAdmin(request))) return unauthorized();
 
   let body;
   try {
@@ -41,7 +41,7 @@ async function save(request) {
 
 /** Admin only. */
 async function remove(request) {
-  if (!isAdmin(request)) return unauthorized();
+  if (!(await requireAdmin(request))) return unauthorized();
 
   const id = new URL(request.url).searchParams.get('id');
   if (!id) return json({ error: 'An id is required' }, 400);

@@ -1,4 +1,4 @@
-import { isAdmin, json, unauthorized } from './_lib/auth.js';
+import { requireAdmin, json, unauthorized } from './_lib/auth.js';
 import { validateSignup } from './_lib/validation.js';
 import { tournamentIds, tournamentName, tournamentNames } from './_lib/tournament-ids.js';
 import {
@@ -49,7 +49,7 @@ async function create(request) {
 
 /** Admin only — this returns names and email addresses. */
 async function list(request) {
-  if (!isAdmin(request)) return unauthorized();
+  if (!(await requireAdmin(request))) return unauthorized();
 
   const rows = await listSignups();
   // Resolved once for the whole list, not once per row.
@@ -72,7 +72,7 @@ async function list(request) {
 
 /** Admin only. */
 async function remove(request) {
-  if (!isAdmin(request)) return unauthorized();
+  if (!(await requireAdmin(request))) return unauthorized();
 
   const id = new URL(request.url).searchParams.get('id');
   if (!id || !/^\d+$/.test(id)) return json({ error: 'A numeric id is required' }, 400);

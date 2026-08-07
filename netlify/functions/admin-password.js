@@ -1,6 +1,6 @@
 import { session, sessionCookie, json, unauthorized } from './_lib/auth.js';
 import { validatePassword } from './_lib/admin-validation.js';
-import { setPassword } from './_lib/admins-repo.js';
+import { setPassword } from './_lib/admin-accounts.js';
 
 export const config = { path: '/api/admin/password' };
 

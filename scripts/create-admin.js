@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 import { createInterface } from 'node:readline/promises';
 import { stdin, stdout } from 'node:process';
-import { upsertAdmin, findAdminByEmail } from '../netlify/functions/_lib/admins-repo.js';
+import { findAdminByEmail } from '../netlify/functions/_lib/admins-repo.js';
+import { upsertAdmin } from '../netlify/functions/_lib/admin-accounts.js';
 import { validateNewAdmin } from '../netlify/functions/_lib/admin-validation.js';
 import { isLocal } from '../netlify/functions/_lib/db.js';
 

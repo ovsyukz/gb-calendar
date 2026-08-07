@@ -1,67 +1,44 @@
 import { sql } from './db.js';
-import { hashPassword } from './passwords.js';
 
-/** Case-insensitive, matching the unique index in 004_admin_profiles.sql. */
+/**
+ * Reading admin accounts. Writes live in admin-accounts.js.
+ *
+ * Removing an admin disables the row rather than deleting it, so every query
+ * here filters on `disabled_at IS NULL`. A disabled account is invisible to
+ * login, to the admin list, and to the last-admin count — as far as the app is
+ * concerned it no longer exists, while the record survives for the created_by
+ * references and the audit trail.
+ */
+
+/** Case-insensitive. Disabled accounts are not found, so they cannot log in. */
 export async function findAdminByEmail(email) {
   const [row] = await sql()`
     SELECT id, name, email, password_hash, must_change_password
-    FROM admins WHERE lower(email) = lower(${email})
+    FROM admins
+    WHERE lower(email) = lower(${email}) AND disabled_at IS NULL
   `;
   return row ?? null;
 }
 
-/**
- * Adds an admin with a temporary password they must replace on first login.
- * `createdBy` is null for accounts made from the command line.
- */
-export async function createAdmin({ name, email, password, createdBy = null }) {
-  const passwordHash = await hashPassword(password);
-
+/** True while the account still exists and has not been disabled. */
+export async function isActiveAdmin(id) {
   const [row] = await sql()`
-    INSERT INTO admins (name, email, password_hash, must_change_password, created_by)
-    VALUES (${name}, ${email}, ${passwordHash}, TRUE, ${createdBy})
-    ON CONFLICT (lower(email)) DO NOTHING
-    RETURNING id
+    SELECT 1 FROM admins WHERE id = ${id} AND disabled_at IS NULL
   `;
-  return row?.id ?? null; // null means the email was already taken
-}
-
-/**
- * Command-line use: creates an account or resets its password, without
- * forcing a change on next login — whoever ran the CLI chose the password
- * themselves, so there is nothing temporary about it.
- */
-export async function upsertAdmin({ name, email, password }) {
-  const passwordHash = await hashPassword(password);
-
-  await sql()`
-    INSERT INTO admins (name, email, password_hash, must_change_password)
-    VALUES (${name}, ${email}, ${passwordHash}, FALSE)
-    ON CONFLICT (lower(email))
-    DO UPDATE SET password_hash = EXCLUDED.password_hash, must_change_password = FALSE
-  `;
-}
-
-/** Sets a password and clears the must-change flag — the only way to clear it. */
-export async function setPassword(id, password) {
-  const passwordHash = await hashPassword(password);
-
-  await sql()`
-    UPDATE admins
-    SET password_hash = ${passwordHash}, must_change_password = FALSE
-    WHERE id = ${id}
-  `;
+  return Boolean(row);
 }
 
 export async function listAdmins() {
   return sql()`
     SELECT id, name, email, must_change_password, created_at, last_login_at
-    FROM admins ORDER BY lower(name)
+    FROM admins WHERE disabled_at IS NULL ORDER BY lower(name)
   `;
 }
 
 export async function countAdmins() {
-  const [row] = await sql()`SELECT count(*)::int AS n FROM admins`;
+  const [row] = await sql()`
+    SELECT count(*)::int AS n FROM admins WHERE disabled_at IS NULL
+  `;
   return Number(row.n);
 }
 

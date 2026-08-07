@@ -1,4 +1,5 @@
 import { createToken, readToken, SESSION_TTL_SECONDS } from './tokens.js';
+import { isActiveAdmin } from './admins-repo.js';
 
 const COOKIE_NAME = 'gb_admin';
 
@@ -51,10 +52,24 @@ export function session(request) {
   return readToken(readCookie(request, COOKIE_NAME));
 }
 
-/** The single source of truth for "may this request see or change anything?" */
+/** Does the cookie itself grant admin rights? Token only — no database. */
 export function isAdmin(request) {
   const claims = session(request);
   return Boolean(claims) && !claims.pending;
+}
+
+/**
+ * The gate for every privileged endpoint. Returns the claims, or null.
+ *
+ * Checks the account is still active as well as the token, so removing an
+ * admin takes effect immediately. Without the lookup a removed admin would
+ * keep full access until their cookie expired, up to eight hours later.
+ */
+export async function requireAdmin(request) {
+  if (!isAdmin(request)) return null;
+
+  const claims = session(request);
+  return (await isActiveAdmin(claims.sub)) ? claims : null;
 }
 
 export function json(body, status = 200, headers = {}) {

@@ -2,7 +2,10 @@ import { describe, it, expect, beforeAll, beforeEach } from 'vitest';
 import { sql, applySchema } from './helpers/db.js';
 import { verifyPassword } from '../netlify/functions/_lib/passwords.js';
 
-const repo = await import('../netlify/functions/_lib/admins-repo.js');
+const repo = {
+  ...(await import('../netlify/functions/_lib/admins-repo.js')),
+  ...(await import('../netlify/functions/_lib/admin-accounts.js')),
+};
 const { localQuery } = await import('../netlify/functions/_lib/local-db.js');
 
 const { findAdminByEmail, createAdmin, upsertAdmin, countAdmins } = repo;

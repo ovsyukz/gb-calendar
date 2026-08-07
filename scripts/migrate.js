@@ -3,7 +3,8 @@ import { readdir, readFile } from 'node:fs/promises';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { sql, isLocal } from '../netlify/functions/_lib/db.js';
-import { countAdmins, upsertAdmin } from '../netlify/functions/_lib/admins-repo.js';
+import { countAdmins } from '../netlify/functions/_lib/admins-repo.js';
+import { upsertAdmin } from '../netlify/functions/_lib/admin-accounts.js';
 
 /**
  * Applies every .sql file in migrations/ that has not run yet, in filename

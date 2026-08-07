@@ -83,6 +83,12 @@ change without a redeploy.
 and a temporary password. They sign in with it and must choose their own before
 they can do anything — until they do, every request they make is refused.
 
+**Removing** an admin is a button on their row. It takes effect at once: any
+session they have open stops working immediately. You cannot remove yourself,
+and the last remaining admin cannot be removed — either would lock everyone
+out. Their record is kept and disabled rather than deleted, so the history of
+who added whom survives; adding the same email again revives the account.
+
 **For the first account, or if everyone is locked out:**
 
 ```bash

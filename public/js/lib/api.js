@@ -35,6 +35,9 @@ export const fetchAdmins = () => request('/api/admins');
 
 export const addAdmin = (admin) => post('/api/admins', admin);
 
+export const removeAdmin = (id) =>
+  request(`/api/admins?id=${encodeURIComponent(id)}`, { method: 'DELETE' });
+
 export const logout = () => post('/api/admin/logout', {});
 
 export const checkSession = () => request('/api/admin/session');

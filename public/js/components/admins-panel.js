@@ -1,7 +1,7 @@
 import { $, clone, fill, replaceChildren, toggle, setMessage } from '../lib/dom.js';
-import { fetchAdmins, addAdmin } from '../lib/api.js';
+import { fetchAdmins, addAdmin, removeAdmin } from '../lib/api.js';
 
-/** The Admins dialog: who has access, and a form to add someone. */
+/** The Admins dialog: who has access, add someone, remove someone. */
 export function mountAdminsPanel() {
   const dialog = $('#admins-dialog');
   const form = $('#add-admin-form');
@@ -9,11 +9,14 @@ export function mountAdminsPanel() {
 
   function show(admins) {
     toggle($('#admins-empty'), admins.length === 0);
-    replaceChildren($('#admin-list'), admins.map(row));
+    replaceChildren(
+      $('#admin-list'),
+      admins.map((a) => row(a, admins.length, refresh))
+    );
   }
 
   async function refresh() {
-    show((await fetchAdmins()).admins);
+    show(await fetchAdmins().then((r) => r.admins));
   }
 
   $('#open-admins').addEventListener('click', async () => {
@@ -49,8 +52,9 @@ export function mountAdminsPanel() {
   });
 }
 
-function row(admin) {
+function row(admin, total, onChange) {
   const node = clone('tpl-admin');
+  const remove = node.querySelector('.admin-remove');
 
   fill(node, {
     '.admin-name': admin.name,
@@ -65,5 +69,19 @@ function row(admin) {
   if (admin.mustChangePassword) {
     node.querySelector('.admin-status').classList.add('is-pending');
   }
+
+  // No button on your own row, and none when this is the only account — the
+  // server refuses both, so offering it would just produce an error.
+  if (admin.isYou || total <= 1) {
+    remove.remove();
+    return node;
+  }
+
+  remove.addEventListener('click', async (event) => {
+    event.target.disabled = true;
+    await removeAdmin(admin.id).catch(() => {});
+    await onChange();
+  });
+
   return node;
 }
