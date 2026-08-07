@@ -1,5 +1,14 @@
 /* Page masthead: kicker, title, belt bar, subtitle. */
 
+/* The official Gracie Barra shield, served from public/images rather than
+   hotlinked, so the header does not break if their URL moves. */
+.brand-mark {
+  display: block;
+  width: 56px;
+  height: 56px;
+  margin-bottom: 8px;
+}
+
 .kicker {
   color: var(--accent);
   font-size: 12px;
