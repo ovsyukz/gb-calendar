@@ -62,13 +62,19 @@ console.log(
 // Local convenience only: a fresh clone can log in immediately. Guarded on
 // isLocal() so this can never create an account against a real database —
 // there, `npm run admin:add` is the only way in.
+//
+// Override the credentials in .env if you like; the defaults exist so the
+// project works with no .env at all.
 if (isLocal() && (await countAdmins()) === 0) {
+  const email = process.env.LOCAL_ADMIN_EMAIL || 'admin@local';
+  const password = process.env.LOCAL_ADMIN_PASSWORD || 'localdev123';
+
   await upsertAdmin({
-    name: 'Local Admin',
-    email: 'admin@local',
-    password: 'localdev123',
+    name: process.env.LOCAL_ADMIN_NAME || 'Local Admin',
+    email,
+    password,
   });
-  console.log('\nSeeded a local admin — email "admin@local", password "localdev123".');
+  console.log(`\nSeeded a local admin — email "${email}", password "${password}".`);
   console.log('Local only. Production accounts come from: npm run admin:add\n');
 }
 

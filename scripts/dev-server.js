@@ -54,7 +54,7 @@ async function send(res, response) {
   res.end(Buffer.from(await response.arrayBuffer()));
 }
 
-createServer(async (req, res) => {
+const server = createServer(async (req, res) => {
   const { pathname } = new URL(req.url, `http://localhost:${PORT}`);
 
   try {
@@ -75,7 +75,21 @@ createServer(async (req, res) => {
     res.writeHead(500, { 'content-type': 'application/json' });
     res.end(JSON.stringify({ error: error.message }));
   }
-}).listen(PORT, () => {
+});
+
+// Without this the failure is an unhandled 'error' event and a stack trace,
+// and the old server keeps serving stale data on the port — which looks like
+// the app being broken rather than a second copy running.
+server.on('error', (error) => {
+  if (error.code === 'EADDRINUSE') {
+    console.error(`\n  Port ${PORT} is already in use — is another dev server running?`);
+    console.error(`  Stop it with:  pkill -f scripts/dev-server\n`);
+    process.exit(1);
+  }
+  throw error;
+});
+
+server.listen(PORT, () => {
   console.log(`\n  gb-calendar  →  http://localhost:${PORT}`);
   console.log(`  database:    ${isLocal() ? 'local (.pgdata/)' : 'Netlify DB'}`);
   console.log(`  routes:      ${[...routes.keys()].join(', ')}\n`);
