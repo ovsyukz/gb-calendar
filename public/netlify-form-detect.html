@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Form detection (do not delete)</title>
+  </head>
+  <body>
+    <!--
+      This page exists only so Netlify's build-time crawler can detect the
+      "tournament-signup" form. Netlify scans literal <form> tags in static
+      HTML; it cannot see a form rendered by JavaScript, which is how the
+      calendar page builds its sign-up form.
+
+      The database is the source of truth for sign-ups (see
+      netlify/functions/signups.js). This form exists purely so Netlify sends
+      an email when someone signs up. Nobody ever visits this page.
+    -->
+    <form
+      name="tournament-signup"
+      data-netlify="true"
+      netlify-honeypot="bot-field"
+      hidden
+    >
+      <input type="hidden" name="form-name" value="tournament-signup" />
+      <input type="text" name="bot-field" />
+      <input type="text" name="name" />
+      <input type="email" name="email" />
+      <input type="text" name="tournament" />
+    </form>
+  </body>
+</html>

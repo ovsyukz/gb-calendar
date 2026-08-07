@@ -1,0 +1,73 @@
+/* Page masthead: kicker, title, belt bar, subtitle. */
+
+/* The official Gracie Barra shield, served from public/images rather than
+   hotlinked, so the header does not break if their URL moves. */
+.brand-mark {
+  display: block;
+  width: 56px;
+  height: 56px;
+  margin-bottom: 8px;
+}
+
+.kicker {
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+h1 {
+  font-family: var(--font-display);
+  font-size: 38px;
+  line-height: 1.05;
+  margin-top: 3px;
+}
+
+/* The BJJ belt progression: white, grey, yellow, orange, green. */
+.belt-bar {
+  display: flex;
+  gap: 5px;
+  width: 190px;
+  margin-top: 11px;
+}
+.belt-bar i {
+  flex: 1;
+  height: 7px;
+  border-radius: 4px;
+}
+.belt-bar i:nth-child(1) {
+  background: #fff;
+  border: 1px solid #e4dbcc;
+}
+.belt-bar i:nth-child(2) {
+  background: #9aa0a6;
+}
+.belt-bar i:nth-child(3) {
+  background: #f5c518;
+}
+.belt-bar i:nth-child(4) {
+  background: #f07e13;
+}
+.belt-bar i:nth-child(5) {
+  background: var(--success);
+}
+
+.subtitle {
+  color: #7a7169;
+  font-size: 14px;
+  margin-top: 12px;
+}
+
+/* Admin only — the whole row is hidden for visitors. */
+.admin-toolbar {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+
+/* Log out sits apart from the actions that change things. */
+.admin-toolbar #admin-logout {
+  margin-left: auto;
+}

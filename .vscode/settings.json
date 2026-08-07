@@ -1,0 +1,20 @@
+{
+  // public/index.html and public/styles.css are built from src/. Hiding them
+  // keeps you out of files whose edits would be overwritten by the next build,
+  // and stops them turning up in search results.
+  //
+  // Delete these entries if you ever want to inspect the generated output.
+  "files.exclude": {
+    "public/index.html": true,
+    "public/styles.css": true
+  },
+  "search.exclude": {
+    "public/index.html": true,
+    "public/styles.css": true,
+    ".pgdata": true
+  },
+  "files.readonlyInclude": {
+    "public/index.html": true,
+    "public/styles.css": true
+  }
+}

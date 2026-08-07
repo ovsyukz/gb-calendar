@@ -1,0 +1,40 @@
+<dialog id="admins-dialog" class="modal">
+  <form method="dialog" class="modal-close-row">
+    <button class="link-button" value="close" aria-label="Close">✕</button>
+  </form>
+  <h2 class="modal-title">Admins</h2>
+  <h3 class="list-heading">Current admins</h3>
+  <p class="empty-note" id="admins-empty" hidden>No admins yet.</p>
+  <ul class="participant-list" id="admin-list"></ul>
+
+  <h3 class="panel-title add-admin-title">Add an admin</h3>
+  <p class="panel-note">
+    They sign in with the temporary password below, then must replace it before they can
+    do anything.
+  </p>
+  <form id="add-admin-form">
+    <div class="field">
+      <label for="new-admin-name">Name</label>
+      <input id="new-admin-name" name="name" placeholder="Alex Coach" />
+    </div>
+    <div class="field">
+      <label for="new-admin-email">Email</label>
+      <input
+        id="new-admin-email"
+        name="email"
+        type="email"
+        placeholder="alex@example.com"
+      />
+    </div>
+    <div class="field">
+      <label for="new-admin-password">Temporary password</label>
+      <input
+        id="new-admin-password"
+        name="password"
+        placeholder="at least 12 characters"
+      />
+    </div>
+    <p class="form-message" id="add-admin-message" role="status" hidden></p>
+    <button type="submit" class="btn-primary">Add admin</button>
+  </form>
+</dialog>

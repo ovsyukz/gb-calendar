@@ -1,0 +1,41 @@
+/* The "Sort by" control above the admin lists. */
+
+.sort-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.sort-row label {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.sort-row select {
+  flex: 1;
+  height: 34px;
+  padding: 0 10px;
+  border: 1.5px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--surface-sunken);
+  color: var(--text);
+  font: 700 13px var(--font-body);
+  cursor: pointer;
+}
+.sort-row select:focus {
+  border-color: var(--accent);
+}
+
+/* Labels a list inside a dialog without competing with the title. */
+.list-heading {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 10px;
+}

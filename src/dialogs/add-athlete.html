@@ -1,0 +1,31 @@
+<dialog id="add-signup-dialog" class="modal">
+  <form method="dialog" class="modal-close-row">
+    <button class="link-button" value="close" aria-label="Close">✕</button>
+  </form>
+  <h2 class="modal-title">Add an Athlete</h2>
+  <p class="panel-note">
+    For someone who signed up in person. Same rules as the public form — email is
+    optional.
+  </p>
+  <form id="add-signup-form">
+    <div class="field">
+      <label for="add-signup-name">Name</label>
+      <input id="add-signup-name" name="name" placeholder="Their name" />
+    </div>
+    <div class="field">
+      <label for="add-signup-email">Email <span class="optional">(optional)</span></label>
+      <input
+        id="add-signup-email"
+        name="email"
+        type="email"
+        placeholder="them@example.com"
+      />
+    </div>
+    <div class="field">
+      <label for="add-signup-tournament">Tournament</label>
+      <select id="add-signup-tournament" name="tournamentId"></select>
+    </div>
+    <p class="form-message" id="add-signup-message" role="status" hidden></p>
+    <button type="submit" class="btn-primary">Add athlete</button>
+  </form>
+</dialog>

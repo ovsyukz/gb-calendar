@@ -1,0 +1,84 @@
+/**
+ * Built on <dialog>, which gives focus trapping, Escape-to-close, and
+ * inertness of the page behind it for free — all things the old hand-rolled
+ * modal did not do.
+ */
+.modal {
+  width: 92%;
+  max-width: 440px;
+  max-height: 80vh;
+  /* A <dialog> centres itself with `margin: auto`, which the reset in
+     base.css zeroes out. Restore it or the modal pins to the top-left. */
+  margin: auto;
+  padding: 26px;
+  border: none;
+  border-radius: var(--radius-xl);
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: var(--shadow-modal);
+  overflow-y: auto;
+}
+
+.modal::backdrop {
+  background: rgb(35 31 28 / 45%);
+  /* Blurs the calendar behind the dialog, so the modal reads as the only
+     thing in focus. Safari still needs the prefix. */
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+}
+
+.modal-close-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: -12px;
+}
+.modal-close-row .link-button {
+  font-size: 16px;
+}
+
+.modal-title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 18px;
+}
+
+.modal .field {
+  min-width: 0;
+  margin-bottom: 14px;
+}
+
+.modal .btn-primary {
+  width: 100%;
+  border-radius: var(--radius-pill);
+}
+
+.participant {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface-sunken);
+}
+
+.participant-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.participant-name {
+  display: block;
+  font-size: 14.5px;
+  font-weight: 800;
+}
+
+.participant-meta {
+  display: block;
+  font-size: 12.5px;
+  color: var(--text-muted);
+  margin-top: 1px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

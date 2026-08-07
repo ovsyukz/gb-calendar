@@ -1,0 +1,22 @@
+/* The admin's Add / Edit tournament dialog. */
+
+.field-row {
+  display: flex;
+  gap: 12px;
+}
+
+.modal-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 14px;
+  margin-top: 20px;
+}
+.modal-actions .btn-primary {
+  width: auto;
+}
+
+/* Delete sits far left, away from Save. */
+.modal-actions .link-button {
+  margin-right: auto;
+}

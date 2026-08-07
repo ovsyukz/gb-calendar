@@ -1,0 +1,21 @@
+/* The "Past Tournaments" list below the upcoming ones. */
+
+.past-title {
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid var(--border);
+  font-size: 16px;
+  color: var(--text-muted);
+}
+
+/* A finished tournament: greyed, and inert rather than merely looking it —
+   it carries no links, and pointer-events stops any stray hover or click. */
+.upcoming-card.is-past {
+  background: transparent;
+  border-color: transparent;
+  opacity: 0.55;
+  filter: grayscale(1);
+  pointer-events: none;
+  cursor: default;
+  user-select: none;
+}

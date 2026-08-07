@@ -1,0 +1,52 @@
+/* The Admins dialog: who has access, and the form to add someone. */
+
+.add-admin-title {
+  margin-top: 24px;
+  padding-top: 18px;
+  border-top: 1px solid var(--border);
+  font-size: 16px;
+  color: var(--text-muted);
+}
+
+#add-admin-form {
+  margin-top: 14px;
+}
+
+#add-admin-form .btn-primary {
+  width: 100%;
+  margin-top: 4px;
+}
+
+.admin-status {
+  flex-shrink: 0;
+  padding: 3px 9px;
+  border-radius: var(--radius-pill);
+  background: var(--surface-muted);
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+/* Handed a temporary password and not yet replaced it. */
+.admin-status.is-pending {
+  background: var(--accent);
+  color: #fff;
+}
+
+/* The forced password change: give the explanation room before the fields. */
+#password-form {
+  margin-top: 18px;
+}
+#password-form .btn-primary {
+  width: 100%;
+}
+
+/* The admin's manual sign-up form, in its own dialog. */
+#add-signup-form {
+  margin-top: 18px;
+}
+#add-signup-form .btn-primary {
+  width: 100%;
+  margin-top: 4px;
+}

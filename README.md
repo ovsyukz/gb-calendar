@@ -1,2 +1,153 @@
-# gb-calendar
-This is a calendar for all upcoming bjj tournmanent in 2026 that Gracie Barra Deerfield team will attend. On the bottom of the page, there is a sign up form for instructors to see who wants to do which tournament. 
+# GB Calendar
+
+Tournament calendar for the Gracie Barra Deerfield team, with a sign-up form so
+coaches know who is competing. Static site plus a few serverless functions,
+hosted on Netlify.
+
+## Adding or changing a tournament
+
+Edit **one file**: [`public/js/data/tournaments.js`](public/js/data/tournaments.js).
+
+```js
+{
+  id: 'gi-mar',                    // short nickname, never change it later
+  name: 'Grappling Industries',
+  location: 'Chicago, IL',         // optional
+  date: '2027-03-14',
+  endDate: '2027-03-15',           // optional, for multi-day events
+  links: [{ label: 'Register', url: 'https://…' }],
+},
+```
+
+Then commit and push. Netlify redeploys in about 30 seconds.
+
+If a tournament does not appear, open the page and press F12 — a bad entry
+prints a message naming the tournament and the problem.
+
+> `id` is how sign-ups are stored. Changing it on a tournament people have
+> already signed up for orphans those sign-ups.
+
+## Reading sign-ups
+
+Click **Admin login** at the bottom of the page and sign in with your email.
+You will see everyone who has signed up, with their tournament and email, and
+can remove entries.
+
+Coaches also get an email on each sign-up, via Netlify Forms.
+
+To export a roster as CSV, run this against the database from the Netlify
+dashboard:
+
+```sql
+SELECT a.name, a.email, s.tournament_id, s.created_at
+FROM signups s
+JOIN athletes a ON a.id = s.athlete_id
+ORDER BY s.tournament_id, s.created_at;
+```
+
+## Admin accounts
+
+Admins live in the database, one row per person, so more than one coach can
+have access and a password can change without a redeploy.
+
+Day to day, add colleagues from the **Admins** button in the app: give a name,
+an email, and a temporary password. They sign in with it and are then required
+to choose their own before they can do anything — until they do, every request
+they make is refused.
+
+For the first account, or if everyone is locked out:
+
+```bash
+npm run admin:add     # create an account, or reset an existing password
+```
+
+It prompts rather than taking arguments, so the password stays out of your
+shell history. Store it in 1Password.
+
+Passwords are held as one-way **scrypt** hashes — they cannot be read back,
+not by you and not by anyone who obtains the database. A forgotten password is
+reset by running the command again, never recovered.
+
+`SESSION_SECRET` still lives in the environment; it signs the login cookie.
+Changing it signs every admin out immediately, which is the fastest way to
+revoke access.
+
+## Local development
+
+Everything runs on your laptop with no accounts and nothing to install beyond
+npm packages — no Netlify, no Postgres, no Docker.
+
+```bash
+nvm use                # Node 22
+npm install
+cp .env.example .env   # any values will do locally
+npm run migrate        # creates the tables, and a local admin to log in with
+npm run dev            # http://localhost:8888
+```
+
+The dev server serves `public/` and runs the same function handlers Netlify
+runs in production. When `NETLIFY_DATABASE_URL` is unset it uses an embedded
+Postgres stored in `.pgdata/` — real Postgres, same SQL, just a local copy of
+the data. Delete that folder to start clean.
+
+`npm run verify` runs everything that must pass: build, lint, formatting,
+tests, a scan for committed secrets, and `npm audit` for high and critical
+vulnerabilities.
+
+A **pre-push hook** runs it automatically, so a broken or leaky commit cannot
+reach GitHub. It installs itself on `npm install`. To push regardless — a
+work-in-progress branch, say — use `git push --no-verify`.
+
+If a push from your editor or a git GUI fails, that is the hook: those clients
+do not load your shell profile, so `npm` is often missing from `PATH`. The
+hook looks in the usual places and loads nvm if it finds it, and says so
+plainly if it still cannot run. Pushing from a terminal always works.
+
+Individually: `npm test`, `npm run lint`, `npm run format`,
+`npm run check:secrets`, `npm run audit`. CI runs the same suite on every
+pull request.
+
+Deploying to Netlify is a separate exercise — see
+[NETLIFY_TODO.md](NETLIFY_TODO.md) when you are ready for it.
+
+## How it fits together
+
+```
+src/                       everything you edit
+  index.html               the shell: a list of includes
+  head.html                <head> — fonts and the stylesheet
+  sections/                header, calendar, sidebar, sign-up panel
+  dialogs/                 one file per modal
+  templates/               row templates cloned by lib/dom.js
+  styles/                  one stylesheet per concern
+  styles.manifest          the order they are concatenated in
+public/                    what actually ships
+  index.html               GENERATED — do not edit
+  styles.css               GENERATED — do not edit
+  js/data/tournaments.js   ← the file you edit to change tournaments
+  js/lib/                  dates, DOM helpers, API client
+  js/components/           one file per piece of UI
+netlify/functions/         serverless endpoints under /api/*
+migrations/                database schema, applied by npm run migrate
+```
+
+To change the markup, edit the relevant file in `src/` — never
+`public/index.html`, which is regenerated and will overwrite your changes.
+`npm run build` assembles it; the dev server rebuilds on every page load, so a
+refresh is enough.
+
+Stylesheets work the same way: edit the files in `src/styles/` and the build
+concatenates them into one `public/styles.css`, in the order listed in
+`styles.manifest`. Sixteen small files is right for editing and wrong for
+serving — the browser fetches one.
+
+Both builders are deliberately dumb. The HTML one resolves
+`<!-- include: path -->`; the CSS one joins files together. No templating
+language, no variables, no minifying. The browser still loads native ES
+modules directly: there is no bundler, and what ships is what is in the repo.
+
+Tournaments are a constant in the repo; sign-ups live in Netlify DB (managed
+Postgres). Admin access is checked on the server on every request — the
+password never reaches the browser.
+
+See [REFACTOR_PLAN.md](REFACTOR_PLAN.md) for the design decisions behind this.

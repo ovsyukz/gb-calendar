@@ -4,8 +4,9 @@
 # JetBrains IDEs
 .idea/
 
-# VS Code
-.vscode/
+# VS Code — the shared settings file is tracked, personal ones are not
+.vscode/*
+!.vscode/settings.json
 
 # Editor scratch files
 *.swp
@@ -14,3 +15,19 @@
 # Netlify
 .netlify/
 
+# Node
+node_modules/
+
+# Generated from src/ by the build scripts — edit the sources, not these.
+public/index.html
+public/styles.css
+
+# Local development database (embedded Postgres). Real sign-up data lives in
+# Netlify DB; this is throwaway. Delete the folder to start clean.
+.pgdata/
+
+# Secrets — ADMIN_PASSWORD, SESSION_SECRET, NETLIFY_DATABASE_URL live here
+# locally, and in the Netlify UI in production. Never commit them.
+.env
+.env.*
+!.env.example

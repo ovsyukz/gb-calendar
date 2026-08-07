@@ -1,0 +1,33 @@
+[build]
+  # Assembles public/index.html from the partials in src/. Not a bundler —
+  # the browser still loads native ES modules straight from public/.
+  publish = "public"
+  command = "npm run build"
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+[context.deploy-preview]
+  publish = "public"
+
+[context.branch-deploy]
+  publish = "public"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+# The admin panel and sign-up list are behind these; never let them be cached.
+[[headers]]
+  for = "/api/*"
+  [headers.values]
+    Cache-Control = "no-store"
+
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"

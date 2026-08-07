@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main, refactoring]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - run: npm ci
+
+      # The same suite the pre-push hook runs, so CI cannot disagree with a
+      # developer's machine about whether the code is fit to push.
+      - name: Verify
+        run: npm run verify
+
+      # What Netlify actually deploys: the build output, every referenced
+      # asset, and each function bundled the way Netlify bundles them. A
+      # green `verify` can still fail to deploy if something was never
+      # committed, so this checks the commit rather than the checkout.
+      - name: Build produces a deployable site
+        run: |
+          test -s public/index.html
+          test -s public/styles.css
+          for path in $(grep -oE '(href|src)="/[^"]+"' public/index.html | sed 's/.*"\(.*\)"/\1/' | sort -u); do
+            test -f "public$path" || { echo "Referenced but not committed: $path"; exit 1; }
+          done
+
+      - name: Functions bundle
+        run: |
+          for f in netlify/functions/*.js; do
+            npx --yes esbuild "$f" --bundle --platform=node --format=esm --outfile=/dev/null
+          done
