@@ -3,6 +3,7 @@ import { login, logout, fetchSignups } from '../lib/api.js';
 import { state, setState } from '../state/store.js';
 import { renderSignups } from './signup-list.js';
 import { renderAthletes } from './athlete-list.js';
+import { mountAddSignupForm } from './add-signup-form.js';
 
 /**
  * Admin login, and the two lists it unlocks — sign-ups and athletes, each in
@@ -53,6 +54,8 @@ export function mountAdminPanel(onPendingPassword = () => {}) {
     if (!dialog.open) dialog.showModal();
     if (!(await load())) dialog.close();
   }
+
+  mountAddSignupForm(load);
 
   $('#open-signups').addEventListener('click', () => open(signupsDialog));
   $('#open-athletes').addEventListener('click', () => open(athletesDialog));

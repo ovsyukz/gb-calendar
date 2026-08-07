@@ -1,7 +1,7 @@
 import { $, setMessage } from '../lib/dom.js';
 import { submitSignup, notifyByEmail } from '../lib/api.js';
-import { parseDate, MONTH_ABBR } from '../lib/dates.js';
 import { state, subscribe } from '../state/store.js';
+import { fillTournamentOptions } from '../lib/tournament-options.js';
 
 /** Name (required), email (optional), tournament (required). */
 export function mountSignupForm() {
@@ -60,24 +60,4 @@ function firstProblem({ name, email, tournamentId }) {
     return 'That email address does not look right.';
   }
   return null;
-}
-
-function fillTournamentOptions(select, tournaments) {
-  // The store notifies on every change, including ones that have nothing to
-  // do with this list, so hold on to what the visitor already picked.
-  const chosen = select.value;
-
-  const placeholder = new Option('Select a tournament…', '');
-  const options = [...tournaments]
-    .sort((a, b) => a.date.localeCompare(b.date))
-    .map((tournament) => new Option(optionLabel(tournament), tournament.id));
-
-  select.replaceChildren(placeholder, ...options);
-  select.value = chosen;
-}
-
-function optionLabel({ name, location, date }) {
-  const [, month, day] = parseDate(date);
-  const where = location ? ` — ${location}` : '';
-  return `${name}${where} (${MONTH_ABBR[month - 1]} ${day})`;
 }
