@@ -24,7 +24,16 @@ export function mountAdminPanel() {
   const error = $('#admin-error');
   let view = 'signups';
 
-  const syncToolbar = () => toggle($('#admin-toolbar'), state.isAdmin);
+  /**
+   * Swaps the page between its two audiences: an admin gets the toolbar, a
+   * visitor gets the sign-up form. The "Admin login" link lives inside that
+   * form, which is why hiding it once logged in costs nothing — Log out is
+   * in the dialog the toolbar opens.
+   */
+  function syncToolbar() {
+    toggle($('#admin-toolbar'), state.isAdmin);
+    toggle($('#signup-panel'), !state.isAdmin);
+  }
 
   function showViews() {
     toggle($('#admin-login-view'), !state.isAdmin);
