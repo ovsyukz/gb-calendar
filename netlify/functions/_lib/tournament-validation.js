@@ -25,12 +25,15 @@ export function validateTournament(body) {
   const location = String(body?.location ?? '').trim();
   const date = String(body?.date ?? '').trim();
   const endDate = String(body?.endDate ?? '').trim();
+  const notes = String(body?.notes ?? '').trim();
 
   if (!ID.test(id))
     return { error: 'Id must be lowercase letters, numbers, and dashes.' };
   if (!name) return { error: 'Please enter a tournament name.' };
   if (name.length > 120) return { error: 'That name is too long.' };
   if (!DATE.test(date)) return { error: 'Date must look like 2026-08-09.' };
+  if (notes.length > 500)
+    return { error: 'That note is too long — keep it under 500 characters.' };
 
   if (endDate) {
     if (!DATE.test(endDate)) return { error: 'End date must look like 2026-08-09.' };
@@ -48,6 +51,7 @@ export function validateTournament(body) {
       location: location || null,
       date,
       endDate: endDate || null,
+      notes: notes || null,
       links: cleanLinks(body?.links),
     },
   };

@@ -39,7 +39,11 @@ function card(tournament, isPast) {
     '.badge-day': formatDayRange(tournament.date, tournament.endDate),
     '.card-name': tournament.name,
     '.card-location': tournament.location ?? '',
+    '.card-notes': tournament.notes ?? '',
   });
+
+  // An empty <span> would still take up margin; leave it out entirely.
+  if (!tournament.notes) node.querySelector('.card-notes').remove();
 
   // A finished tournament keeps no links: registration is closed, so an
   // enabled-looking button would only lead somewhere useless.

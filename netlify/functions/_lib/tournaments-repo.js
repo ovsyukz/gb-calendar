@@ -9,14 +9,14 @@ export async function listTournaments() {
 }
 
 export async function saveTournament(tournament) {
-  const { id, name, location, date, endDate, links } = tournament;
+  const { id, name, location, date, endDate, links, notes } = tournament;
 
   await sql()`
-    INSERT INTO tournament_overrides (id, name, location, date, end_date, links, deleted)
-    VALUES (${id}, ${name}, ${location}, ${date}, ${endDate}, ${JSON.stringify(links)}, false)
+    INSERT INTO tournament_overrides (id, name, location, date, end_date, links, notes, deleted)
+    VALUES (${id}, ${name}, ${location}, ${date}, ${endDate}, ${JSON.stringify(links)}, ${notes}, false)
     ON CONFLICT (id) DO UPDATE SET
       name = EXCLUDED.name, location = EXCLUDED.location, date = EXCLUDED.date,
-      end_date = EXCLUDED.end_date, links = EXCLUDED.links,
+      end_date = EXCLUDED.end_date, links = EXCLUDED.links, notes = EXCLUDED.notes,
       deleted = false, updated_at = now()
   `;
 }

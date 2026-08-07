@@ -20,6 +20,9 @@
  *                         then appears on every day from date to endDate.
  *    links     optional   list of { label, url }. The first one is the
  *                         button people see first.
+ *    notes     optional   a line from the coach, shown on the tournament's
+ *                         card — "gi only", "carpool from the gym at 6am".
+ *                         Admins can also add this from the browser.
  *
  *  IF SOMETHING LOOKS WRONG
  *    Open the page, then open the browser console (F12). A bad entry prints

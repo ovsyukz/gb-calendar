@@ -1,0 +1,13 @@
+/* A coach's note on a tournament card: the practical detail that would
+   otherwise live in a group chat. */
+.card-notes {
+  display: block;
+  margin-top: 6px;
+  padding-left: 8px;
+  border-left: 2px solid var(--border-strong);
+  font-size: 12.5px;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--text-muted);
+  white-space: pre-line;
+}

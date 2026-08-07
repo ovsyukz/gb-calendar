@@ -23,6 +23,7 @@ export function mountTournamentModal() {
     date = '',
     endDate = '',
     links = [],
+    notes = '',
   }) {
     editingId = id;
     $('#tournament-modal-title').textContent = id ? 'Edit Tournament' : 'Add Tournament';
@@ -31,6 +32,7 @@ export function mountTournamentModal() {
     form.elements.date.value = date;
     form.elements.endDate.value = endDate;
     form.elements.link.value = links[0]?.url ?? '';
+    form.elements.notes.value = notes;
     setMessage(message, '');
     toggle($('#tournament-delete'), Boolean(id));
     dialog.showModal();
@@ -59,6 +61,7 @@ export function mountTournamentModal() {
         date,
         endDate: form.elements.endDate.value,
         links: url ? [{ label: 'Register', url }] : [],
+        notes: form.elements.notes.value,
       });
       setState({ tournaments });
       dialog.close();
@@ -82,6 +85,11 @@ export function mountTournamentModal() {
 
   return {
     openAdd: (date) => open({ date }),
-    openEdit: (tournament) => open({ ...tournament, endDate: tournament.endDate ?? '' }),
+    openEdit: (tournament) =>
+      open({
+        ...tournament,
+        endDate: tournament.endDate ?? '',
+        notes: tournament.notes ?? '',
+      }),
   };
 }

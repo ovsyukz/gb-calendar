@@ -16,6 +16,7 @@ function fromRow(row) {
   // the same shape as a seed entry and the UI needs no special cases.
   if (row.location) tournament.location = row.location;
   if (row.end_date) tournament.endDate = row.end_date;
+  if (row.notes) tournament.notes = row.notes;
   return tournament;
 }
 

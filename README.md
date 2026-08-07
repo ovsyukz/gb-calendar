@@ -45,6 +45,11 @@ Two ways, and they do the same thing:
 **In the app** — the **+ Add Tournament** button, or click any tournament on
 the calendar to change or delete it. Takes effect immediately.
 
+Either way you can add **coach notes** — a line or two shown on the
+tournament's card in Upcoming Tournaments. Good for the things that otherwise
+get lost in a group chat: "gi only", "weigh-in the night before", "carpool
+leaves the gym at 6am".
+
 **In the code** — edit
 [`public/js/data/tournaments.js`](public/js/data/tournaments.js), then commit
 and push. Netlify redeploys in about 30 seconds.
@@ -57,6 +62,7 @@ and push. Netlify redeploys in about 30 seconds.
   date: '2027-03-14',
   endDate: '2027-03-15',           // optional, for multi-day events
   links: [{ label: 'Register', url: 'https://…' }],
+  notes: 'Gi only. Carpool leaves the gym at 6am.',  // optional
 },
 ```
 

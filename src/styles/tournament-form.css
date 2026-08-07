@@ -20,3 +20,22 @@
 .modal-actions .link-button {
   margin-right: auto;
 }
+
+/* Coach notes. Matches the inputs, but resizable vertically only — sideways
+   dragging escapes the dialog. */
+#t-notes {
+  width: 100%;
+  padding: 11px 13px;
+  border: 1.5px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  background: var(--surface-sunken);
+  color: var(--text);
+  font: 600 15px var(--font-body);
+  resize: vertical;
+}
+#t-notes:focus {
+  border-color: var(--accent);
+}
+#t-notes::placeholder {
+  color: var(--text-faint);
+}
