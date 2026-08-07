@@ -8,12 +8,8 @@ Until then the live site keeps serving the old code from `main`, untouched.
 
 ---
 
-## 1. Generate the two secrets
+## 1. Generate the session secret
 
-Both go in 1Password before they go anywhere else.
-
-- **`ADMIN_PASSWORD`** — a new password. Do **not** reuse `GB2026`; it is in the
-  public repo's history.
 - **`SESSION_SECRET`** — 32+ random bytes, used to sign admin session cookies:
 
   ```bash
@@ -37,8 +33,10 @@ Netlify → **Site configuration** → **Environment variables** → Add:
 
 | Variable         | Value          | Scope        |
 | ---------------- | -------------- | ------------ |
-| `ADMIN_PASSWORD` | from 1Password | All contexts |
 | `SESSION_SECRET` | from 1Password | All contexts |
+
+The admin password is **not** an environment variable — accounts live in the
+database. See step 5b.
 
 Leave `NETLIFY_DATABASE_URL` alone — step 2 provides it.
 
@@ -64,6 +62,18 @@ NETLIFY_DATABASE_URL='postgres://…' npm run migrate
 It prints `Using Netlify DB` rather than `Using local database`. If it says
 local, the variable did not reach the script.
 
+## 5b. Create the admin account
+
+Nobody can log in until this exists — login fails closed on an empty table.
+
+```bash
+NETLIFY_DATABASE_URL='postgres://…' npm run admin:add
+```
+
+Choose a password that is **not** `GB2026`; that one is in the public repo's
+history. Store it in 1Password. It is written as a one-way scrypt hash and
+cannot be read back, so a forgotten password is reset by running this again.
+
 ## 6. Turn on sign-up emails
 
 Netlify → **Forms** → `tournament-signup` → **Settings & usage** →
@@ -80,7 +90,8 @@ it does not appear in the dashboard, that file did not deploy.
 - [ ] Sign up **without** an email → also succeeds
 - [ ] Coaches receive the notification email
 - [ ] **Admin login rejects the old `GB2026`**
-- [ ] Admin login accepts the new password, participant list shows the sign-ups
+- [ ] A wrong username and a wrong password give the same message
+- [ ] Admin login accepts the new account, participant list shows the sign-ups
 - [ ] Remove a participant, refresh — it stays gone
 - [ ] Open in a private window: `/api/signups` returns 401, not data
 

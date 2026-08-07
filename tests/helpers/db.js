@@ -1,4 +1,5 @@
-import { readFile } from 'node:fs/promises';
+import { readdir, readFile } from 'node:fs/promises';
+import { join } from 'node:path';
 
 /**
  * Shared setup for tests that exercise real SQL: an in-memory Postgres
@@ -13,8 +14,12 @@ const { localQuery } = await import('../../netlify/functions/_lib/local-db.js');
 export const { sql } = await import('../../netlify/functions/_lib/db.js');
 export const repo = await import('../../netlify/functions/_lib/signups-repo.js');
 
+/** Applies every migration in order, so tests and production share a schema. */
 export async function applySchema() {
-  await localQuery(await readFile('migrations/001_init.sql', 'utf8'));
+  const files = (await readdir('migrations')).filter((f) => f.endsWith('.sql')).sort();
+  for (const file of files) {
+    await localQuery(await readFile(join('migrations', file), 'utf8'));
+  }
 }
 
 export async function resetTables() {

@@ -60,7 +60,10 @@ export function mountAdminPanel() {
     event.preventDefault();
     setMessage(error, '');
     try {
-      await login(loginForm.elements.password.value);
+      await login(
+        loginForm.elements.username.value.trim(),
+        loginForm.elements.password.value
+      );
       loginForm.reset();
       setState({ isAdmin: true });
       syncToolbar();

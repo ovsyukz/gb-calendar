@@ -27,7 +27,8 @@ async function request(url, options = {}) {
 
 const post = (url, data) => request(url, { method: 'POST', body: JSON.stringify(data) });
 
-export const login = (password) => post('/api/admin/login', { password });
+export const login = (username, password) =>
+  post('/api/admin/login', { username, password });
 
 export const logout = () => post('/api/admin/logout', {});
 

@@ -29,7 +29,7 @@ prints a message naming the tournament and the problem.
 
 ## Reading sign-ups
 
-Click **Admin login** at the bottom of the page and enter the admin password.
+Click **Admin login** at the bottom of the page and sign in.
 You will see everyone who has signed up, with their tournament and email, and
 can remove entries.
 
@@ -45,17 +45,25 @@ JOIN athletes a ON a.id = s.athlete_id
 ORDER BY s.tournament_id, s.created_at;
 ```
 
-## Rotating the admin password
+## Admin accounts
 
-1. Generate a new password and store it in 1Password.
-2. Netlify → Site configuration → Environment variables → set `ADMIN_PASSWORD`.
-3. Redeploy (or wait for the next push).
+Admins live in the database, one row per person, so more than one coach can
+have access and a password can change without a redeploy.
 
-Do the same for `SESSION_SECRET` if you ever need to sign everyone out —
-changing it invalidates every existing admin session immediately.
+```bash
+npm run admin:add     # create an account, or reset an existing password
+```
 
-**Never put either value in the code.** They are read from the environment at
-runtime, and the repository is public.
+It prompts rather than taking arguments, so the password stays out of your
+shell history. Store it in 1Password.
+
+Passwords are held as one-way **scrypt** hashes — they cannot be read back,
+not by you and not by anyone who obtains the database. A forgotten password is
+reset by running the command again, never recovered.
+
+`SESSION_SECRET` still lives in the environment; it signs the login cookie.
+Changing it signs every admin out immediately, which is the fastest way to
+revoke access.
 
 ## Local development
 
@@ -66,7 +74,7 @@ npm packages — no Netlify, no Postgres, no Docker.
 nvm use                # Node 22
 npm install
 cp .env.example .env   # any values will do locally
-npm run migrate        # creates the tables in .pgdata/
+npm run migrate        # creates the tables, and a local admin to log in with
 npm run dev            # http://localhost:8888
 ```
 

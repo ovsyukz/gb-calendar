@@ -3,6 +3,7 @@ import { readdir, readFile } from 'node:fs/promises';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { sql, isLocal } from '../netlify/functions/_lib/db.js';
+import { countAdmins, upsertAdmin } from '../netlify/functions/_lib/admins-repo.js';
 
 /**
  * Applies every .sql file in migrations/ that has not run yet, in filename
@@ -57,4 +58,14 @@ for (const file of files) {
 console.log(
   count === 0 ? 'Already up to date.' : `Done — ${count} migration(s) applied.`
 );
+
+// Local convenience only: a fresh clone can log in immediately. Guarded on
+// isLocal() so this can never create an account against a real database —
+// there, `npm run admin:add` is the only way in.
+if (isLocal() && (await countAdmins()) === 0) {
+  await upsertAdmin('admin', 'localdev');
+  console.log('\nSeeded a local admin — username "admin", password "localdev".');
+  console.log('Local only. Production accounts come from: npm run admin:add\n');
+}
+
 process.exit(0);
