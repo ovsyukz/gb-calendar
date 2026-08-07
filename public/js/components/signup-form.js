@@ -34,11 +34,13 @@ export function mountSignupForm() {
       const result = await submitSignup(signup);
       notifyByEmail({ ...signup, tournament: result.tournament });
 
+      // Name the tournament back: the moment of doubt is "did I pick the
+      // right one from that dropdown?", not "did the button work".
       setMessage(
         message,
         result.alreadySignedUp
-          ? `You were already signed up for ${result.tournament}.`
-          : "You're signed up! See you on the mats.",
+          ? `You're already on the list for ${result.tournament}. You've got this.`
+          : `You're signed up for ${result.tournament}. Train hard — you've got this. 🥋`,
         'success'
       );
       form.reset();
