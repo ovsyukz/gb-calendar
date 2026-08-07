@@ -58,9 +58,7 @@ h1 {
   margin-top: 16px;
 }
 
-/* Log out sits with the other admin controls, vertically centred against
-   the taller buttons beside it. */
-.admin-toolbar .link-button {
-  align-self: center;
-  margin-left: 4px;
+/* Log out sits apart from the actions that change things. */
+.admin-toolbar #admin-logout {
+  margin-left: auto;
 }

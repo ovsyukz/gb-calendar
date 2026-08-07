@@ -58,3 +58,14 @@
   border-color: var(--accent);
   color: var(--accent);
 }
+
+/* Same shape as .btn-secondary, coloured to read as "ends your session". */
+.btn-danger {
+  color: var(--accent);
+  border-color: var(--accent-soft);
+}
+.btn-danger:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
