@@ -1,0 +1,4 @@
+# Built from src/ — collapse these in pull request diffs and exclude them
+# from language statistics. They are output, not code to review.
+public/index.html linguist-generated=true
+public/styles.css linguist-generated=true

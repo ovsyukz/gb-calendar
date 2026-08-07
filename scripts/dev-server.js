@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url';
 import { serveStatic } from './static-files.js';
 import { loadRoutes, toRequest, send } from './dev-functions.js';
 import { buildHtml } from './build-html.js';
+import { buildCss } from './build-css.js';
 import { isLocal } from '../netlify/functions/_lib/db.js';
 import { closeLocalDb } from '../netlify/functions/_lib/local-db.js';
 
@@ -38,10 +39,11 @@ const server = createServer(async (req, res) => {
     if (req.method === 'POST' && pathname === '/')
       return await send(res, new Response(''));
 
-    // Rebuild the page on every request for it, so editing a partial in src/
-    // shows up on refresh rather than needing a restart. Thirteen small file
-    // reads — cheaper than the round trip that follows it.
+    // Rebuild on every request for the page or the stylesheet, so editing
+    // anything in src/ shows up on refresh rather than needing a restart.
+    // A handful of small file reads — cheaper than the round trip after it.
     if (pathname === '/' || pathname === '/index.html') await buildHtml();
+    if (pathname === '/styles.css') await buildCss();
 
     const file = await serveStatic(PUBLIC_DIR, pathname);
     if (file) return await send(res, file);

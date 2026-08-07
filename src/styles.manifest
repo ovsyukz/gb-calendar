@@ -1,0 +1,28 @@
+# Stylesheets, concatenated into public/styles.css in this order.
+#
+# Order is the cascade — a rule later in this list wins over an earlier one at
+# equal specificity. tokens.css must come first (everything reads its
+# variables) and base.css second (it holds the reset).
+#
+# Adding a stylesheet: create it in src/styles/ and add its name below.
+
+tokens.css
+base.css
+
+layout.css
+header.css
+buttons.css
+
+month-nav.css
+calendar.css
+chips.css
+cards.css
+past-tournaments.css
+
+forms.css
+modal.css
+
+athletes.css
+admins.css
+sort.css
+tournament-form.css

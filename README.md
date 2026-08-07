@@ -99,15 +99,17 @@ Deploying to Netlify is a separate exercise — see
 ## How it fits together
 
 ```
-src/                       the page, in pieces
+src/                       everything you edit
   index.html               the shell: a list of includes
-  head.html                <head> — stylesheets and fonts
+  head.html                <head> — fonts and the stylesheet
   sections/                header, calendar, sidebar, sign-up panel
   dialogs/                 one file per modal
   templates/               row templates cloned by lib/dom.js
+  styles/                  one stylesheet per concern
+  styles.manifest          the order they are concatenated in
 public/                    what actually ships
-  index.html               GENERATED from src/ — do not edit
-  styles/                  tokens.css holds every colour and font
+  index.html               GENERATED — do not edit
+  styles.css               GENERATED — do not edit
   js/data/tournaments.js   ← the file you edit to change tournaments
   js/lib/                  dates, DOM helpers, API client
   js/components/           one file per piece of UI
@@ -120,10 +122,15 @@ To change the markup, edit the relevant file in `src/` — never
 `npm run build` assembles it; the dev server rebuilds on every page load, so a
 refresh is enough.
 
-That builder resolves `<!-- include: path -->` and nothing else — no
-templating language, no variables. The browser still loads native ES modules
-directly: there is no bundler, and the JavaScript that ships is the JavaScript
-in the repo.
+Stylesheets work the same way: edit the files in `src/styles/` and the build
+concatenates them into one `public/styles.css`, in the order listed in
+`styles.manifest`. Sixteen small files is right for editing and wrong for
+serving — the browser fetches one.
+
+Both builders are deliberately dumb. The HTML one resolves
+`<!-- include: path -->`; the CSS one joins files together. No templating
+language, no variables, no minifying. The browser still loads native ES
+modules directly: there is no bundler, and what ships is what is in the repo.
 
 Tournaments are a constant in the repo; sign-ups live in Netlify DB (managed
 Postgres). Admin access is checked on the server on every request — the
