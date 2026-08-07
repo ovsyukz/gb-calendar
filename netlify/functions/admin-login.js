@@ -1,24 +1,28 @@
 import { sessionCookie, json } from './_lib/auth.js';
 import { verifyPassword } from './_lib/passwords.js';
-import { findAdmin, countAdmins, touchLastLogin } from './_lib/admins-repo.js';
+import { findAdminByEmail, countAdmins, touchLastLogin } from './_lib/admins-repo.js';
 
 export const config = { path: '/api/admin/login' };
+
+// Verified against when the email is unknown, so a wrong email and a wrong
+// password take the same time and cannot be told apart.
+const DECOY = 'scrypt$16384$8$1$AAAAAAAAAAAAAAAAAAAAAA==$AA==';
 
 export default async function adminLogin(request) {
   if (request.method !== 'POST') {
     return json({ error: 'Method not allowed' }, 405);
   }
 
-  let username = '';
+  let email = '';
   let password = '';
   try {
-    ({ username = '', password = '' } = await request.json());
+    ({ email = '', password = '' } = await request.json());
   } catch {
     return json({ error: 'Expected a JSON body' }, 400);
   }
 
-  if (!username || !password) {
-    return json({ error: 'Enter a username and password.' }, 400);
+  if (!email || !password) {
+    return json({ error: 'Enter an email and password.' }, 400);
   }
 
   if ((await countAdmins()) === 0) {
@@ -27,17 +31,24 @@ export default async function adminLogin(request) {
     return json({ error: 'Admin login is not configured' }, 500);
   }
 
-  const admin = await findAdmin(username);
-
-  // Verify against a decoy when the username is unknown, so a wrong username
-  // and a wrong password take the same time and cannot be told apart.
-  const stored = admin?.password_hash ?? 'scrypt$16384$8$1$AAAAAAAAAAAAAAAAAAAAAA==$AA==';
-  const ok = await verifyPassword(password, stored);
+  const admin = await findAdminByEmail(email);
+  const ok = await verifyPassword(password, admin?.password_hash ?? DECOY);
 
   if (!admin || !ok) {
-    return json({ error: 'Incorrect username or password' }, 401);
+    return json({ error: 'Incorrect email or password' }, 401);
   }
 
   await touchLastLogin(admin.id);
-  return json({ ok: true }, 200, { 'set-cookie': sessionCookie() });
+
+  // A pending session can do nothing but set a new password — see auth.js.
+  return json(
+    { ok: true, name: admin.name, mustChangePassword: admin.must_change_password },
+    200,
+    {
+      'set-cookie': sessionCookie({
+        adminId: admin.id,
+        mustChangePassword: admin.must_change_password,
+      }),
+    }
+  );
 }

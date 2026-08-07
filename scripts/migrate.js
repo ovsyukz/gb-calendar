@@ -63,8 +63,12 @@ console.log(
 // isLocal() so this can never create an account against a real database —
 // there, `npm run admin:add` is the only way in.
 if (isLocal() && (await countAdmins()) === 0) {
-  await upsertAdmin('admin', 'localdev');
-  console.log('\nSeeded a local admin — username "admin", password "localdev".');
+  await upsertAdmin({
+    name: 'Local Admin',
+    email: 'admin@local',
+    password: 'localdev123',
+  });
+  console.log('\nSeeded a local admin — email "admin@local", password "localdev123".');
   console.log('Local only. Production accounts come from: npm run admin:add\n');
 }
 

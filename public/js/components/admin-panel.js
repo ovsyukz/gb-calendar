@@ -12,7 +12,7 @@ import { renderAthletes } from './athlete-list.js';
  * session cookie on every request, so flipping it in DevTools yields empty
  * dialogs and a 401.
  */
-export function mountAdminPanel() {
+export function mountAdminPanel(onPendingPassword = () => {}) {
   const loginDialog = $('#admin-dialog');
   const signupsDialog = $('#signups-dialog');
   const athletesDialog = $('#athletes-dialog');
@@ -25,8 +25,10 @@ export function mountAdminPanel() {
    * form, which is why hiding it once logged in costs nothing.
    */
   function syncToolbar() {
-    toggle($('#admin-toolbar'), state.isAdmin);
-    toggle($('#signup-panel'), !state.isAdmin);
+    // An admin still owing a password change gets neither view: not the
+    // toolbar, and not the sign-up form they are no longer the audience for.
+    toggle($('#admin-toolbar'), state.isAdmin && !state.mustChangePassword);
+    toggle($('#signup-panel'), !state.isAdmin && !state.mustChangePassword);
   }
 
   /** Both dialogs read the same data, so one fetch refreshes either. */
@@ -60,16 +62,18 @@ export function mountAdminPanel() {
     event.preventDefault();
     setMessage(error, '');
     try {
-      await login(
-        loginForm.elements.username.value.trim(),
+      const { mustChangePassword } = await login(
+        loginForm.elements.email.value.trim(),
         loginForm.elements.password.value
       );
       loginForm.reset();
-      setState({ isAdmin: true });
+      setState({ isAdmin: true, mustChangePassword });
       syncToolbar();
       // Logging in just unlocks the toolbar. Which list to look at, if any,
       // is the admin's choice — so close, rather than landing them in one.
       loginDialog.close();
+
+      if (mustChangePassword) onPendingPassword();
     } catch (failure) {
       setMessage(error, failure.message, 'error');
     }
@@ -77,7 +81,7 @@ export function mountAdminPanel() {
 
   $('#admin-logout').addEventListener('click', async () => {
     await logout().catch(() => {});
-    setState({ isAdmin: false, signups: [] });
+    setState({ isAdmin: false, mustChangePassword: false, signups: [] });
     syncToolbar();
   });
 

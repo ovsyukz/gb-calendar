@@ -27,6 +27,7 @@
     <link rel="stylesheet" href="/styles/forms.css" />
     <link rel="stylesheet" href="/styles/modal.css" />
     <link rel="stylesheet" href="/styles/athletes.css" />
+    <link rel="stylesheet" href="/styles/admins.css" />
     <link rel="stylesheet" href="/styles/tournament-form.css" />
     <script type="module" src="/js/main.js"></script>
   </head>
@@ -43,6 +44,7 @@
           </button>
           <button type="button" id="open-signups" class="btn-secondary">Sign-ups</button>
           <button type="button" id="open-athletes" class="btn-secondary">Athletes</button>
+          <button type="button" id="open-admins" class="btn-secondary">Admins</button>
           <button type="button" id="admin-logout" class="btn-secondary btn-danger">
             Log out
           </button>
@@ -161,12 +163,13 @@
       <h2 class="modal-title">Admin Login</h2>
       <form id="admin-login-form">
         <div class="field">
-          <label for="admin-username">Username</label>
+          <label for="admin-email">Email</label>
           <input
-            id="admin-username"
-            name="username"
+            id="admin-email"
+            name="email"
+            type="email"
             autocomplete="username"
-            placeholder="coach"
+            placeholder="coach@example.com"
           />
         </div>
         <div class="field">
@@ -181,6 +184,79 @@
         </div>
         <p class="form-message error" id="admin-error" role="alert" hidden></p>
         <button type="submit" class="btn-primary">Log in</button>
+      </form>
+    </dialog>
+
+    <!-- No close button and never dismissable: an admin handed a temporary
+         password cannot reach anything until they replace it. -->
+    <dialog id="password-dialog" class="modal">
+      <h2 class="modal-title">Choose a password</h2>
+      <p class="panel-note">
+        You signed in with a temporary password. Pick your own to continue — you cannot
+        use the site until you do.
+      </p>
+      <form id="password-form">
+        <div class="field">
+          <label for="new-password">New password</label>
+          <input
+            id="new-password"
+            name="password"
+            type="password"
+            autocomplete="new-password"
+            placeholder="at least 12 characters"
+          />
+        </div>
+        <div class="field">
+          <label for="confirm-password">Confirm password</label>
+          <input
+            id="confirm-password"
+            name="confirm"
+            type="password"
+            autocomplete="new-password"
+            placeholder="type it again"
+          />
+        </div>
+        <p class="form-message error" id="password-error" role="alert" hidden></p>
+        <button type="submit" class="btn-primary">Save password</button>
+      </form>
+    </dialog>
+
+    <dialog id="admins-dialog" class="modal">
+      <form method="dialog" class="modal-close-row">
+        <button class="link-button" value="close" aria-label="Close">✕</button>
+      </form>
+      <h2 class="modal-title">Admins</h2>
+      <ul class="participant-list" id="admin-list"></ul>
+
+      <h3 class="panel-title add-admin-title">Add an admin</h3>
+      <p class="panel-note">
+        They sign in with the temporary password below, then must replace it before they
+        can do anything.
+      </p>
+      <form id="add-admin-form">
+        <div class="field">
+          <label for="new-admin-name">Name</label>
+          <input id="new-admin-name" name="name" placeholder="Alex Coach" />
+        </div>
+        <div class="field">
+          <label for="new-admin-email">Email</label>
+          <input
+            id="new-admin-email"
+            name="email"
+            type="email"
+            placeholder="alex@example.com"
+          />
+        </div>
+        <div class="field">
+          <label for="new-admin-password">Temporary password</label>
+          <input
+            id="new-admin-password"
+            name="password"
+            placeholder="at least 12 characters"
+          />
+        </div>
+        <p class="form-message" id="add-admin-message" role="status" hidden></p>
+        <button type="submit" class="btn-primary">Add admin</button>
       </form>
     </dialog>
 
@@ -298,6 +374,16 @@
         <button type="button" class="link-button danger participant-remove">
           Remove
         </button>
+      </li>
+    </template>
+
+    <template id="tpl-admin">
+      <li class="participant">
+        <span class="participant-body">
+          <span class="participant-name admin-name"></span>
+          <span class="participant-meta admin-email"></span>
+        </span>
+        <span class="admin-status"></span>
       </li>
     </template>
 

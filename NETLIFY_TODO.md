@@ -74,6 +74,9 @@ Choose a password that is **not** `GB2026`; that one is in the public repo's
 history. Store it in 1Password. It is written as a one-way scrypt hash and
 cannot be read back, so a forgotten password is reset by running this again.
 
+This is only needed once. After that, admins add each other from the **Admins**
+button in the app.
+
 ## 6. Turn on sign-up emails
 
 Netlify → **Forms** → `tournament-signup` → **Settings & usage** →
@@ -92,6 +95,8 @@ it does not appear in the dashboard, that file did not deploy.
 - [ ] **Admin login rejects the old `GB2026`**
 - [ ] A wrong username and a wrong password give the same message
 - [ ] Admin login accepts the new account, participant list shows the sign-ups
+- [ ] Add a second admin, sign in as them, confirm the forced password change
+      blocks everything until it is done
 - [ ] Remove a participant, refresh — it stays gone
 - [ ] Open in a private window: `/api/signups` returns 401, not data
 

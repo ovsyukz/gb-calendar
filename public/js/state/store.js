@@ -31,6 +31,9 @@ export function initialMonth(now = new Date()) {
 export const state = {
   monthIndex: initialMonth(),
   isAdmin: false,
+  // Signed in with a temporary password: the toolbar stays hidden and every
+  // privileged request is refused until it is replaced.
+  mustChangePassword: false,
   signups: [],
   tournaments: [],
 };

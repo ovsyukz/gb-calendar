@@ -1,39 +1,43 @@
 import { describe, it, expect, beforeAll } from 'vitest';
-import { createToken, verifyToken, safeEqual } from '../netlify/functions/_lib/tokens.js';
+import { createToken, readToken, safeEqual } from '../netlify/functions/_lib/tokens.js';
 
 beforeAll(() => {
   process.env.SESSION_SECRET = 'a'.repeat(48);
 });
 
-describe('createToken / verifyToken', () => {
-  it('accepts a token it just made', () => {
-    expect(verifyToken(createToken())).toBe(true);
+describe('createToken / readToken', () => {
+  it('round-trips its claims', () => {
+    const claims = readToken(createToken({ sub: 7, pending: true }));
+    expect(claims).toMatchObject({ sub: 7, pending: true });
   });
 
   it('rejects an expired token', () => {
-    expect(verifyToken(createToken(-1))).toBe(false);
+    expect(readToken(createToken({ sub: 1 }, -1))).toBeNull();
   });
 
   it('rejects a tampered payload', () => {
-    const [, signature] = createToken().split('.');
-    const forged = Buffer.from(JSON.stringify({ exp: 9e9 })).toString('base64url');
-    expect(verifyToken(`${forged}.${signature}`)).toBe(false);
+    // Flipping "pending" would be the way to skip a forced password change.
+    const [, signature] = createToken({ sub: 1, pending: true }).split('.');
+    const forged = Buffer.from(
+      JSON.stringify({ sub: 1, pending: false, exp: 9e9 })
+    ).toString('base64url');
+    expect(readToken(`${forged}.${signature}`)).toBeNull();
   });
 
   it('rejects a token signed with a different secret', () => {
-    const token = createToken();
+    const token = createToken({ sub: 1 });
     process.env.SESSION_SECRET = 'b'.repeat(48);
-    expect(verifyToken(token)).toBe(false);
+    expect(readToken(token)).toBeNull();
     process.env.SESSION_SECRET = 'a'.repeat(48);
   });
 
   it.each([undefined, null, '', 'garbage', 'a.b.c', {}])('rejects %p', (value) => {
-    expect(verifyToken(value)).toBe(false);
+    expect(readToken(value)).toBeNull();
   });
 
   it('refuses to sign without a long enough secret', () => {
     process.env.SESSION_SECRET = 'short';
-    expect(() => createToken()).toThrow(/SESSION_SECRET/);
+    expect(() => createToken({ sub: 1 })).toThrow(/SESSION_SECRET/);
     process.env.SESSION_SECRET = 'a'.repeat(48);
   });
 });

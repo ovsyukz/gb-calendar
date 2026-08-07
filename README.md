@@ -29,7 +29,7 @@ prints a message naming the tournament and the problem.
 
 ## Reading sign-ups
 
-Click **Admin login** at the bottom of the page and sign in.
+Click **Admin login** at the bottom of the page and sign in with your email.
 You will see everyone who has signed up, with their tournament and email, and
 can remove entries.
 
@@ -49,6 +49,13 @@ ORDER BY s.tournament_id, s.created_at;
 
 Admins live in the database, one row per person, so more than one coach can
 have access and a password can change without a redeploy.
+
+Day to day, add colleagues from the **Admins** button in the app: give a name,
+an email, and a temporary password. They sign in with it and are then required
+to choose their own before they can do anything — until they do, every request
+they make is refused.
+
+For the first account, or if everyone is locked out:
 
 ```bash
 npm run admin:add     # create an account, or reset an existing password

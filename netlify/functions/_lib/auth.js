@@ -1,12 +1,18 @@
-import { createToken, verifyToken, SESSION_TTL_SECONDS } from './tokens.js';
+import { createToken, readToken, SESSION_TTL_SECONDS } from './tokens.js';
 
 const COOKIE_NAME = 'gb_admin';
 
 /**
- * HttpOnly means JavaScript cannot read it, so an XSS bug cannot steal the
- * session. SameSite=Strict means it is never sent cross-site, which is what
- * stops CSRF against the admin DELETE endpoint.
+ * Two grades of session:
+ *
+ *   full     — signed in, password settled, may do anything
+ *   pending  — signed in with a temporary password; may only set a new one
+ *
+ * `isAdmin` is the gate for every privileged endpoint and deliberately
+ * rejects a pending session, so a new admin cannot read sign-ups or add
+ * anyone until they have replaced the password they were handed.
  */
+
 function cookie(value, maxAge) {
   return [
     `${COOKIE_NAME}=${value}`,
@@ -18,8 +24,11 @@ function cookie(value, maxAge) {
   ].join('; ');
 }
 
-export function sessionCookie() {
-  return cookie(createToken(), SESSION_TTL_SECONDS);
+export function sessionCookie({ adminId, mustChangePassword }) {
+  return cookie(
+    createToken({ sub: adminId, pending: Boolean(mustChangePassword) }),
+    SESSION_TTL_SECONDS
+  );
 }
 
 export function expiredCookie() {
@@ -37,9 +46,15 @@ function readCookie(request, name) {
   return null;
 }
 
-/** The single source of truth for "is this request allowed to see sign-ups?" */
+/** The claims of any valid session, pending or not. */
+export function session(request) {
+  return readToken(readCookie(request, COOKIE_NAME));
+}
+
+/** The single source of truth for "may this request see or change anything?" */
 export function isAdmin(request) {
-  return verifyToken(readCookie(request, COOKIE_NAME));
+  const claims = session(request);
+  return Boolean(claims) && !claims.pending;
 }
 
 export function json(body, status = 200, headers = {}) {

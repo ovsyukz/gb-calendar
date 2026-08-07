@@ -4,9 +4,12 @@ import { createHmac, timingSafeEqual } from 'node:crypto';
  * Signed session tokens. Format: `<payload>.<signature>`, where payload is
  * base64url JSON and signature is an HMAC-SHA256 of it.
  *
- * The token carries only an expiry — there is exactly one admin, so there is
- * no identity to encode. It is deliberately not a JWT: no algorithm field
- * means no algorithm-confusion attack to get wrong.
+ * The payload carries the admin's id and whether they still owe us a password
+ * change, so a half-authenticated session is a property of the token rather
+ * than a database lookup on every request.
+ *
+ * Deliberately not a JWT: no algorithm field means no algorithm-confusion
+ * attack to get wrong.
  */
 
 export const SESSION_TTL_SECONDS = 60 * 60 * 8; // 8 hours
@@ -23,24 +26,28 @@ function sign(payload) {
   return createHmac('sha256', secret()).update(payload).digest('base64url');
 }
 
-export function createToken(ttlSeconds = SESSION_TTL_SECONDS) {
+export function createToken(claims, ttlSeconds = SESSION_TTL_SECONDS) {
   const exp = Math.floor(Date.now() / 1000) + ttlSeconds;
-  const payload = Buffer.from(JSON.stringify({ exp })).toString('base64url');
+  const payload = Buffer.from(JSON.stringify({ ...claims, exp })).toString('base64url');
   return `${payload}.${sign(payload)}`;
 }
 
-export function verifyToken(token) {
-  if (typeof token !== 'string') return false;
+/** Returns the claims, or null if the token is missing, forged, or expired. */
+export function readToken(token) {
+  if (typeof token !== 'string') return null;
 
   const [payload, signature] = token.split('.');
-  if (!payload || !signature) return false;
-  if (!safeEqual(signature, sign(payload))) return false;
+  if (!payload || !signature) return null;
+  if (!safeEqual(signature, sign(payload))) return null;
 
   try {
-    const { exp } = JSON.parse(Buffer.from(payload, 'base64url').toString());
-    return typeof exp === 'number' && exp > Math.floor(Date.now() / 1000);
+    const claims = JSON.parse(Buffer.from(payload, 'base64url').toString());
+    if (typeof claims?.exp !== 'number' || claims.exp <= Math.floor(Date.now() / 1000)) {
+      return null;
+    }
+    return claims;
   } catch {
-    return false;
+    return null;
   }
 }
 
