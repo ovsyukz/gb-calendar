@@ -74,7 +74,9 @@ export function mountAdminPanel() {
       loginForm.reset();
       setState({ isAdmin: true });
       syncToolbar();
-      await refresh();
+      // Logging in just unlocks the toolbar. Which list to look at, if any,
+      // is the admin's choice — so close, rather than landing them in one.
+      dialog.close();
     } catch (failure) {
       setMessage(error, failure.message, 'error');
     }
