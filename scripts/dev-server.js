@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 import { createServer } from 'node:http';
-import { readdir } from 'node:fs/promises';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { serveStatic } from './static-files.js';
+import { loadRoutes, toRequest, send } from './dev-functions.js';
 import { isLocal } from '../netlify/functions/_lib/db.js';
 import { closeLocalDb } from '../netlify/functions/_lib/local-db.js';
 
@@ -23,43 +23,14 @@ const PUBLIC_DIR = join(ROOT, 'public');
 const FUNCTIONS_DIR = join(ROOT, 'netlify', 'functions');
 const PORT = Number(process.env.PORT ?? 8888);
 
-/** Maps each function's declared config.path to its handler. */
-async function loadRoutes() {
-  const files = (await readdir(FUNCTIONS_DIR)).filter((f) => f.endsWith('.js'));
-  const routes = new Map();
-
-  for (const file of files) {
-    const module = await import(join(FUNCTIONS_DIR, file));
-    if (module.config?.path) routes.set(module.config.path, module.default);
-  }
-  return routes;
-}
-
-const routes = await loadRoutes();
-
-function toRequest(req) {
-  const url = new URL(req.url, `http://localhost:${PORT}`);
-  const hasBody = req.method !== 'GET' && req.method !== 'HEAD';
-
-  return new Request(url, {
-    method: req.method,
-    headers: req.headers,
-    body: hasBody ? req : undefined,
-    duplex: 'half',
-  });
-}
-
-async function send(res, response) {
-  res.writeHead(response.status, Object.fromEntries(response.headers));
-  res.end(Buffer.from(await response.arrayBuffer()));
-}
+const routes = await loadRoutes(FUNCTIONS_DIR);
 
 const server = createServer(async (req, res) => {
   const { pathname } = new URL(req.url, `http://localhost:${PORT}`);
 
   try {
     const handler = routes.get(pathname);
-    if (handler) return await send(res, await handler(toRequest(req), {}));
+    if (handler) return await send(res, await handler(toRequest(req, PORT), {}));
 
     // Netlify Forms posts to '/' in production; locally just acknowledge it
     // so the sign-up flow does not report a failure.
