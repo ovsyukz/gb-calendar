@@ -3,6 +3,7 @@ import { validateTournaments } from './data/validate.js';
 import { checkSession, fetchTournaments } from './lib/api.js';
 import { setState } from './state/store.js';
 import { mountCalendar } from './components/calendar-grid.js';
+import { mountSubtitle } from './components/subtitle.js';
 import { mountUpcoming } from './components/upcoming-list.js';
 import { mountSignupForm } from './components/signup-form.js';
 import { mountAdminPanel } from './components/admin-panel.js';
@@ -19,6 +20,7 @@ setState({ tournaments: validateTournaments(TOURNAMENTS) });
 const tournamentModal = mountTournamentModal();
 const adminPanel = mountAdminPanel();
 
+mountSubtitle();
 mountCalendar({ onAddOn: tournamentModal.openAdd, onEdit: tournamentModal.openEdit });
 mountUpcoming();
 mountSignupForm();
