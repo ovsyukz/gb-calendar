@@ -25,7 +25,7 @@
     <link rel="stylesheet" href="/styles/cards.css" />
     <link rel="stylesheet" href="/styles/forms.css" />
     <link rel="stylesheet" href="/styles/modal.css" />
-    <link rel="stylesheet" href="/styles/tabs.css" />
+    <link rel="stylesheet" href="/styles/athletes.css" />
     <link rel="stylesheet" href="/styles/tournament-form.css" />
     <script type="module" src="/js/main.js"></script>
   </head>
@@ -44,6 +44,9 @@
           </button>
           <button type="button" id="open-signups" class="btn-secondary">Sign-ups</button>
           <button type="button" id="open-athletes" class="btn-secondary">Athletes</button>
+          <button type="button" id="admin-logout" class="link-button danger">
+            Log out
+          </button>
         </div>
       </header>
 
@@ -151,60 +154,43 @@
       <form method="dialog" class="modal-close-row">
         <button class="link-button" value="close" aria-label="Close">✕</button>
       </form>
-      <div id="admin-login-view">
-        <h2 class="modal-title">Admin Login</h2>
-        <form id="admin-login-form">
-          <div class="field">
-            <label for="admin-password">Password</label>
-            <input
-              id="admin-password"
-              name="password"
-              type="password"
-              autocomplete="current-password"
-              placeholder="••••••••"
-            />
-          </div>
-          <p class="form-message error" id="admin-error" role="alert" hidden></p>
-          <button type="submit" class="btn-primary">Log in</button>
-        </form>
-      </div>
-      <div id="admin-panel-view" hidden>
-        <h2 class="modal-title">Tournament Sign-Ups</h2>
-        <div class="tabs" role="tablist">
-          <button
-            type="button"
-            id="tab-signups"
-            class="tab"
-            role="tab"
-            aria-selected="true"
-          >
-            Sign-ups
-          </button>
-          <button
-            type="button"
-            id="tab-athletes"
-            class="tab"
-            role="tab"
-            aria-selected="false"
-          >
-            Athletes
-          </button>
+      <h2 class="modal-title">Admin Login</h2>
+      <form id="admin-login-form">
+        <div class="field">
+          <label for="admin-password">Password</label>
+          <input
+            id="admin-password"
+            name="password"
+            type="password"
+            autocomplete="current-password"
+            placeholder="••••••••"
+          />
         </div>
+        <p class="form-message error" id="admin-error" role="alert" hidden></p>
+        <button type="submit" class="btn-primary">Log in</button>
+      </form>
+    </dialog>
 
-        <div id="signups-view" role="tabpanel" aria-labelledby="tab-signups">
-          <p class="empty-note" id="participants-empty" hidden>No sign-ups yet.</p>
-          <ul class="participant-list" id="participant-list"></ul>
-        </div>
+    <dialog id="signups-dialog" class="modal">
+      <form method="dialog" class="modal-close-row">
+        <button class="link-button" value="close" aria-label="Close">✕</button>
+      </form>
+      <h2 class="modal-title">Sign-ups</h2>
+      <p class="panel-note">Every entry, newest first. One row per tournament entered.</p>
+      <p class="empty-note" id="participants-empty" hidden>No sign-ups yet.</p>
+      <ul class="participant-list" id="participant-list"></ul>
+    </dialog>
 
-        <div id="athletes-view" role="tabpanel" aria-labelledby="tab-athletes" hidden>
-          <p class="empty-note" id="athletes-empty" hidden>No athletes yet.</p>
-          <ul class="participant-list" id="athlete-list"></ul>
-        </div>
-
-        <button type="button" id="admin-logout" class="link-button danger">
-          Log out
-        </button>
-      </div>
+    <dialog id="athletes-dialog" class="modal">
+      <form method="dialog" class="modal-close-row">
+        <button class="link-button" value="close" aria-label="Close">✕</button>
+      </form>
+      <h2 class="modal-title">Athletes</h2>
+      <p class="panel-note">
+        One row per person, with every tournament they are entered in.
+      </p>
+      <p class="empty-note" id="athletes-empty" hidden>No athletes yet.</p>
+      <ul class="participant-list" id="athlete-list"></ul>
     </dialog>
 
     <dialog id="tournament-dialog" class="modal">

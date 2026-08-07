@@ -4,48 +4,33 @@ import { state, setState } from '../state/store.js';
 import { renderSignups } from './signup-list.js';
 import { renderAthletes } from './athlete-list.js';
 
-const TABS = [
-  ['#tab-signups', 'signups'],
-  ['#tab-athletes', 'athletes'],
-];
-
 /**
- * Login gate, plus two views of the same data: sign-ups (one row per entry,
- * removable) and athletes (one row per person). The toolbar buttons open the
- * dialog straight onto one of them; the tabs switch once it is open.
+ * Admin login, and the two lists it unlocks — sign-ups and athletes, each in
+ * its own dialog.
  *
  * The `isAdmin` flag here only decides what is drawn. The server checks the
- * session cookie on every request, so flipping it in DevTools yields an empty
- * panel and a 401.
+ * session cookie on every request, so flipping it in DevTools yields empty
+ * dialogs and a 401.
  */
 export function mountAdminPanel() {
-  const dialog = $('#admin-dialog');
+  const loginDialog = $('#admin-dialog');
+  const signupsDialog = $('#signups-dialog');
+  const athletesDialog = $('#athletes-dialog');
   const loginForm = $('#admin-login-form');
   const error = $('#admin-error');
-  let view = 'signups';
 
   /**
    * Swaps the page between its two audiences: an admin gets the toolbar, a
    * visitor gets the sign-up form. The "Admin login" link lives inside that
-   * form, which is why hiding it once logged in costs nothing — Log out is
-   * in the dialog the toolbar opens.
+   * form, which is why hiding it once logged in costs nothing.
    */
   function syncToolbar() {
     toggle($('#admin-toolbar'), state.isAdmin);
     toggle($('#signup-panel'), !state.isAdmin);
   }
 
-  function showViews() {
-    toggle($('#admin-login-view'), !state.isAdmin);
-    toggle($('#admin-panel-view'), state.isAdmin);
-    toggle($('#signups-view'), view === 'signups');
-    toggle($('#athletes-view'), view === 'athletes');
-    for (const [selector, name] of TABS) {
-      $(selector).setAttribute('aria-selected', String(view === name));
-    }
-  }
-
-  async function refresh() {
+  /** Both dialogs read the same data, so one fetch refreshes either. */
+  async function load() {
     try {
       const { signups } = await fetchSignups();
       setState({ signups });
@@ -53,27 +38,23 @@ export function mountAdminPanel() {
       // The session expired server-side while the page stayed open.
       setState({ isAdmin: false, signups: [] });
       syncToolbar();
-      showViews();
-      return;
+      signupsDialog.close();
+      athletesDialog.close();
+      return false;
     }
-    renderSignups(refresh);
+    renderSignups(load);
     renderAthletes();
-    showViews();
+    return true;
   }
 
-  async function openWith(next) {
-    view = next;
-    showViews();
+  async function open(dialog) {
     if (!dialog.open) dialog.showModal();
-    if (state.isAdmin) await refresh();
+    if (!(await load())) dialog.close();
   }
 
-  for (const [selector, name] of TABS) {
-    $(selector).addEventListener('click', () => openWith(name));
-  }
-  $('#open-signups').addEventListener('click', () => openWith('signups'));
-  $('#open-athletes').addEventListener('click', () => openWith('athletes'));
-  $('#open-admin').addEventListener('click', () => openWith(view));
+  $('#open-signups').addEventListener('click', () => open(signupsDialog));
+  $('#open-athletes').addEventListener('click', () => open(athletesDialog));
+  $('#open-admin').addEventListener('click', () => loginDialog.showModal());
 
   loginForm.addEventListener('submit', async (event) => {
     event.preventDefault();
@@ -85,7 +66,7 @@ export function mountAdminPanel() {
       syncToolbar();
       // Logging in just unlocks the toolbar. Which list to look at, if any,
       // is the admin's choice — so close, rather than landing them in one.
-      dialog.close();
+      loginDialog.close();
     } catch (failure) {
       setMessage(error, failure.message, 'error');
     }
@@ -95,7 +76,6 @@ export function mountAdminPanel() {
     await logout().catch(() => {});
     setState({ isAdmin: false, signups: [] });
     syncToolbar();
-    dialog.close();
   });
 
   return { syncToolbar };

@@ -82,8 +82,3 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
-
-#admin-logout {
-  display: block;
-  margin: 20px 0 0 auto;
-}

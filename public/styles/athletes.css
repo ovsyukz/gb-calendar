@@ -1,0 +1,22 @@
+/* The Athletes dialog: one row per person. */
+
+.athlete-count {
+  flex-shrink: 0;
+  padding: 3px 9px;
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.athlete-tournaments {
+  font-size: 12px;
+}
+
+/* An athlete who skipped the optional email field. */
+.athlete-contact.is-missing {
+  font-style: italic;
+  color: var(--text-faint);
+}
