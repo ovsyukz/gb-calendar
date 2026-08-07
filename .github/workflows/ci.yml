@@ -18,11 +18,7 @@ jobs:
 
       - run: npm ci
 
-      - name: Lint
-        run: npm run lint
-
-      - name: Check formatting
-        run: npm run format:check
-
-      - name: Test
-        run: npm test
+      # The same suite the pre-push hook runs, so CI cannot disagree with a
+      # developer's machine about whether the code is fit to push.
+      - name: Verify
+        run: npm run verify

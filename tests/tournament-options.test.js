@@ -68,7 +68,8 @@ describe('fillTournamentOptions', () => {
     const select = new FakeSelect();
     fillTournamentOptions(select, tournaments);
 
-    expect(select.labels).toContain('Chicago Open — Chicago, IL (Sep 5)');
+    // A middle dot before the location: names may contain dashes themselves.
+    expect(select.labels).toContain('Chicago Open · Chicago, IL (Sep 5)');
   });
 
   it('says so when nothing is coming up', () => {

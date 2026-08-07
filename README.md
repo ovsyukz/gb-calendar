@@ -90,8 +90,17 @@ runs in production. When `NETLIFY_DATABASE_URL` is unset it uses an embedded
 Postgres stored in `.pgdata/` — real Postgres, same SQL, just a local copy of
 the data. Delete that folder to start clean.
 
-`npm test` runs the tests, `npm run lint` the linter, `npm run format`
-Prettier. CI runs all three on every pull request.
+`npm run verify` runs everything that must pass: build, lint, formatting,
+tests, a scan for committed secrets, and `npm audit` for high and critical
+vulnerabilities.
+
+A **pre-push hook** runs it automatically, so a broken or leaky commit cannot
+reach GitHub. It installs itself on `npm install`. To push regardless — a
+work-in-progress branch, say — use `git push --no-verify`.
+
+Individually: `npm test`, `npm run lint`, `npm run format`,
+`npm run check:secrets`, `npm run audit`. CI runs the same suite on every
+pull request.
 
 Deploying to Netlify is a separate exercise — see
 [NETLIFY_TODO.md](NETLIFY_TODO.md) when you are ready for it.

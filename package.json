@@ -16,7 +16,11 @@
     "test:watch": "vitest",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "check:secrets": "node scripts/check-secrets.js",
+    "audit": "npm audit --audit-level=high",
+    "verify": "sh scripts/verify.sh",
+    "prepare": "git config core.hooksPath .githooks || true"
   },
   "dependencies": {
     "@netlify/neon": "^0.1.0"

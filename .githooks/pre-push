@@ -1,0 +1,21 @@
+#!/bin/sh
+#
+# Runs the full check suite before anything reaches GitHub.
+#
+# Installed by `npm install` (see the "prepare" script in package.json), which
+# points core.hooksPath at this directory.
+#
+# To push anyway — a work-in-progress branch, say — use:
+#     git push --no-verify
+#
+set -e
+
+echo ""
+echo "  Running checks before push…"
+echo ""
+
+npm run verify
+
+echo ""
+echo "  All checks passed — pushing."
+echo ""
