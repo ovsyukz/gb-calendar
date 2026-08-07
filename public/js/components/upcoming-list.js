@@ -1,38 +1,58 @@
 import { $, clone, fill, replaceChildren, toggle } from '../lib/dom.js';
-import { parseDate, formatDayRange, MONTH_ABBR } from '../lib/dates.js';
+import { parseDate, formatDayRange, today, MONTH_ABBR } from '../lib/dates.js';
+import { splitTournaments } from '../lib/split-tournaments.js';
 import { state, subscribe } from '../state/store.js';
 
-/** The sidebar. Re-renders whenever an admin changes the tournament list. */
+/**
+ * The sidebar: what is coming up, and what finished in the last month.
+ * Re-renders whenever an admin changes the tournament list.
+ */
 export function mountUpcoming() {
-  const list = $('#upcoming-list');
-  const empty = $('#upcoming-empty');
-
   function render() {
-    const sorted = [...state.tournaments].sort((a, b) => a.date.localeCompare(b.date));
-    toggle(empty, sorted.length === 0);
-    replaceChildren(list, sorted.map(upcomingCard));
+    const { upcoming, past } = splitTournaments(state.tournaments, today());
+
+    toggle($('#upcoming-empty'), upcoming.length === 0);
+    replaceChildren(
+      $('#upcoming-list'),
+      upcoming.map((t) => card(t, false))
+    );
+
+    // The whole Past section disappears when there is nothing recent, rather
+    // than leaving an empty heading on the page.
+    toggle($('#past-section'), past.length > 0);
+    replaceChildren(
+      $('#past-list'),
+      past.map((t) => card(t, true))
+    );
   }
 
   subscribe(render);
   render();
 }
 
-function upcomingCard(tournament) {
-  const card = clone('tpl-upcoming-card');
+function card(tournament, isPast) {
+  const node = clone('tpl-upcoming-card');
   const [, month] = parseDate(tournament.date);
 
-  fill(card, {
+  fill(node, {
     '.badge-month': MONTH_ABBR[month - 1],
     '.badge-day': formatDayRange(tournament.date, tournament.endDate),
     '.card-name': tournament.name,
     '.card-location': tournament.location ?? '',
   });
 
+  // A finished tournament keeps no links: registration is closed, so an
+  // enabled-looking button would only lead somewhere useless.
+  if (isPast) {
+    node.classList.add('is-past');
+    return node;
+  }
+
   replaceChildren(
-    card.querySelector('.card-links'),
+    node.querySelector('.card-links'),
     (tournament.links ?? []).map(linkTo)
   );
-  return card;
+  return node;
 }
 
 function linkTo({ label, url }) {

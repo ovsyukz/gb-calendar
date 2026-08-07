@@ -23,6 +23,7 @@
     <link rel="stylesheet" href="/styles/calendar.css" />
     <link rel="stylesheet" href="/styles/chips.css" />
     <link rel="stylesheet" href="/styles/cards.css" />
+    <link rel="stylesheet" href="/styles/past-tournaments.css" />
     <link rel="stylesheet" href="/styles/forms.css" />
     <link rel="stylesheet" href="/styles/modal.css" />
     <link rel="stylesheet" href="/styles/athletes.css" />
@@ -91,9 +92,14 @@
         <aside class="panel upcoming-panel" aria-labelledby="upcoming-heading">
           <h2 id="upcoming-heading" class="panel-title">Upcoming Tournaments</h2>
           <p class="empty-note" id="upcoming-empty" hidden>
-            No tournaments on the calendar yet.
+            No upcoming tournaments on the calendar.
           </p>
           <ul class="upcoming-list" id="upcoming-list"></ul>
+
+          <section id="past-section" aria-labelledby="past-heading" hidden>
+            <h2 id="past-heading" class="panel-title past-title">Past Tournaments</h2>
+            <ul class="upcoming-list" id="past-list"></ul>
+          </section>
         </aside>
       </main>
 
