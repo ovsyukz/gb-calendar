@@ -19,6 +19,17 @@ import { upsertAdmin } from '../netlify/functions/_lib/admin-accounts.js';
 const MIGRATIONS_DIR = join(dirname(fileURLToPath(import.meta.url)), '..', 'migrations');
 const run = sql();
 
+/**
+ * Wraps a raw statement as a tagged-template call with no interpolations.
+ *
+ * The Neon driver rejects anything else — it checks for a real
+ * TemplateStringsArray (an array carrying a `.raw` array) and throws
+ * otherwise. A bare [statement] silently works against the local driver,
+ * which only reduces over the array, so the difference shows up in
+ * production and nowhere else.
+ */
+const asTemplate = (text) => Object.assign([text], { raw: [text] });
+
 console.log(isLocal() ? 'Using local database (.pgdata/)' : 'Using Netlify DB');
 
 await run`
@@ -48,7 +59,7 @@ for (const file of files) {
     .filter(Boolean);
 
   for (const statement of statements) {
-    await run([statement]);
+    await run(asTemplate(statement));
   }
 
   await run`INSERT INTO schema_migrations (name) VALUES (${file})`;
