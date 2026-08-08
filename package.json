@@ -24,6 +24,7 @@
     "prepare": "git config core.hooksPath .githooks || true"
   },
   "dependencies": {
+    "@netlify/database": "^1.1.0",
     "@netlify/neon": "^0.1.0"
   },
   "devDependencies": {
