@@ -10,6 +10,7 @@ import { mountAdminPanel } from './components/admin-panel.js';
 import { mountAdminsPanel } from './components/admins-panel.js';
 import { mountTournamentModal } from './components/tournament-modal.js';
 import { mountPasswordGate } from './components/password-gate.js';
+import { mountChangePassword } from './components/change-password.js';
 import { mountPasswordReveal } from './components/password-reveal.js';
 
 /**
@@ -29,6 +30,7 @@ mountCalendar({ onAddOn: tournamentModal.openAdd, onEdit: tournamentModal.openEd
 mountUpcoming({ onEdit: tournamentModal.openEdit });
 mountSignupForm();
 mountAdminsPanel();
+mountChangePassword();
 mountPasswordReveal();
 
 fetchTournaments()

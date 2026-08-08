@@ -20,6 +20,19 @@ export async function findAdminByEmail(email) {
   return row ?? null;
 }
 
+/**
+ * The stored hash for one account, so a signed-in admin can be asked to prove
+ * they know their current password. Disabled accounts are not found.
+ */
+export async function findAdminById(id) {
+  const [row] = await sql()`
+    SELECT id, password_hash
+    FROM admins
+    WHERE id = ${id} AND disabled_at IS NULL
+  `;
+  return row ?? null;
+}
+
 /** True while the account still exists and has not been disabled. */
 export async function isActiveAdmin(id) {
   const [row] = await sql()`
