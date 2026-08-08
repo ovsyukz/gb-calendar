@@ -16,13 +16,23 @@
     </div>
     <div class="field">
       <label for="admin-password">Password</label>
-      <input
-        id="admin-password"
-        name="password"
-        type="password"
-        autocomplete="current-password"
-        placeholder="••••••••"
-      />
+      <div class="password-input">
+        <input
+          id="admin-password"
+          name="password"
+          type="password"
+          autocomplete="current-password"
+          placeholder="••••••••"
+        />
+        <button
+          type="button"
+          class="password-toggle"
+          aria-controls="admin-password"
+          aria-pressed="false"
+        >
+          Show
+        </button>
+      </div>
     </div>
     <p class="form-message error" id="admin-error" role="alert" hidden></p>
     <button type="submit" class="btn-primary">Log in</button>

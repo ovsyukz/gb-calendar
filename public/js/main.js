@@ -10,6 +10,7 @@ import { mountAdminPanel } from './components/admin-panel.js';
 import { mountAdminsPanel } from './components/admins-panel.js';
 import { mountTournamentModal } from './components/tournament-modal.js';
 import { mountPasswordGate } from './components/password-gate.js';
+import { mountPasswordReveal } from './components/password-reveal.js';
 
 /**
  * Entry point. Draws immediately from the seed list so the calendar is never
@@ -28,6 +29,7 @@ mountCalendar({ onAddOn: tournamentModal.openAdd, onEdit: tournamentModal.openEd
 mountUpcoming({ onEdit: tournamentModal.openEdit });
 mountSignupForm();
 mountAdminsPanel();
+mountPasswordReveal();
 
 fetchTournaments()
   .then(({ tournaments }) => setState({ tournaments }))
