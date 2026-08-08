@@ -86,3 +86,23 @@
 .card-links a:hover {
   text-decoration: underline;
 }
+
+/* The admin's pencil, same glyph as a calendar chip so the two ways into the
+   edit dialog read as one thing. Aligned to the top of the card so it does
+   not drift down as notes and links make the card taller. */
+.card-edit {
+  flex-shrink: 0;
+  align-self: flex-start;
+  padding: 4px 6px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: none;
+  color: var(--text-faint);
+  font-size: 13px;
+  line-height: 1;
+  cursor: pointer;
+}
+.card-edit:hover {
+  background: var(--surface);
+  color: var(--accent);
+}

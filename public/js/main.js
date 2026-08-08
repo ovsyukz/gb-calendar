@@ -25,7 +25,7 @@ const adminPanel = mountAdminPanel(() => passwordGate.require());
 
 mountSubtitle();
 mountCalendar({ onAddOn: tournamentModal.openAdd, onEdit: tournamentModal.openEdit });
-mountUpcoming();
+mountUpcoming({ onEdit: tournamentModal.openEdit });
 mountSignupForm();
 mountAdminsPanel();
 

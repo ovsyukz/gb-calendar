@@ -6,15 +6,18 @@ import { state, subscribe } from '../state/store.js';
 /**
  * The sidebar: what is coming up, and what finished in the last month.
  * Re-renders whenever an admin changes the tournament list.
+ *
+ * `onEdit(tournament)` comes from the tournament modal — the same handler the
+ * calendar chips use, so editing from the list and from the grid are one path.
  */
-export function mountUpcoming() {
+export function mountUpcoming({ onEdit }) {
   function render() {
     const { upcoming, past } = splitTournaments(state.tournaments, today());
 
     toggle($('#upcoming-empty'), upcoming.length === 0);
     replaceChildren(
       $('#upcoming-list'),
-      upcoming.map((t) => card(t, false))
+      upcoming.map((t) => card(t, false, onEdit))
     );
 
     // The whole Past section disappears when there is nothing recent, rather
@@ -30,7 +33,7 @@ export function mountUpcoming() {
   render();
 }
 
-function card(tournament, isPast) {
+function card(tournament, isPast, onEdit) {
   const node = clone('tpl-upcoming-card');
   const [, month] = parseDate(tournament.date);
 
@@ -50,6 +53,16 @@ function card(tournament, isPast) {
   if (isPast) {
     node.classList.add('is-past');
     return node;
+  }
+
+  // Admin only. The button is hidden for a visitor rather than absent so the
+  // card keeps one shape; the server refuses the write either way.
+  const edit = node.querySelector('.card-edit');
+  toggle(edit, state.isAdmin);
+  if (state.isAdmin) {
+    edit.title = `Edit ${tournament.name}`;
+    edit.setAttribute('aria-label', `Edit ${tournament.name}`);
+    edit.addEventListener('click', () => onEdit(tournament));
   }
 
   replaceChildren(
