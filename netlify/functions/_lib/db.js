@@ -32,12 +32,26 @@ export function isLocal() {
   return !connectionString();
 }
 
+/**
+ * True when running as a deployed function, where the disk is read-only.
+ *
+ * NETLIFY is set during builds but not in the functions runtime, so testing
+ * it alone let the guard below silently never fire in the one place it
+ * exists for. AWS_LAMBDA_FUNCTION_NAME is what the runtime actually sets.
+ * NETLIFY_DEV marks a local `netlify dev`, which does have a writable disk
+ * and should keep falling back to .pgdata/.
+ */
+function isDeployed() {
+  if (process.env.NETLIFY_DEV) return false;
+  return Boolean(process.env.AWS_LAMBDA_FUNCTION_NAME || process.env.NETLIFY);
+}
+
 export function sql() {
   if (isLocal()) {
     // Netlify has no writable disk, so falling back to the embedded database
     // surfaces as "EROFS: read-only file system, mkdir '/var/task/.pgdata'"
     // from deep inside a query — which says nothing about the real problem.
-    if (process.env.NETLIFY) {
+    if (isDeployed()) {
       throw new Error(
         'No database configured: set DATABASE_URL in the Netlify site environment variables.'
       );
