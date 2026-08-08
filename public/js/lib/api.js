@@ -29,7 +29,11 @@ const post = (url, data) => request(url, { method: 'POST', body: JSON.stringify(
 
 export const login = (email, password) => post('/api/admin/login', { email, password });
 
-export const changePassword = (password) => post('/api/admin/password', { password });
+/**
+ * `currentPassword` is omitted only by the forced first-login change, where
+ * the server does not ask for it. Every other caller must send it.
+ */
+export const changePassword = (body) => post('/api/admin/password', body);
 
 export const fetchAdmins = () => request('/api/admins');
 

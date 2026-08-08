@@ -1,13 +1,16 @@
 import { $, setMessage } from '../lib/dom.js';
 import { changePassword } from '../lib/api.js';
+import { checkNewPassword } from '../lib/password-rules.js';
 import { setState } from '../state/store.js';
-
-const MIN_LENGTH = 12;
 
 /**
  * The forced password change for an admin signed in with a temporary
  * password. The dialog has no close button, and cancel attempts are blocked,
  * so the only way past it is to set a password.
+ *
+ * No current password is asked for here — they typed the temporary one at
+ * login a moment ago. The voluntary change lives in change-password.js and
+ * does ask.
  *
  * This is presentation. The real enforcement is server-side: a pending
  * session is rejected by every privileged endpoint (see auth.js), so closing
@@ -25,17 +28,12 @@ export function mountPasswordGate(onSettled) {
     event.preventDefault();
 
     const password = form.elements.password.value;
-    const confirm = form.elements.confirm.value;
 
-    if (password.length < MIN_LENGTH) {
-      return setMessage(error, `Use at least ${MIN_LENGTH} characters.`, 'error');
-    }
-    if (password !== confirm) {
-      return setMessage(error, 'The two passwords do not match.', 'error');
-    }
+    const problem = checkNewPassword(password, form.elements.confirm.value);
+    if (problem) return setMessage(error, problem, 'error');
 
     try {
-      await changePassword(password);
+      await changePassword({ password });
       form.reset();
       setMessage(error, '');
       dialog.close();
