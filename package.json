@@ -5,7 +5,7 @@
   "type": "module",
   "description": "Tournament calendar for Gracie Barra Deerfield",
   "engines": {
-    "node": ">=22"
+    "node": "22.x"
   },
   "scripts": {
     "build": "node scripts/build-css.js && node scripts/build-html.js",

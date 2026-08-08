@@ -18,6 +18,23 @@ step() {
   echo "── $1 ──"
 }
 
+# This runs `npm ci`, and .npmrc sets engine-strict, so a different Node here
+# fails deep inside a temp clone with an EBADENGINE that reads like a broken
+# dependency. Say what is actually wrong, before doing any work.
+WANT=$(tr -d ' \t\n\r' < .nvmrc)
+HAVE=$(node -p 'process.versions.node.split(".")[0]')
+if [ "$WANT" != "$HAVE" ]; then
+  echo ""
+  echo "This check builds the way CI does, which means Node $WANT — you are on $(node -v)."
+  echo ""
+  echo "npm 10 and npm 11 resolve optional peer dependencies differently, so the"
+  echo "lockfile they produce is not interchangeable. Switch first:"
+  echo ""
+  echo "  nvm use $WANT"
+  echo ""
+  exit 1
+fi
+
 step "Clone HEAD into a clean directory"
 git clone -q --no-hardlinks . "$WORK/repo"
 cd "$WORK/repo"
