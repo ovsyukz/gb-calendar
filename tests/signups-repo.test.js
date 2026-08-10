@@ -17,6 +17,23 @@ describe('createSignup', () => {
     expect(await createSignup({ athleteId: id, tournamentId: 'ibjjf' })).toBe(false);
   });
 
+  it('lets two athletes sharing an email both enter the same tournament', async () => {
+    // The bug this guards: both sign-ups collapsed onto one athlete id, so the
+    // second hit UNIQUE (athlete_id, tournament_id) and was silently dropped.
+    const abe = await findOrCreateAthlete({
+      name: 'Abe Gih',
+      email: 'parent@example.com',
+    });
+    const jib = await findOrCreateAthlete({
+      name: 'Jib Gih',
+      email: 'parent@example.com',
+    });
+
+    expect(await createSignup({ athleteId: abe, tournamentId: 'tap-cancer' })).toBe(true);
+    expect(await createSignup({ athleteId: jib, tournamentId: 'tap-cancer' })).toBe(true);
+    expect(await listSignups()).toHaveLength(2);
+  });
+
   it('allows one athlete in several tournaments', async () => {
     const id = await athlete();
     await createSignup({ athleteId: id, tournamentId: 'ibjjf' });

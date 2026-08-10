@@ -35,12 +35,47 @@ describe('findOrCreateAthlete', () => {
     expect(await countAthletes()).toBe(1);
   });
 
-  it('updates the stored name when someone corrects it', async () => {
+  it('matches names case-insensitively, so capitalisation is not a new person', async () => {
+    const first = await findOrCreateAthlete({
+      name: 'Sarah A',
+      email: 'sarah@example.com',
+    });
+    const again = await findOrCreateAthlete({
+      name: 'sarah a',
+      email: 'sarah@example.com',
+    });
+
+    expect(again).toBe(first);
+    expect(await countAthletes()).toBe(1);
+  });
+
+  it('keeps two people apart when they share one email address', async () => {
+    // A parent signing up two children uses one address for both. Matching on
+    // email alone merged them: the second child overwrote the first one's
+    // name, and their sign-up was then dropped as a duplicate.
+    const abe = await findOrCreateAthlete({
+      name: 'Abe Gih',
+      email: 'parent@example.com',
+    });
+    const jib = await findOrCreateAthlete({
+      name: 'Jib Gih',
+      email: 'parent@example.com',
+    });
+
+    expect(jib).not.toBe(abe);
+    expect(await countAthletes()).toBe(2);
+
+    const rows = await sql()`SELECT name FROM athletes ORDER BY id`;
+    expect(rows.map((r) => r.name)).toEqual(['Abe Gih', 'Jib Gih']);
+  });
+
+  it('treats a corrected name as a new athlete, which is the cost of the above', async () => {
+    // Nothing can tell a typo apart from a sibling, so a mistyped name leaves
+    // a stray record to delete rather than silently absorbing someone else.
     await findOrCreateAthlete({ name: 'Sara', email: 'sarah@example.com' });
     await findOrCreateAthlete({ name: 'Sarah Aslanifar', email: 'sarah@example.com' });
 
-    const [row] = await sql()`SELECT name FROM athletes`;
-    expect(row.name).toBe('Sarah Aslanifar');
+    expect(await countAthletes()).toBe(2);
   });
 
   it('creates a separate record each time when no email is given', async () => {

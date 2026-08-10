@@ -6,10 +6,14 @@ import { sql } from './db.js';
  */
 
 /**
- * With an email, the athlete is reused across tournaments — that is the whole
- * point of collecting it. Without one there is nothing reliable to match on
- * (two competitors are often both "Sarah"), so a fresh record is created and
- * the sign-up simply stands alone.
+ * An athlete is the same person only when the name and the email both match —
+ * matching on email alone merged a parent's two children into one competitor.
+ * The same name and address signing up again is reused across tournaments,
+ * which is the point of collecting the address.
+ *
+ * Without an email there is nothing reliable to match on (two competitors are
+ * often both "Sarah"), so a fresh record is created and the sign-up simply
+ * stands alone.
  */
 export async function findOrCreateAthlete({ name, email }) {
   if (!email) {
@@ -19,11 +23,16 @@ export async function findOrCreateAthlete({ name, email }) {
     return row.id;
   }
 
-  // Conflict target is the functional index from 001_init.sql, which is what
-  // makes Sarah@x.com and sarah@x.com the same athlete.
+  // Conflict target is the functional index from 007_athlete_identity.sql, so
+  // "Abe Gih" and "abe gih" at one address are one person, while "Abe" and
+  // "Jib" at that address are two.
+  //
+  // DO UPDATE rather than DO NOTHING: on a conflict DO NOTHING returns no row,
+  // leaving RETURNING with nothing to hand back. Re-storing the name changes
+  // nothing but the capitalisation, which follows the most recent spelling.
   const [row] = await sql()`
     INSERT INTO athletes (name, email) VALUES (${name}, ${email})
-    ON CONFLICT (lower(email)) DO UPDATE SET name = EXCLUDED.name
+    ON CONFLICT (lower(name), lower(email)) DO UPDATE SET name = EXCLUDED.name
     RETURNING id
   `;
   return row.id;
